@@ -1,94 +1,53 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import "/assets/css/Home.scss";
+import LeftAsideNews from "./components/LeftAsideNews";
+import RightBsideNews from "./components/RightBsideNews";
+import SearchBar from "material-ui-search-bar";
+
+import React, { useState } from 'react';
 
 export default function Home() {
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = () => {
+    console.log(searchValue); // Replace with your search handling logic
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <main>
+      <div className="container">
+        <div className="header">Header</div>
+        <LeftAsideNews />
+        
+        <main
+          className="main"
+          style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+        >
+          {/* <h3>Main Content</h3> */}
+          {/* <div id="dimensions">
+            Width: <span id="width"></span>, Height: <span id="height"></span>
+          </div> */}
+          <div className="content-card">
+      <img src="/images/news1.jpg" alt="title" className="content-card__image" />
+      <div className="content-card__content">
+        <h3 className="content-card__title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci labore tempore inventore corporis libero possimus, modi quidem ipsa debitis assumenda sunt aliquam voluptate voluptatum. Blanditiis eveniet voluptatum animi natus ipsum.</h3>
+        <p className="content-card__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, tempora!</p>
       </div>
+    </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        </main>
+        <section className="banner">
+        <SearchBar
+      value={searchValue}
+      onChange={(newValue) => setSearchValue(newValue)}
+      onRequestSearch={handleSearch}
+    />
+        </section>
+        <aside className="right-aside">
+          <RightBsideNews/>
+        </aside>
+        <section className="low-content">Low Content</section>
+        <div className="footer">Footer</div>
       </div>
     </main>
   );
