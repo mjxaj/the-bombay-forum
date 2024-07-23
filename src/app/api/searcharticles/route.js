@@ -62,7 +62,7 @@ export async function GET(request) {
       lphoto: article.Lphoto,
       articleId: article.ArticleId,
       type: article.Type,
-      date: article.Date // Adjust based on your actual database schema
+      date: article.created_datetime
     }));
 
     return NextResponse.json(response);

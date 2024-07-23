@@ -6,6 +6,15 @@ import Head from "next/head"; // Import Head from next/head
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import "../../../../assets/css/SpecificArticleDesign1.scss";
 
+function formatDate(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+}
+
 const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   const router = useRouter();
   const [article, setArticle] = useState<any>(null);
@@ -14,7 +23,11 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?articleId=${encodeURIComponent(params.articleId)}`);
+        const response = await fetch(
+          `/api/searcharticles?articleId=${encodeURIComponent(
+            params.articleId
+          )}`
+        );
         const data = await response.json();
         if (response.ok) {
           setArticle(data[0]);
@@ -48,7 +61,9 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
           <ArrowBackIosNewIcon style={{ fontSize: "10px" }} />
         </div>
         <div className="date-title">
-          <div className="date">{article.date || "Unknown Date"}</div>
+          <div className="date">
+            {article.date ? formatDate(new Date(article.date)) : "Unknown Date"}
+          </div>
           <div className="title">{article.title}</div>
         </div>
       </div>

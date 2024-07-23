@@ -37,6 +37,11 @@ code {
   animation: ticker 8s linear infinite;
 }
 
+.ticker-animation a {
+  color: #fff;
+  text-decoration: none;
+}
+
 @keyframes ticker {
   0% {
     transform: translate(0, 0);

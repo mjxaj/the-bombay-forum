@@ -19,12 +19,19 @@ interface news {
   type: string;
 }
 
+function getRandomElement(array: news[]) {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  const randomElement = array[randomIndex];
+  return randomElement;
+}
+
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
   const [mainNewsContainer, setMainNewsContainer] = useState<news[]>([]);
   const [latestNews, setLatestNews] = useState([]);
   const [trendingNews, setTrendingNews] = useState([]);
   const [searchOptions, setSearchOptions] = useState([]);
+  const [marketTickerData, setMarketTickerData] = useState(<></>);
 
   useEffect(() => {
     const fetchMainNewsArticle = async () => {
@@ -56,6 +63,14 @@ export default function Home() {
         );
         let data = await response.json();
         if (response.ok) {
+          const randomElement = getRandomElement(data.slice(1) || data);
+          setMarketTickerData(
+            <>
+              <Link href={`/view/${randomElement.articleId}`}>
+                Breaking New: {randomElement.title}
+              </Link>
+            </>
+          );
           data = data.slice(0, 10);
           setTrendingNews(data);
           // Store category in localStorage
@@ -146,7 +161,7 @@ export default function Home() {
           }}
         />
       </div>
-      <MarketTicker data="hello" />
+      <MarketTicker data={marketTickerData} />
       <div className="container">
         <LeftAsideNews trendingNews={trendingNews} />
 
