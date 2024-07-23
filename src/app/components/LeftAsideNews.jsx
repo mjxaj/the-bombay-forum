@@ -1,5 +1,6 @@
 import NewsBlock from "./NewsBlock";
 import "/assets/css/Home.scss";
+
 export default function LeftAsideNews({ trendingNews }) {
   return (
     <aside className="left-aside">
@@ -7,7 +8,10 @@ export default function LeftAsideNews({ trendingNews }) {
         <div className="heading">Trending News</div>
         <div className="body">
           {trendingNews.map((article, i) => (
-            <NewsBlock news={article} key={i} />
+            <>
+              <NewsBlock news={article} key={`n${i}`} />
+              <hr key={`h${i}`} />
+            </>
           ))}
         </div>
       </div>

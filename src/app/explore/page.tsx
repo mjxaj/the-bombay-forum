@@ -1,13 +1,38 @@
 import { NextPage } from "next";
 import "../../../assets/css/Explore.css";
+import { news } from "@/app/utilfunctions/interfaces";
 
-interface Props {}
+export default function Explore({ articles }: { articles: news[] }) {
+  const cardDesign1 = (newsArticle: news) => {
+    return (
+      <div className="news-block-design1">
+        <img src={newsArticle.sphoto} alt="News Image" />
+        <p className="heading">
+          <img src="images/avatar.jpg" alt="" />
+          <span>John Doe</span>
+          <span>1 day ago</span>
+        </p>
+        <p className="body">{newsArticle.title}</p>
+      </div>
+    );
+  };
 
-const Page: NextPage<Props> = ({}) => {
+  const cardDesign2 = (newsArticle: news) => {
+    return (
+      <div className="news-block-design2">
+        <img src={newsArticle.sphoto} alt="News Image" />
+        <div className="overlay-gradient" />
+        <p className="body">{newsArticle.title}</p>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="market-ticker">
-        <div className="ticker-animation">S&P 10132.89 S&P 10132.89 S&P 10132.89</div>
+        <div className="ticker-animation">
+          S&P 10132.89 S&P 10132.89 S&P 10132.89
+        </div>
       </div>
       <section className="news">
         <div className="news-article">
@@ -161,6 +186,4 @@ const Page: NextPage<Props> = ({}) => {
       </section>
     </>
   );
-};
-
-export default Page;
+}

@@ -9,15 +9,7 @@ import NewsBlock from "./components/NewsBlock";
 import MarketTicker from "./components/MarketTicker";
 import Link from "next/link";
 import SearchableDropdown from "./components/SearchableDropdown";
-
-interface news {
-  articleId: string;
-  description: string;
-  lphoto: string;
-  sphoto: string;
-  title: string;
-  type: string;
-}
+import { news } from "./utilfunctions/interfaces";
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);

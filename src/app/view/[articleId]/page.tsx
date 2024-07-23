@@ -5,15 +5,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head"; // Import Head from next/head
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import "../../../../assets/css/SpecificArticleDesign1.scss";
-
-function formatDate(date: Date): string {
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  return new Intl.DateTimeFormat("en-US", options).format(date);
-}
+import { formatDate } from "@/app/utilfunctions/dateFormatter";
 
 const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   const router = useRouter();

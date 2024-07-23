@@ -1,5 +1,6 @@
 import "./NewsBlock.scss";
 import Link from "next/link";
+import { formatDate } from "@/app/utilfunctions/dateFormatter";
 
 export default function NewsBlock({ news }) {
   return (
@@ -7,7 +8,7 @@ export default function NewsBlock({ news }) {
       <span className="news-block-wrapper">
         <Link href={`/view/${news.articleId}`}>
           <div className="news-block">
-            <div className="date">{news.date}</div>
+            <div className="date">{formatDate(new Date(news.date))}</div>
             <div className="news">
               {news.lphoto && (
                 <img className="imageright" src={news.lphoto} alt="news1" />

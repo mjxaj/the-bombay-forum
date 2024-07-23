@@ -6,6 +6,8 @@
   position: relative;
   color: #333;
   cursor: default;
+  max-width: 400px;
+  width: 80%;
 }
 
 .dropdown .arrow {
