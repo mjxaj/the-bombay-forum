@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import db from '../../../../db'; // Update the path to your db file
 
-export async function GET(request: Request) {
+export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('query'); // Search query
   const articleId = searchParams.get('articleId'); // Specific article ID
