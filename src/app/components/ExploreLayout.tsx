@@ -1,11 +1,19 @@
 import { NextPage } from "next";
+import "../../../assets/css/SpecificArticleDesign1.scss";
 import "../../../assets/css/Explore.css";
 import { news } from "@/app/utilfunctions/interfaces";
+import Masonry from "react-masonry-css";
 
-export default function Explore({ articles }: { articles: news[] }) {
+export default function Explore({
+  articles,
+  zeroArticleMsg="No articles found",
+}: {
+  articles: news[];
+  zeroArticleMsg: string;
+}) {
   const cardDesign1 = (newsArticle: news) => {
     return (
-      <div className="news-block-design1">
+      <div className="news-block-design1 left-news-block">
         <img src={newsArticle.sphoto} alt="News Image" />
         <p className="heading">
           <img src="images/avatar.jpg" alt="" />
@@ -27,14 +35,27 @@ export default function Explore({ articles }: { articles: news[] }) {
     );
   };
 
+  if (articles.length === 0) {
+    return (
+      <div className="no-articles-found">
+        <p>{zeroArticleMsg}</p>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="market-ticker">
-        <div className="ticker-animation">
-          S&P 10132.89 S&P 10132.89 S&P 10132.89
-        </div>
-      </div>
-      <section className="news">
+      <section className="masonry-layout left-news-block">
+        <Masonry
+          breakpointCols={{ default: 4, 1100: 3, 700: 2, 500: 1 }}
+          className="masonry-grid"
+          columnClassName="masonry-grid_column"
+        >
+          {articles.map(cardDesign2)}
+        </Masonry>
+      </section>
+
+      {/* <section className="news">
         <div className="news-article">
           <b>
             <p>
@@ -183,7 +204,7 @@ export default function Explore({ articles }: { articles: news[] }) {
             <img src="images/weather3.jpg" alt="More Weather Chart" />
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

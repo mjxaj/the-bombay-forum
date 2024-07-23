@@ -1,3 +1,32 @@
+.masonry-grid {
+  display: flex;
+  margin-left: -30px; /* Adjust as needed */
+  width: auto;
+}
+
+.masonry-grid_column {
+  padding-left: 30px; /* Adjust as needed */
+  background-clip: padding-box;
+}
+
+.news-block-design2 {
+  margin-bottom: 30px; /* Adjust as needed */
+  /* Other styles as needed */
+}
+
+.overlay-gradient {
+  /* Styles for gradient overlay */
+}
+
+.no-articles-found{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  font-size: 24px;
+  color: #999;
+}
+
 .market-action {
   display: flex;
   justify-content: space-between;
@@ -31,7 +60,7 @@
 
 .news {
   display: flex;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .news-article {
@@ -110,7 +139,7 @@
 .left-news-block .news-block-design2 {
   flex: 1;
   margin-right: 10px;
-  max-width: 30%;
+  /* max-width: 30%; */
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   margin: 10px;
@@ -128,7 +157,7 @@
 @media screen and (max-width: 700px) {
   .left-news-block .news-block-design1,
   .left-news-block .news-block-design2 {
-    max-width: 50%;
+    /* max-width: 50%; */
   }
 }
 .left-news-block .news-block-design1 > img,

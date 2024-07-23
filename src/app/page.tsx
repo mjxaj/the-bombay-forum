@@ -10,6 +10,7 @@ import MarketTicker from "./components/MarketTicker";
 import Link from "next/link";
 import SearchableDropdown from "./components/SearchableDropdown";
 import { news } from "./utilfunctions/interfaces";
+import ExploreLayout from "./components/ExploreLayout";
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
@@ -129,31 +130,8 @@ export default function Home() {
 
   console.log({ mainNewsContainer });
 
-  const handleSearch = () => {
-    console.log(searchValue); // Replace with your search handling logic
-  };
-
-  return (
-    <main>
-      <div className="search-bar-wrapper">
-        {/* <SearchBar
-          value={searchValue}
-          onChange={(newValue) => setSearchValue(newValue)}
-          onRequestSearch={handleSearch}
-        /> */}
-        <SearchableDropdown
-          options={searchOptions}
-          label="title"
-          id="id"
-          selectedVal={searchValue}
-          handleChange={(val: string) => {
-            console.log({ val });
-
-            setSearchValue(val);
-          }}
-        />
-      </div>
-      <MarketTicker data={marketTickerData} />
+  const HomeLayout = () => {
+    return (
       <div className="container">
         <LeftAsideNews trendingNews={trendingNews} />
 
@@ -196,6 +174,41 @@ export default function Home() {
           Footer
         </div>
       </div>
+    );
+  };
+
+  return (
+    <main>
+      <div className="search-bar-wrapper">
+        <SearchBar
+          style={{ width: "90%", maxWidth: "500px" }}
+          value={searchValue}
+          onChange={(newValue) => setSearchValue(newValue)}
+          onCancelSearch={() => setSearchValue("")}
+          placeholder="Search News, markets, photos, videos...."
+          // onRequestSearch={handleSearch}
+        />
+        {/* <SearchableDropdown
+          options={searchOptions}
+          label="title"
+          id="id"
+          selectedVal={searchValue}
+          handleChange={(val: string) => {
+            console.log({ val });
+
+            setSearchValue(val);
+          }}
+        /> */}
+      </div>
+      <MarketTicker data={marketTickerData} />
+      {searchValue ? (
+        <ExploreLayout
+          articles={searchOptions}
+          zeroArticleMsg={`No Articles Found for "${searchValue}"`}
+        />
+      ) : (
+        <HomeLayout />
+      )}
     </main>
   );
 }

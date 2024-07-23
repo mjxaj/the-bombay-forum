@@ -16,6 +16,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const navList = [
+    { name: "Finance", link: "/category/finance" },
+    { name: "Technology", link: "/category/technology" },
+    { name: "Lifestyle", link: "/category/lifestyle" },
+    { name: "Markets", link: "/category/markets" },
+    { name: "Bombay", link: "/category/bombay" },
+  ];
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -31,21 +40,13 @@ export default function RootLayout({
             </div>
             <nav>
               <ul>
-                <li>
-                  <a href="#">Finance</a>
-                </li>
-                <li>
-                  <a href="#">Technology</a>
-                </li>
-                <li>
-                  <a href="#">Lifestyle</a>
-                </li>
-                <li>
-                  <a href="#">Markets</a>
-                </li>
-                <li>
-                  <a href="#">Bombay</a>
-                </li>
+                {
+                  navList.map((navItem) => (
+                    <li key={navItem.name}>
+                      <Link href={navItem.link}>{navItem.name}</Link>
+                    </li>
+                  ))
+                }
               </ul>
             </nav>
             {/* <div className="login">
@@ -56,21 +57,13 @@ export default function RootLayout({
           <section className="footer">
             <div className="footer-links">
               <ul>
-                <li>
-                  <a href="#">LINK 1</a>
-                </li>
-                <li>
-                  <a href="#">LINK 2</a>
-                </li>
-                <li>
-                  <a href="#">LINK 3</a>
-                </li>
-                <li>
-                  <a href="#">LINK 4</a>
-                </li>
-                <li>
-                  <a href="#">LINK 5</a>
-                </li>
+                {
+                  navList.map((navItem) => (
+                    <li key={navItem.name}>
+                      <Link href={navItem.link}>{navItem.name}</Link>
+                    </li>
+                  ))
+                }
               </ul>
             </div>
             <div className="footer-subscription">
