@@ -10,10 +10,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 10px 20px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   margin: auto;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 768px) {
@@ -46,11 +47,19 @@ header {
   margin-top: 0;
   margin-bottom: 0;
   text-decoration: none;
+  white-space: nowrap;
 }
-.title a{
+@media screen and (max-width: 500px) {
+  .logo .title {
+    white-space: unset;
+  }
+}
+
+.title a {
   color: #214050;
   text-decoration: dashed;
 }
+
 nav ul {
   display: flex;
   list-style: none;

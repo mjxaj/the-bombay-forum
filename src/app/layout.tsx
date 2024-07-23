@@ -23,7 +23,7 @@ export default function RootLayout({
           <header>
             <div className="logo">
               <Link href="/">
-                <img src="/images/logo.jpg" alt="Logo" />
+                <img src="/images/logo.png" alt="Logo" />
               </Link>
               <h1 className="title">
                 <Link href="/">The Bombay Forum</Link>

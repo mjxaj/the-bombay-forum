@@ -1,0 +1,15 @@
+CREATE TABLE news (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ArticleId VARCHAR(255),
+    Title VARCHAR(255),
+    Description TEXT,
+    Sphoto VARCHAR(255),
+    Lphoto VARCHAR(255),
+    Type VARCHAR(50),
+    Num INT,
+    created_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+ALTER TABLE news
+ADD FULLTEXT (Title, Description);

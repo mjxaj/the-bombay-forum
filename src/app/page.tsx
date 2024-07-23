@@ -146,7 +146,7 @@ export default function Home() {
           }}
         />
       </div>
-      <MarketTicker />
+      <MarketTicker data="hello" />
       <div className="container">
         <LeftAsideNews trendingNews={trendingNews} />
 
@@ -185,7 +185,9 @@ export default function Home() {
           <RightBsideNews latestNews={latestNews} />
           {/* <RightBsideNews /> */}
         </aside>
-        <div className="footer">Footer</div>
+        <div className="footer" style={{ display: "none" }}>
+          Footer
+        </div>
       </div>
     </main>
   );

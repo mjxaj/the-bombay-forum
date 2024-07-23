@@ -50,7 +50,7 @@ const SearchableDropdown = ({
             ref={inputRef}
             type="text"
             value={getDisplayValue()}
-            placeholder="Search here..."
+            placeholder="Search News, markets, photos, videos...."
             name="searchTerm"
             onChange={(e) => {
               setQuery(e.target.value);
