@@ -28,8 +28,21 @@ header {
   }
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+}
+
 .logo img {
   height: 40px;
+}
+
+.logo .title {
+  margin-left: 5px;
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: #214050;
 }
 
 nav ul {

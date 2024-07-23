@@ -22,6 +22,7 @@ export default function RootLayout({
           <header>
             <div className="logo">
               <img src="/images/logo.jpg" alt="Logo" />
+              <h1 className="title">The Bombay Forum</h1>
             </div>
             <nav>
               <ul>
