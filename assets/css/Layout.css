@@ -45,8 +45,12 @@ header {
   color: #214050;
   margin-top: 0;
   margin-bottom: 0;
+  text-decoration: none;
 }
-
+.title a{
+  color: #214050;
+  text-decoration: dashed;
+}
 nav ul {
   display: flex;
   list-style: none;
