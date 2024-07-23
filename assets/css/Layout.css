@@ -43,6 +43,8 @@ header {
   font-optical-sizing: auto;
   font-style: normal;
   color: #214050;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 nav ul {
