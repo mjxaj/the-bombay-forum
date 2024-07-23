@@ -1,0 +1,43 @@
+.news-block-wrapper {
+  * {
+    text-decoration: none !important; // Removes underline
+    // color: inherit; // Inherit color from parent
+  }
+
+  .news-block {
+    .date {
+      font-size: 0.6em;
+      font-weight: 500;
+      color: #3B6978;
+      margin-bottom: 10px;
+    }
+
+    .news {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      p {
+        font-size: 0.7em;
+        font-weight: 600;
+        color: #1E2532;
+        margin-bottom: 10px;
+        height: 4rem;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        text-overflow: ellipsis;
+        line-height: 1.2em;
+        max-height: 3.6em;
+        margin: 0px;
+        overflow: hidden;
+      }
+    }
+
+    .remark {
+      font-size: 0.6em;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+  }
+}
