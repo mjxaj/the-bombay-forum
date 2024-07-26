@@ -3,14 +3,14 @@ from scraphtmumbai import ScrapHTMumbai
 from scraphttech import ScrapHTTech
 from scrapmintcompanies import ScrapMintCompanies
 from scrapmint import LiveMintScraper
+from scrapmoneycontrolfinance import ScrapMoneyControlFinance
 
 def main():
     scrapers = [
         ScrapHTLifestyle(),
         ScrapHTMumbai(),
         ScrapHTTech(),
-        ScrapMintCompanies(),
-        LiveMintScraper()
+        ScrapMoneyControlFinance()
     ]
     
     for scraper in scrapers:

@@ -1,15 +1,25 @@
 CREATE TABLE news (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    ArticleId VARCHAR(255),
+    ArticleId VARCHAR(255) UNIQUE NOT NULL,
     Title VARCHAR(255),
     Description TEXT,
     Sphoto VARCHAR(255),
     Lphoto VARCHAR(255),
     Type VARCHAR(50),
-    Num INT,
+    Source VARCHAR(50),
+    SourceLink VARCHAR(50),
+    Link VARCHAR(255),
     created_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+ALTER TABLE news 
+ADD COLUMN Source VARCHAR(50), 
+ADD COLUMN SourceLink VARCHAR(50), 
+ADD COLUMN Link VARCHAR(255);
+
+ALTER TABLE news DROP COLUMN Num;
+
 
 ALTER TABLE news
 ADD FULLTEXT (Title, Description);

@@ -23,9 +23,19 @@ header {
   }
 }
 
-@media screen and (max-width: 768px) {
-  nav {
-    display: none;
+@media screen and (max-width: 1060px) {
+  header {
+    flex-direction: column;
+  }
+  nav{
+    width: 100%;
+  }
+  ul{
+    display: flex;
+    justify-content: space-around;
+  }
+  nav ul div {
+    margin: 0;
   }
 }
 
@@ -52,6 +62,10 @@ header {
 @media screen and (max-width: 500px) {
   .logo .title {
     white-space: unset;
+    font-size: 6vw;
+  }
+  .logo{
+    margin: auto;
   }
 }
 
@@ -60,18 +74,23 @@ header {
   text-decoration: dashed;
 }
 
+nav{
+  max-width: 600px;
+}
+
 nav ul {
+  margin-left: auto;
   display: flex;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-nav ul li {
+nav ul div {
   margin: 0 15px;
 }
 
-nav ul li a {
+nav ul div a {
   text-decoration: none;
   color: #333;
 }

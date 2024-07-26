@@ -42,9 +42,9 @@ export default function RootLayout({
               <ul>
                 {
                   navList.map((navItem) => (
-                    <li key={navItem.name}>
+                    <div key={navItem.name}>
                       <Link href={navItem.link}>{navItem.name}</Link>
-                    </li>
+                    </div>
                   ))
                 }
               </ul>

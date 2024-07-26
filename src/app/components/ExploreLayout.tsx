@@ -3,6 +3,7 @@ import "../../../assets/css/SpecificArticleDesign1.scss";
 import "../../../assets/css/Explore.css";
 import { news } from "@/app/utilfunctions/interfaces";
 import Masonry from "react-masonry-css";
+import Link from "next/link";
 
 export default function Explore({
   articles,
@@ -27,11 +28,13 @@ export default function Explore({
 
   const cardDesign2 = (newsArticle: news) => {
     return (
+      <Link href={`/view/${newsArticle.articleId}`}>
       <div className="news-block-design2">
         <img src={newsArticle.sphoto} alt="News Image" />
         <div className="overlay-gradient" />
         <p className="body">{newsArticle.title}</p>
       </div>
+      </Link>
     );
   };
 

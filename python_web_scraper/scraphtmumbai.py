@@ -77,10 +77,10 @@ class ScrapHTMumbai:
 
                         if exists == 0:
                             insert_query = """
-                                INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type, Num)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                                INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type)
+                                VALUES (%s, %s, %s, %s, %s, %s)
                             """
-                            values = (article_id, headings[i], Desc_list[i], smallimg[i], bigimg[i], 'Mumbai', i + 1)
+                            values = (article_id, headings[i], Desc_list[i], smallimg[i], bigimg[i], 'Mumbai')
                             cursor.execute(insert_query, values)
                         else:
                             print(f"Article with ArticleId {article_id} already exists, skipping.")

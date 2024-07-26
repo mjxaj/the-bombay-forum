@@ -61,15 +61,15 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
       </div>
       <div className="body">
         <div className="image">
-          <img src={article.sphoto} alt="Article Image" />
+          <img src={article.lphoto} alt="Article Image" />
         </div>
-        <p>{article.description}</p>
-        {article.lphoto && (
+        <p style={{ textAlign: "justify" }}>{article.description}</p>
+        {/* {article.lphoto && (
           <div className="image">
             <img src={article.lphoto} alt="Additional Image" />
-            {/* <div className="caption">IMAGE CAPTION OR CREDIT</div> */}
+            <div className="caption">IMAGE CAPTION OR CREDIT</div>
           </div>
-        )}
+        )} */}
         <hr />
         <h2>Other Trending News</h2>
         {/* You can add more logic to fetch and display related articles */}

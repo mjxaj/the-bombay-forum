@@ -89,14 +89,14 @@ class ScrapHTTech:
 
                         if exists == 0:
                             insert_query = """
-                                INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type, Num)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                                INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type)
+                                VALUES (%s, %s, %s, %s, %s, %s)
                             """
                             values = (
                                 article_id, headings[i], Desc_list[i], 
                                 smallimg[i] if i < len(smallimg) else "assets/img/clock.png", 
                                 bigimg[i] if i < len(bigimg) else "assets/img/clock.png", 
-                                'Tech', i + 1
+                                'Tech'
                             )
                             cursor.execute(insert_query, values)
                         else:

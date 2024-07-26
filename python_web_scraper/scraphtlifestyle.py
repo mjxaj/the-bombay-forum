@@ -36,6 +36,9 @@ class ScrapHTLifestyle:
             soup = BeautifulSoup(response.text, 'html.parser')
             hdg3_elements = soup.find_all(class_='hdg3')[1:21]
             img_tags = soup.find_all('img', class_='lazy')[4:24]
+            print(hdg3_elements)
+            print(img_tags)
+            # exit()
 
             urls = []
             bigimg = []
@@ -80,10 +83,10 @@ class ScrapHTLifestyle:
 
                         if exists == 0:
                             insert_query = """
-                                INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type, Num)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                                INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type,  Source, SourceLink, Link)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            values = (article_id, headings[i], Desc_list[i], smallimg[i], bigimg[i], 'Lifestyle', i + 1)
+                            values = (article_id, headings[i], Desc_list[i], smallimg[i], bigimg[i], 'Lifestyle', "Hindustan Times", "https://www.hindustantimes.com/lifestyle", urls[i])
                             cursor.execute(insert_query, values)
                         else:
                             print(f"Article with ArticleId {article_id} already exists, skipping.")
@@ -100,6 +103,16 @@ class ScrapHTLifestyle:
 
     def run(self):
         headings, Desc_list, smallimg, bigimg = self.fetch_data()
+        for i in range(len(headings)):
+            print("Headings: ", headings[i])
+            print("Desc: ", Desc_list[i])
+            print("Smallimg: ", smallimg[i])
+            print("Bigimg: ", bigimg[i])
+            print("*"*100)
+            print()
+            print()
+            print()
+        exit()
         if headings:
             self.insert_data(headings, Desc_list, smallimg, bigimg)
 
