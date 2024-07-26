@@ -24,3 +24,20 @@ export default function NewsBlock({ news }) {
     </>
   );
 }
+
+export const SkeletonNewsBlock = () => {
+  return (
+    <div className="skeleton-news-block-wrapper">
+      <div className="skeleton-news-block">
+        <div className="skeleton-date"></div>
+        <div className="skeleton-news">
+          <div className="skeleton-image"></div>
+          <div className="skeleton-title">
+            <div className="loading-line"></div>
+          </div>
+        </div>
+        <div className="skeleton-remark"></div>
+      </div>
+    </div>
+  );
+};

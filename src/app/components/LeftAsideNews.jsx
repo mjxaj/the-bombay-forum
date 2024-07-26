@@ -1,4 +1,4 @@
-import NewsBlock from "./NewsBlock";
+import NewsBlock, { SkeletonNewsBlock } from "./NewsBlock";
 import "/assets/css/Home.scss";
 
 export default function LeftAsideNews({ trendingNews }) {
@@ -7,6 +7,10 @@ export default function LeftAsideNews({ trendingNews }) {
       <div className="new-list-block">
         <div className="heading">Trending News</div>
         <div className="body">
+          {trendingNews.length === 0 &&
+            Array(5)
+              .fill(0)
+              .map((_, i) => <SkeletonNewsBlock key={`n${i}`} />)}
           {trendingNews.map((article, i) => (
             <>
               <NewsBlock news={article} key={`n${i}`} />
