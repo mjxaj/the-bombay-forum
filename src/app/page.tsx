@@ -28,7 +28,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    return;
     const fetchMainNewsArticle = async () => {
       try {
         const articleType = localStorage.getItem("articleType");
