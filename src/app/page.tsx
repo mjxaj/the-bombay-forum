@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import NewsBlock, {SkeletonNewsBlock} from "./components/NewsBlock";
 import MarketTicker from "./components/MarketTicker";
 import Link from "next/link";
-import SearchableDropdown from "./components/SearchableDropdown";
 import SkeletonCard from "./components/SkeletonCard";
 import { news } from "./utilfunctions/interfaces";
 import ExploreLayout from "./components/ExploreLayout";

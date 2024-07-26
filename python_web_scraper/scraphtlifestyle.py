@@ -36,8 +36,8 @@ class ScrapHTLifestyle:
             soup = BeautifulSoup(response.text, 'html.parser')
             hdg3_elements = soup.find_all(class_='hdg3')[1:21]
             img_tags = soup.find_all('img', class_='lazy')[4:24]
-            print(hdg3_elements)
-            print(img_tags)
+            # print(hdg3_elements)
+            # print(img_tags)
             # exit()
 
             urls = []
@@ -103,15 +103,15 @@ class ScrapHTLifestyle:
 
     def run(self):
         headings, Desc_list, smallimg, bigimg = self.fetch_data()
-        for i in range(len(headings)):
-            print("Headings: ", headings[i])
-            print("Desc: ", Desc_list[i])
-            print("Smallimg: ", smallimg[i])
-            print("Bigimg: ", bigimg[i])
-            print("*"*100)
-            print()
-            print()
-            print()
+        # for i in range(len(headings)):
+        #     print("Headings: ", headings[i])
+        #     print("Desc: ", Desc_list[i])
+        #     print("Smallimg: ", smallimg[i])
+        #     print("Bigimg: ", bigimg[i])
+        #     print("*"*100)
+        #     print()
+        #     print()
+        #     print()
         exit()
         if headings:
             self.insert_data(headings, Desc_list, smallimg, bigimg)

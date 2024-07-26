@@ -139,5 +139,5 @@ class ScrapMintCompanies:
         self.update_database(titles, desc_list, simgs, pic_list)
 
 if __name__ == "__main__":
-    scraper = ScrapLiveMint()
+    scraper = ScrapMintCompanies()
     scraper.run()
