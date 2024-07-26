@@ -112,7 +112,6 @@ class ScrapHTLifestyle:
         #     print()
         #     print()
         #     print()
-        exit()
         if headings:
             self.insert_data(headings, Desc_list, smallimg, bigimg)
 
