@@ -1,6 +1,6 @@
 import "./NewsBlock.scss";
 import Link from "next/link";
-import { formatDate } from "@/app/utilfunctions/dateFormatter";
+import { formatDate, timeAgo } from "@/app/utilfunctions/dateFormatter";
 
 export default function NewsBlock({ news }) {
   return (
@@ -17,7 +17,7 @@ export default function NewsBlock({ news }) {
                 {news.title}
               </p>
             </div>
-            <div className="remark">Updates 2 hours ago</div>
+            <div className="remark">Published on {timeAgo(new Date(news.date))}</div>
           </div>
         </Link>
       </span>

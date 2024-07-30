@@ -23,6 +23,15 @@ header {
   }
 }
 
+@media screen and (max-width: 500px) {
+  header {
+    padding: 10px 0;
+  }
+  nav ul div {
+    margin: 0 !important;
+  }
+}
+
 @media screen and (max-width: 1060px) {
   header {
     flex-direction: column;
