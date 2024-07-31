@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "../../assets/css/Layout.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const navList = [
     { name: "Finance", link: "/category/finance" },
     { name: "Technology", link: "/category/technology" },
@@ -32,7 +32,13 @@ export default function RootLayout({
           <header>
             <div className="logo">
               <Link href="/">
-                <img src="/images/logo.png" alt="Logo" />
+                <Image
+                  src="/images/logo.png"
+                  alt="Logo"
+                  width={93}
+                  height={40}
+                />
+                {/* <img src="/images/logo.png" alt="Logo" /> */}
               </Link>
               <h1 className="title">
                 <Link href="/">The Bombay Forum</Link>
@@ -40,13 +46,11 @@ export default function RootLayout({
             </div>
             <nav>
               <ul>
-                {
-                  navList.map((navItem) => (
-                    <div key={navItem.name}>
-                      <Link href={navItem.link}>{navItem.name}</Link>
-                    </div>
-                  ))
-                }
+                {navList.map((navItem) => (
+                  <div key={navItem.name}>
+                    <Link href={navItem.link}>{navItem.name}</Link>
+                  </div>
+                ))}
               </ul>
             </nav>
             {/* <div className="login">
@@ -57,13 +61,11 @@ export default function RootLayout({
           <section className="footer">
             <div className="footer-links">
               <ul>
-                {
-                  navList.map((navItem) => (
-                    <li key={navItem.name}>
-                      <Link href={navItem.link}>{navItem.name}</Link>
-                    </li>
-                  ))
-                }
+                {navList.map((navItem) => (
+                  <li key={navItem.name}>
+                    <Link href={navItem.link}>{navItem.name}</Link>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="footer-subscription">
