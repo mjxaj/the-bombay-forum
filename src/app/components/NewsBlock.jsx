@@ -2,7 +2,7 @@ import "./NewsBlock.scss";
 import Link from "next/link";
 import { formatDate, timeAgo } from "@/app/utilfunctions/dateFormatter";
 
-export default function NewsBlock({ news }) {
+export default function NewsBlock({ news, showImage=true }) {
   return (
     <>
       <span className="news-block-wrapper">
@@ -10,10 +10,10 @@ export default function NewsBlock({ news }) {
           <div className="news-block">
             <div className="date">{formatDate(new Date(news.date))}</div>
             <div className="news">
-              {news.lphoto && (
+              {showImage && news.lphoto && (
                 <img className="imageright" src={news.lphoto} alt="news1" />
               )}
-              <p style={{ marginLeft: news.sphoto ? "10px" : "" }}>
+              <p>
                 {news.title}
               </p>
             </div>

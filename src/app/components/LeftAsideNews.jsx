@@ -13,7 +13,7 @@ export default function LeftAsideNews({ trendingNews }) {
               .map((_, i) => <SkeletonNewsBlock key={`n${i}`} />)}
           {trendingNews.map((article, i) => (
             <>
-              <NewsBlock news={article} key={`n${i}`} />
+              <NewsBlock news={article} key={`n${i}`} showImage={false} />
               <hr key={`h${i}`} />
             </>
           ))}

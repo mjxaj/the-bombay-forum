@@ -5,6 +5,9 @@
   }
 
   .news-block {
+    :hover {
+      text-decoration: underline !important;
+    }
     .date {
       font-size: 0.6em;
       font-weight: 500;
