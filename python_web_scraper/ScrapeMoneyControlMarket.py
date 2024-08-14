@@ -131,7 +131,7 @@ class ScrapeMoneyControlMarket:
                             INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type,  Source, SourceLink, Link)
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                         """
-                        values = (article_id, headings, Desc_list, smallimg, bigimg, 'Market', "NDTV", "https://www.ndtvprofit.com/technology", articleURL)
+                        values = (article_id, headings, Desc_list, smallimg, bigimg, 'Markets', "NDTV", "https://www.ndtvprofit.com/technology", articleURL)
                         cursor.execute(insert_query, values)
                     else:
                         print(f"Article with ArticleId {article_id} already exists, skipping.")
