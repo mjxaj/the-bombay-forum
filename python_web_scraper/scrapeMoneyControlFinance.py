@@ -34,8 +34,8 @@ class ScrapeMoneyControlFinance:
     def generate_article_id(self, title: str) -> str:
         """Generate a unique ArticleId based on the article title."""
         title_slug = ''.join(c if c.isalnum() else '-' for c in title.lower())
-        if len(title_slug) > 247:
-            title_slug = title_slug[:247]
+        if len(title_slug) > 240:
+            title_slug = title_slug[:240]
         print(len(title_slug))
         suffix = hashlib.md5(title.encode()).hexdigest()[:7]
         return f"{title_slug}-{suffix}"
