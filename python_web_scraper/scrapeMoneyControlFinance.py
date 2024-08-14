@@ -105,5 +105,5 @@ class ScrapeMoneyControlFinance:
                         # self.insert_to_db(article)
 
 if __name__ == "__main__":
-    scraper = ScrapMoneyControlFinance()
+    scraper = ScrapeMoneyControlFinance()
     scraper.run()
