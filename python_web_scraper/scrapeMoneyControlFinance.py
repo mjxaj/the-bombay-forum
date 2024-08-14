@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-class ScrapMoneyControlFinance:
+class ScrapeMoneyControlFinance:
     def __init__(self):
         self.urls = [
             "https://www.moneycontrol.com/newsapi/mc_news.php?query=tags_slug%3A(%22invest%22+OR+%22mutual-funds%22+OR+%22equity-funds%22+OR+%22debt-funds%22+OR+%22gold%22+OR+%22bonds%22+OR+%22ncd%22+OR+%22fixed-deposit%22+OR+%22nps%22)+AND+sub_category_slug%3A%22personal-finance%22&start=0&limit=3&sortby=creation_date&sortorder=desc&classic=true",
@@ -20,7 +20,8 @@ class ScrapMoneyControlFinance:
             "https://www.moneycontrol.com/newsapi/mc_news.php?query=sub_category_slug%3A%22personal-finance%22%20AND%20post_type%3A%22videos%22&start=0&limit=12&sortby=creation_date&sortorder=desc&classic=true"
         ]
         self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
         }
         self.db_config = {
             'host': os.getenv('MYSQL_HOST'),
@@ -33,6 +34,9 @@ class ScrapMoneyControlFinance:
     def generate_article_id(self, title: str) -> str:
         """Generate a unique ArticleId based on the article title."""
         title_slug = ''.join(c if c.isalnum() else '-' for c in title.lower())
+        if len(title_slug) > 247:
+            title_slug = title_slug[:247]
+        print(len(title_slug))
         suffix = hashlib.md5(title.encode()).hexdigest()[:7]
         return f"{title_slug}-{suffix}"
 
@@ -74,7 +78,7 @@ class ScrapMoneyControlFinance:
                 "Finance",
                 "Money Control",
                 "https://www.moneycontrol.com/",
-                f"https://www.moneycontrol.com/{article.get('posturl', '')}",
+                article.get('posturl', ''),
             ))
 
             connection.commit()
@@ -96,7 +100,9 @@ class ScrapMoneyControlFinance:
             if data:
                 for key, article in data.items():
                     if key.isdigit() and article.get('headline') and article.get('body') and article.get('images', {}).get('thumbnail') and article.get('images', {}).get('large') and article.get('posturl'):
-                        self.insert_to_db(article)
+                        print(article)
+                        
+                        # self.insert_to_db(article)
 
 if __name__ == "__main__":
     scraper = ScrapMoneyControlFinance()

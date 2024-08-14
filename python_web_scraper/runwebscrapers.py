@@ -1,16 +1,12 @@
-from scraphtlifestyle import ScrapHTLifestyle
-from scraphtmumbai import ScrapHTMumbai
-from scraphttech import ScrapHTTech
-from scrapmintcompanies import ScrapMintCompanies
-from scrapmint import LiveMintScraper
-from scrapmoneycontrolfinance import ScrapMoneyControlFinance
+from scrapeNDTVlifestyle import ScrapeNDTVLifestyle
+from scrapeMoneyControlFinance import ScrapeMoneyControlFinance
+from scraperNDTVtechnology import ScrapeNDTVTechnology
 
 def main():
     scrapers = [
-        ScrapHTLifestyle(),
-        ScrapHTMumbai(),
-        ScrapHTTech(),
-        ScrapMoneyControlFinance()
+        ScrapeNDTVLifestyle(),
+        ScrapeMoneyControlFinance(),
+        ScrapeNDTVTechnology()
     ]
     
     for scraper in scrapers:
