@@ -1,7 +1,7 @@
 CREATE TABLE news (
     id INT PRIMARY KEY AUTO_INCREMENT,
     ArticleId VARCHAR(255) UNIQUE NOT NULL,
-    Title VARCHAR(255),
+    Title TEXT,
     Description TEXT,
     Sphoto VARCHAR(255),
     Lphoto VARCHAR(255),
