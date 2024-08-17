@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import "../../assets/css/Layout.css";
+import "../../assets/css/Layout.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
@@ -21,10 +21,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const navList = [
-    { name: "Finance", link: "/category/finance" },
-    { name: "Technology", link: "/category/technology" },
     { name: "Lifestyle", link: "/category/lifestyle" },
+    { name: "Finance", link: "/category/finance" },
     { name: "Markets", link: "/category/markets" },
+    { name: "Technology", link: "/category/technology" },
     { name: "Bombay", link: "/category/bombay" },
   ];
 
@@ -36,36 +36,71 @@ export default async function RootLayout({
         <ClientLayout session={session}>
           <div>
             <header>
-              <div className="logo">
-                <Link href="/">
-                  <Image
-                    src="/images/logo.png"
-                    alt="Logo"
-                    width={93}
-                    height={40}
-                  />
-                </Link>
-                <h1 className="title">
-                  <Link href="/">The Bombay Forum</Link>
-                </h1>
+              <div className="mobile-nav">
+                <div className="logo">
+                  <Link href="/">
+                    <Image
+                      src="/images/logo.png"
+                      alt="Logo"
+                      width={93}
+                      height={40}
+                    />
+                  </Link>
+                  <h1 className="title">
+                    <Link href="/">The Bombay Forum</Link>
+                  </h1>
+                </div>
+                <nav>
+                  <ul>
+                    {navList.map((navItem) => (
+                      <div key={navItem.name}>
+                        <Link href={navItem.link}>{navItem.name}</Link>
+                      </div>
+                    ))}
+                  </ul>
+                </nav>
               </div>
-              <nav>
-                <ul>
-                  <div>
-                    {!session ? (
-                      <Link href="/login">Login</Link>
-                    ) : (
-                      <Link href="/try">Logout</Link>
-                    )}
-                  </div>
-
-                  {navList.map((navItem) => (
-                    <div key={navItem.name}>
-                      <Link href={navItem.link}>{navItem.name}</Link>
+              <div className="desktop-nav">
+                <nav>
+                  {/* show half categories */}
+                  <ul>
+                    {navList
+                      .slice(0, Math.ceil(navList.length / 2))
+                      .map((navItem) => (
+                        <li key={navItem.name}>
+                          <Link href={navItem.link}>{navItem.name}</Link>
+                        </li>
+                      ))}
+                  </ul>
+                  {/* show logo */}
+                  <ul>
+                    <div className="logo">
+                      <Link href="/">
+                        <Image
+                          src="/images/logo.png"
+                          alt="Logo"
+                          width={93}
+                          height={40}
+                        />
+                      </Link>
+                      <h1 className="title">
+                        <Link href="/">The Bombay Forum</Link>
+                      </h1>
                     </div>
-                  ))}
-                </ul>
-              </nav>
+                  </ul>
+
+                  {/* show other half */}
+                  <ul>
+                    {navList
+                      .slice(Math.ceil(navList.length / 2), navList.length)
+                      .map((navItem) => (
+                        <li key={navItem.name}>
+                          <Link href={navItem.link}>{navItem.name}</Link>
+                        </li>
+                      ))}
+                  </ul>
+                </nav>
+              </div>
             </header>
             {children}
             <section className="footer">
