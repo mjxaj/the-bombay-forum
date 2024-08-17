@@ -102,7 +102,7 @@ class ScrapeMoneyControlFinance:
                     if key.isdigit() and article.get('headline') and article.get('body') and article.get('images', {}).get('thumbnail') and article.get('images', {}).get('large') and article.get('posturl'):
                         print(article)
                         
-                        # self.insert_to_db(article)
+                        self.insert_to_db(article)
 
 if __name__ == "__main__":
     scraper = ScrapeMoneyControlFinance()
