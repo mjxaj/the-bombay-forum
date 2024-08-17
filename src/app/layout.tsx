@@ -7,6 +7,9 @@ import Image from "next/image";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
+import SendIcon from "@mui/icons-material/Send";
+import IconButton from "@mui/material/IconButton";
+import NewsletterSubscription from "./components/NewsletterSubscription";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -104,22 +107,64 @@ export default async function RootLayout({
             </header>
             {children}
             <section className="footer">
-              <div className="footer-links">
-                <ul>
-                  {navList.map((navItem) => (
-                    <li key={navItem.name}>
-                      <Link href={navItem.link}>{navItem.name}</Link>
-                    </li>
-                  ))}
-                </ul>
+              <div className="footer-row-1-parent">
+                <div className="footer-row-1">
+                  <div className="about-section">
+                    <div className="heading">
+                      <Link href="/">
+                        <Image
+                          src="/images/logo.png"
+                          alt="Logo"
+                          width={53}
+                          height={20}
+                        />
+                      </Link>
+                      <h1 className="title">
+                        <Link href="/">The Bombay Forum</Link>
+                      </h1>
+                    </div>
+                    <div className="body">
+                      <p>
+                        Stay informed with the latest headlines, in-depth
+                        analysis, and real-time updates from around the globe.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="footer-links">
+                    <h2>Quick Links</h2>
+                    <ul>
+                      {navList.map((navItem) => (
+                        <li key={navItem.name}>
+                          <Link href={navItem.link}>{navItem.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <NewsletterSubscription />
+                </div>
               </div>
-              <div className="footer-subscription">
-                <h2>Letter Subscription</h2>
-                <input type="email" placeholder="Enter your email id" />
-                <button>Subscribe</button>
-              </div>
-              <div className="footer-info">
-                <p>Copyright © 2010-2024 TBF. All rights reserved.</p>
+              <div className="footer-row-2">
+                <div className="footer-info">
+                  <p>© 2024 The Bombay Forum All Rights Reserved.</p>
+                </div>
+                <div className="footer-socials">
+                  <Link href="https://www.instagram.com/thebombayforum/">
+                    <Image
+                      src="/images/social/instagram_logo.png"
+                      alt="Facebook"
+                      width={30}
+                      height={30}
+                    />
+                  </Link>
+                  <Link href="https://www.threads.net/@thebombayforum">
+                    <Image
+                      src="/images/social/threads_logo.png"
+                      alt="Facebook"
+                      width={30}
+                      height={30}
+                    />
+                  </Link>
+                </div>
               </div>
             </section>
           </div>

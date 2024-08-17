@@ -20,6 +20,7 @@ header {
 .mobile-nav {
   display: none;
   width: 100%;
+
   .logo {
     display: flex;
     align-items: center;
@@ -36,6 +37,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+
   nav {
     width: 100%;
     display: flex;
@@ -95,9 +97,11 @@ header {
   header {
     padding: 10px 0;
   }
+
   .mobile-nav {
     display: block;
   }
+
   .desktop-nav {
     display: none;
   }
@@ -107,11 +111,14 @@ header {
   header {
     flex-direction: column;
   }
+
   nav {
     width: 100%;
+
     ul {
       display: flex;
       justify-content: space-around;
+
       div {
         margin: 0;
       }
@@ -124,17 +131,18 @@ header {
     white-space: unset;
     font-size: 6vw;
   }
+
   .logo {
     margin: auto;
   }
 }
 
-.title a {
-  color: #214050;
-  text-decoration: dashed;
-}
-
 nav {
+  .title a {
+    color: #214050;
+    text-decoration: dashed;
+  }
+
   ul {
     margin-left: auto;
     display: flex;
@@ -161,47 +169,164 @@ nav {
 /* Footer */
 .footer {
   background-color: #f9f9f9;
-  padding: 20px;
+  // padding: 20px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-}
 
-.footer-links ul {
-  list-style: none;
-  padding: 0;
-}
+  &-row-1-parent {
+    background-color: #1d1d1d;
+    width: 100%;
+  }
 
-.footer-links ul li {
-  margin-bottom: 10px;
-}
+  &-row-1 {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: calc(100% - 40px);
+    background-color: #1d1d1d;
+    color: white;
+    padding: 20px;
+    max-width: 1400px;
+    margin: auto;
 
-.footer-links ul li a {
-  text-decoration: none;
-  color: #333;
-}
+    div {
+      flex: 1;
+    }
 
-.footer-subscription {
-  display: flex;
-  flex-direction: column;
-}
+    .about-section {
+      // width: 30%;
+      padding: 20px;
+      min-height: min(500px, 100%);
+      max-width: 500px;
 
-.footer-subscription input {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
+      .heading {
+        display: flex;
+        align-items: center;
 
-.footer-subscription button {
-  padding: 10px;
-  border: none;
-  background-color: #333;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-}
+        h1 {
+          margin: 0 10px;
 
-.footer-info {
-  text-align: center;
+          a {
+            color: white;
+            text-decoration: none;
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .body {
+        color: rgba(255, 255, 255, 0.8);
+        text-transform: capitalize;
+      }
+
+
+      @media screen and (max-width: 650px) {
+        max-width: 100%;
+
+        .heading {
+          justify-content: center;
+        }
+      }
+    }
+
+    .footer-links {
+      padding: 20px;
+
+      h2 {
+        margin: 0;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      ul {
+        display: flex;
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 10px;
+
+          a {
+            text-decoration: none;
+            color: white;
+          }
+        }
+      }
+
+      @media screen and (max-width: 650px) {
+        text-align: center;
+        ul {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+      }
+    }
+
+    .footer-subscription {
+      display: flex;
+      flex-direction: column;
+
+      h2 {
+        font-weight: 400;
+        font-size: 20px;
+      }
+
+      .input-wrapper {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        justify-content: space-between;
+
+        input {
+          flex-grow: 1;
+          padding: 10px;
+          border: 0px solid #ddd;
+          border-radius: 4px;
+          background-color: transparent;
+        }
+
+        button {
+          // padding: 10px;
+          border: none;
+          color: #fff;
+          border-radius: 4px;
+          cursor: pointer;
+          position: relative;
+          // padding-right: 18px;
+          width: 40px;
+
+          svg {
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            top: 2px;
+            transform: rotateZ(-45deg);
+          }
+        }
+      }
+    }
+  }
+
+
+  .footer-info {
+    text-align: center;
+  }
+
+  &-row-2 {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: calc(100% - 40px);
+    padding: 20px;
+    max-width: 1400px;
+    margin: auto;
+
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+    }
+  }
 }
