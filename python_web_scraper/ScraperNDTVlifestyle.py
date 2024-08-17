@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-class ScrapeNDTVLifestyle:
+class ScraperNDTVLifestyle:
     def __init__(self):
         self.url = 'https://www.ndtvprofit.com/api/v1/advanced-search?section-id=3416,&sort=latest-published&limit=10&offset=0'
         self.headers = {
@@ -130,8 +130,8 @@ class ScrapeNDTVLifestyle:
         articles = self.fetch_data()
         
         for article in articles:
-            self.insert_data(article['headline'],article['summary'],article['image_url'],article['image_url'],article['article_url'])
+            self.insert_data(article['headline'],article['article_text'],article['image_url'],article['image_url'],article['article_url'])
 
 if __name__ == "__main__":
-    scraper = ScrapeNDTVLifestyle()
+    scraper = ScraperNDTVLifestyle()
     scraper.run()

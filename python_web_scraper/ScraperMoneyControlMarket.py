@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-class ScrapeMoneyControlMarket:
+class ScraperMoneyControlMarket:
     def __init__(self):
         self.url = "https://www.moneycontrol.com/stocksmarketsindia/"
         self.headers = {
@@ -154,5 +154,5 @@ class ScrapeMoneyControlMarket:
 
 if __name__ == "__main__":
     print("hello")
-    scraper = ScrapeMoneyControlMarket()
+    scraper = ScraperMoneyControlMarket()
     scraper.run()

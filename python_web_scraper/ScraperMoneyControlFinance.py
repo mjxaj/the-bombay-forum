@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-class ScrapeMoneyControlFinance:
+class ScraperMoneyControlFinance:
     def __init__(self):
         self.urls = [
             "https://www.moneycontrol.com/newsapi/mc_news.php?query=tags_slug%3A(%22invest%22+OR+%22mutual-funds%22+OR+%22equity-funds%22+OR+%22debt-funds%22+OR+%22gold%22+OR+%22bonds%22+OR+%22ncd%22+OR+%22fixed-deposit%22+OR+%22nps%22)+AND+sub_category_slug%3A%22personal-finance%22&start=0&limit=3&sortby=creation_date&sortorder=desc&classic=true",
@@ -105,5 +105,5 @@ class ScrapeMoneyControlFinance:
                         self.insert_to_db(article)
 
 if __name__ == "__main__":
-    scraper = ScrapeMoneyControlFinance()
+    scraper = ScraperMoneyControlFinance()
     scraper.run()
