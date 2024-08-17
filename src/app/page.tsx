@@ -80,7 +80,7 @@ export default function Home() {
     const fetchLatestNewsArticle = async () => {
       try {
         const response = await fetch(
-          `/api/searcharticles?articleType=random&num=10&order=DESC`
+          `/api/searcharticles?articleType=random&num=8&order=DESC`
         );
         const data = await response.json();
         if (response.ok) {
