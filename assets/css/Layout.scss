@@ -25,6 +25,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .title a {
+      color: #214050;
+      text-decoration: dashed;
+    }
   }
 
   nav ul {
@@ -258,6 +263,7 @@ nav {
 
       @media screen and (max-width: 650px) {
         text-align: center;
+
         ul {
           justify-content: center;
           flex-wrap: wrap;
