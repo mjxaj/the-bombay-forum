@@ -1,5 +1,19 @@
 import { NextResponse } from 'next/server';
 import db from '../../../../db'; // Update the path to your db file
+import fs from 'fs';
+import path from 'path';
+
+// Function to log errors to a file
+function logErrorToFile(error) {
+  const logMessage = `${new Date().toISOString()} - ${error.message}\n${error.stack}\n\n`;
+  const logFilePath = path.join(process.cwd(), 'error.log');
+
+  fs.appendFile(logFilePath, logMessage, (err) => {
+    if (err) {
+      console.error('Failed to write to log file:', err);
+    }
+  });
+}
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -68,6 +82,7 @@ export async function GET(request) {
     return NextResponse.json(response);
   } catch (error) {
     console.error('Error fetching articles:', error);
+    logErrorToFile(error); // Log the error to the file
     return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
   }
 }
