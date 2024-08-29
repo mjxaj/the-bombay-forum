@@ -3,7 +3,7 @@ module.exports = {
       {
         name: 'the-bombay-forum',
         script: 'npm',
-        args: 'start',
+        args: 'run dev',
         instances: 'max',
         exec_mode: 'cluster',
         env: {
