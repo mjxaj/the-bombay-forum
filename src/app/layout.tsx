@@ -10,6 +10,7 @@ import ClientLayout from "./ClientLayout";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
 import NewsletterSubscription from "./components/NewsletterSubscription";
+import "./layout.scss"
 
 const inter = Inter({ subsets: ["latin"] });
 
