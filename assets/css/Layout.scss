@@ -10,8 +10,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #fff; */
-  padding: 10px 20px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   margin: auto;
   overflow: hidden;
@@ -20,6 +18,10 @@ header {
 .mobile-nav {
   display: none;
   width: 100%;
+  background-color: #011E29;
+  // padding: 10px 20px;
+  // margin-top: 40px;
+  // position: fixed;
 
   .logo {
     display: flex;
@@ -27,7 +29,7 @@ header {
     justify-content: center;
 
     .title a {
-      color: #214050;
+      color: #ffffff;
       text-decoration: dashed;
     }
   }
@@ -42,13 +44,18 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  padding: 10px 20px;
+  position: fixed;
+  top: 0px;
+  background-color: #011E29;
+  z-index: 98765;
   nav {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     max-width: 1000px;
+    // background-color: red;
 
     :first-child {
       justify-content: flex-start;
@@ -66,7 +73,7 @@ header {
 
     li a {
       text-decoration: none;
-      color: #333;
+      color: #ffffff;
     }
   }
 }
@@ -85,7 +92,7 @@ header {
   font-family: "Playfair Display", serif;
   font-optical-sizing: auto;
   font-style: normal;
-  color: #214050;
+  color: #ffffff;
   margin-top: 0;
   margin-bottom: 0;
   text-decoration: none;
@@ -144,7 +151,7 @@ header {
 
 nav {
   .title a {
-    color: #214050;
+    color: #ffffff;
     text-decoration: dashed;
   }
 
@@ -161,14 +168,14 @@ nav {
 
     a {
       text-decoration: none;
-      color: #333;
+      color: #ffffff;
     }
   }
 }
 
 .login a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
 }
 
 /* Footer */

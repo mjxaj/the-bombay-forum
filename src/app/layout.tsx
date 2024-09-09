@@ -31,6 +31,15 @@ export default async function RootLayout({
     { name: "Bombay", link: "/category/bombay" },
   ];
 
+  const currentDate = new Date();
+
+  const formattedDate = currentDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+
   const session = await getServerSession(authOptions);
 
   return (
@@ -71,6 +80,7 @@ export default async function RootLayout({
                 </nav>
               </div>
               <div className="desktop-nav">
+                
                 <nav>
                   {/* show half categories */}
                   <ul>
@@ -109,6 +119,7 @@ export default async function RootLayout({
                         </li>
                       ))}
                   </ul>
+            <p style={{color: "#fff"}}>{formattedDate}</p>
                 </nav>
               </div>
             </header>

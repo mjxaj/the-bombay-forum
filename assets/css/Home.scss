@@ -36,10 +36,10 @@ main {
         padding: 20px;
 
         .new-list-block {
-            background-color: white;
             border-radius: 10px;
             padding: 10px;
-
+            position: sticky;
+            top: 70px; 
 
             .heading {
                 font-family: "Epilogue", sans-serif;
@@ -56,6 +56,9 @@ main {
                 min-width: max-content;
                 width: 100%;
             }
+
+          
+
 
             .heading::before,
             .heading::after {
@@ -97,6 +100,9 @@ main {
         grid-area: right-aside;
         // background-color: #f4b400;
         // padding: 20px;
+        position: sticky;
+        top: 70px;
+        height: fit-content;
     }
 
     .low-content {
@@ -277,4 +283,10 @@ main {
     100% {
         left: 100%;
     }
+}
+
+
+.searchbar{
+    // border: 2px solid red;
+    margin-top: 70px;
 }
