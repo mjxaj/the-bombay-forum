@@ -129,6 +129,17 @@ main {
                 "left-aside"
                 "footer";
         }
+
+        .left-aside {
+            .new-list-block{
+                position: static;
+            }
+        }
+
+        .right-aside{
+            position: static;
+        }
+
     }
 }
 
