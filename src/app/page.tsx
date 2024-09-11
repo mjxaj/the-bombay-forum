@@ -4,12 +4,13 @@ import LeftAsideNews from "./components/LeftAsideNews";
 import RightBsideNews from "./components/RightBsideNews";
 import SearchBar from "material-ui-search-bar";
 import React, { useEffect, useState } from "react";
-import NewsBlock, {SkeletonNewsBlock} from "./components/NewsBlock";
+import NewsBlock, { SkeletonNewsBlock } from "./components/NewsBlock";
 import MarketTicker from "./components/MarketTicker";
 import Link from "next/link";
 import SkeletonCard from "./components/SkeletonCard";
 import { news } from "./utilfunctions/interfaces";
 import ExploreLayout from "./components/ExploreLayout";
+import axios from 'axios';
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
@@ -25,6 +26,9 @@ export default function Home() {
   const [searchOptions, setSearchOptions] = useState([]);
   const [marketTickerData, setMarketTickerData] = useState(<></>);
   const [loading, setLoading] = useState(true);
+
+
+ 
 
   useEffect(() => {
     const fetchMainNewsArticle = async () => {
@@ -50,33 +54,32 @@ export default function Home() {
       }
     };
 
-const fetchTrendingNewsArticle = async () => {
-  try {
-    const response = await fetch(
-      `/api/searcharticles?num=20&randomize=false&sortBy=created_datetime&order=DESC`
-    );
-    let data = await response.json();
-    if (response.ok) {
-      const randomElement = getRandomElement(data.slice(1) || data);
-      setMarketTickerData(
-        <>
-          <Link href={`/view/${randomElement.articleId}`}>
-            Breaking News: {randomElement.title}
-          </Link>
-        </>
-      );
-      data = data.slice(0, 10);
-      setTrendingNews(data);
-      // Store category in localStorage
-      if (data.type) {
-        localStorage.setItem("articleType", data.type);
+    const fetchTrendingNewsArticle = async () => {
+      try {
+        const response = await fetch(
+          `/api/searcharticles?num=20&randomize=false&sortBy=created_datetime&order=DESC`
+        );
+        let data = await response.json();
+        if (response.ok) {
+          const randomElement = getRandomElement(data.slice(1) || data);
+          setMarketTickerData(
+            <>
+              <Link href={`/view/${randomElement.articleId}`}>
+                Breaking News: {randomElement.title}
+              </Link>
+            </>
+          );
+          data = data.slice(0, 10);
+          setTrendingNews(data);
+          // Store category in localStorage
+          if (data.type) {
+            localStorage.setItem("articleType", data.type);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch article:", error);
       }
-    }
-  } catch (error) {
-    console.error("Failed to fetch article:", error);
-  }
-};
-
+    };
 
     const fetchLatestNewsArticle = async () => {
       try {
@@ -121,11 +124,32 @@ const fetchTrendingNewsArticle = async () => {
     fetchSearchOptions();
   }, [searchValue]);
 
+ 
+
+
+
+  // const fetchWeather = async (latitude:any, longitude: any) => {
+
+  //   try {
+  //     const apiKey = process.env.WEATHER_API
+  //     console.log(apiKey)
+  //     const response = await axios.get(
+  //       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
+  //     );
+  //     setWeather(response.data);
+  //     console.log("Weather data:", weather)
+  //   } catch (err) {
+  //     console.log('Failed to fetch weather data.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const HomeLayout = () => {
     return (
       <div className="container">
+        
         <LeftAsideNews trendingNews={trendingNews} />
-
         <div
           className="home-main"
           style={{ display: "flex", flexDirection: "column", gap: "15px" }}
@@ -180,8 +204,8 @@ const fetchTrendingNewsArticle = async () => {
   return (
     <main>
       <div className="search-bar-wrapper">
-        <SearchBar 
-        className="searchbar"
+        <SearchBar
+          className="searchbar"
           style={{ width: "90%", maxWidth: "500px" }}
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}

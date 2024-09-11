@@ -123,3 +123,36 @@
     left: 100%;
   }
 }
+
+
+// src/app/components/WeatherWidget.scss
+
+.weather-widget {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: 'Arial', sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+
+  .weather-info {
+    margin-top: 15px;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    p {
+      margin: 5px 0;
+      font-size: 18px;
+    }
+  }
+
+  .error {
+    color: red;
+    text-align: center;
+  }
+}

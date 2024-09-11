@@ -15,6 +15,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.16.1",
     "@mui/material": "^5.16.1",
+    "axios": "^1.7.7",
     "knex": "^3.1.0",
     "material-ui-search-bar": "^1.0.1",
     "mysql2": "^3.10.3",
