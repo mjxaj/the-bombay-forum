@@ -85,7 +85,7 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
         const response = await fetch(
           `/api/searcharticles?articleId=${encodeURIComponent(
             params.articleId
-          )}`
+          )}&fullDescription=true`
         );
         const data = await response.json();
         if (response.ok) {
