@@ -1,0 +1,79 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+
+  .input,
+  .textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+
+  .button,
+  .deleteButton {
+    background-color: #0070f3;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .deleteButton {
+    background-color: #e63946;
+  }
+  
+  .button:hover,
+  .deleteButton:hover {
+    background-color: #005bb5;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c62828;
+  }
+  
+
+  .articleList {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .articleItem {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  

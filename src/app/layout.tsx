@@ -31,6 +31,11 @@ export default async function RootLayout({
     { name: "Bombay", link: "/category/bombay" },
   ];
 
+  const privacyPolicy = [
+    { name: "Terms and conditions", link: "/terms/conditions" },
+    { name: "Privacy policy", link: "/terms/privacy" },
+  ]
+
   const currentDate = new Date();
 
   const formattedDate = currentDate.toLocaleDateString('en-US', {
@@ -152,6 +157,13 @@ export default async function RootLayout({
                     <h2>Quick Links</h2>
                     <ul>
                       {navList.map((navItem) => (
+                        <li key={navItem.name}>
+                          <Link href={navItem.link}>{navItem.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul>
+                      {privacyPolicy.map((navItem) => (
                         <li key={navItem.name}>
                           <Link href={navItem.link}>{navItem.name}</Link>
                         </li>

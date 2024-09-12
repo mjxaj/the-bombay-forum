@@ -4,18 +4,12 @@ import LeftAsideNews from "./components/LeftAsideNews";
 import RightBsideNews from "./components/RightBsideNews";
 import SearchBar from "material-ui-search-bar";
 import React, { useEffect, useState } from "react";
-import NewsBlock, {SkeletonNewsBlock} from "./components/NewsBlock";
+import NewsBlock, { SkeletonNewsBlock } from "./components/NewsBlock";
 import MarketTicker from "./components/MarketTicker";
 import Link from "next/link";
 import SkeletonCard from "./components/SkeletonCard";
 import { news } from "./utilfunctions/interfaces";
 import ExploreLayout from "./components/ExploreLayout";
-
-function getRandomElement(array: news[]) {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  const randomElement = array[randomIndex];
-  return randomElement;
-}
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
@@ -25,6 +19,17 @@ export default function Home() {
   const [searchOptions, setSearchOptions] = useState([]);
   const [marketTickerData, setMarketTickerData] = useState(<></>);
   const [loading, setLoading] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Toggle between dark and light mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add("dark-mode");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+    }
+  };
 
   useEffect(() => {
     const fetchMainNewsArticle = async () => {
@@ -38,10 +43,6 @@ export default function Home() {
         const data = await response.json();
         if (response.ok) {
           setMainNewsContainer(data);
-          // Store category in localStorage
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -50,33 +51,19 @@ export default function Home() {
       }
     };
 
-const fetchTrendingNewsArticle = async () => {
-  try {
-    const response = await fetch(
-      `/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`
-    );
-    let data = await response.json();
-    if (response.ok) {
-      const randomElement = getRandomElement(data.slice(1) || data);
-      setMarketTickerData(
-        <>
-          <Link href={`/view/${randomElement.articleId}`}>
-            Breaking News: {randomElement.title}
-          </Link>
-        </>
-      );
-      data = data.slice(0, 10);
-      setTrendingNews(data);
-      // Store category in localStorage
-      if (data.type) {
-        localStorage.setItem("articleType", data.type);
+    const fetchTrendingNewsArticle = async () => {
+      try {
+        const response = await fetch(
+          `/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setTrendingNews(data.slice(0, 10));
+        }
+      } catch (error) {
+        console.error("Failed to fetch article:", error);
       }
-    }
-  } catch (error) {
-    console.error("Failed to fetch article:", error);
-  }
-};
-
+    };
 
     const fetchLatestNewsArticle = async () => {
       try {
@@ -86,10 +73,6 @@ const fetchTrendingNewsArticle = async () => {
         const data = await response.json();
         if (response.ok) {
           setLatestNews(data);
-          // Store category in localStorage
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -101,31 +84,10 @@ const fetchTrendingNewsArticle = async () => {
     fetchLatestNewsArticle();
   }, []);
 
-  useEffect(() => {
-    const fetchSearchOptions = async () => {
-      try {
-        const response = await fetch(
-          `/api/searcharticles?query=${encodeURIComponent(searchValue)}`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setSearchOptions(data);
-        } else {
-          setSearchOptions([]);
-        }
-      } catch (error) {
-        setSearchOptions([]);
-        console.error("Failed to fetch article:", error);
-      }
-    };
-    fetchSearchOptions();
-  }, [searchValue]);
-
   const HomeLayout = () => {
     return (
       <div className="container">
         <LeftAsideNews trendingNews={trendingNews} />
-
         <div
           className="home-main"
           style={{ display: "flex", flexDirection: "column", gap: "15px" }}
@@ -133,26 +95,24 @@ const fetchTrendingNewsArticle = async () => {
           {loading ? (
             <SkeletonCard />
           ) : (
-            <>
-              <div className="content-card">
-                <img
-                  src={mainNewsContainer[0]?.lphoto}
-                  alt="title"
-                  className="content-card__image"
-                />
-                <div className="content-card__content">
-                  <h3 className="content-card__title">
-                    {mainNewsContainer[0]?.title}
-                  </h3>
-                  <p className="content-card__description">
-                    {mainNewsContainer[0]?.description}
-                  </p>
-                  <a href={`/view/${mainNewsContainer[0]?.articleId || ""}`}>
-                    <p className="content-card__see-more">See More</p>
-                  </a>
-                </div>
+            <div className="content-card">
+              <img
+                src={mainNewsContainer[0]?.lphoto}
+                alt="title"
+                className="content-card__image"
+              />
+              <div className="content-card__content">
+                <h3 className="content-card__title">
+                  {mainNewsContainer[0]?.title}
+                </h3>
+                <p className="content-card__description">
+                  {mainNewsContainer[0]?.description}
+                </p>
+                <a href={`/view/${mainNewsContainer[0]?.articleId || ""}`}>
+                  <p className="content-card__see-more">See More</p>
+                </a>
               </div>
-            </>
+            </div>
           )}
           <div className="more-main-news">
             {loading
@@ -179,9 +139,17 @@ const fetchTrendingNewsArticle = async () => {
 
   return (
     <main>
+      <div className="header">
+        <h1>The Bombay Forum</h1>
+      </div>
+      <div>
+      <button className="toggle" onClick={toggleDarkMode}>
+          {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        </button>
+      </div>
       <div className="search-bar-wrapper">
-        <SearchBar 
-        className="searchbar"
+        <SearchBar
+          className="searchbar"
           style={{ width: "90%", maxWidth: "500px" }}
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
