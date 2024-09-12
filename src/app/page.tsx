@@ -53,7 +53,7 @@ export default function Home() {
 const fetchTrendingNewsArticle = async () => {
   try {
     const response = await fetch(
-      `/api/searcharticles?num=20&randomize=false&sortBy=created_datetime&order=DESC`
+      `/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`
     );
     let data = await response.json();
     if (response.ok) {
