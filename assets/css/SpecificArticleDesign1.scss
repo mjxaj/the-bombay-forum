@@ -1,3 +1,25 @@
+:root {
+    /* Light theme variables */
+    --bg-color: #F3F3F3;
+    --text-color: #041B32;
+    --text-color1: #3B6978;
+    --heading-color: #1E2532;
+    --border-color: #DFDFDF;
+    --card-bg-color: #FFFFFF;
+    --footer-bg-color: #4285f4;
+  }
+  
+  .dark-mode {
+    /* Dark theme variables */
+    --bg-color: #121212;
+    --text-color: #FFFFFF;
+    --text-color1: #9C9C9C;
+    --heading-color: #f4b400;
+    --border-color: #333333;
+    --card-bg-color: #282828;
+    --footer-bg-color: #1f1f1f;
+  }
+
 .specific-article-design1 {
     padding: 10px;
     max-width: 80%;
@@ -9,7 +31,7 @@
         display: flex;
 
         .go-back {
-            background-color: #3b6978;
+            background-color: var(--heading-color);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -41,7 +63,7 @@
 
         .date {
             font-size: 0.8em;
-            color: #666;
+            color: var(--text-color1);
             margin-right: 10px;
         }
 
@@ -49,6 +71,7 @@
             font-size: 1.3em;
             font-weight: bold;
             margin-top: 10px;
+            color: var(--text-color);
         }
     }
 
@@ -60,11 +83,13 @@
         .leftaside {
             width: 20%;
             height: auto;
-            border: 1px solid rgb(153, 153, 153);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 5px 5px 4px 10px;
-            background-color: rgb(246, 241, 241);
-
+            background-color: var(--card-bg-color);
+            .heading{
+                color: var(--text-color);
+            }
             .body{
                 // background-color: red;
                 padding-top: 10px;
@@ -81,6 +106,7 @@
         .article-dis {
             width: 53%;
             float: left;
+            color: var(--text-color);
 
             .image img {
                 width: 100%;
@@ -89,23 +115,25 @@
 
             p {
                 font-size: 0.9em;
-                color: #1b1b1b;
+                color: var(--text-color);
                 text-align: center;
                 padding: 10px;
-                background-color: #eef2f8;
+                background-color: var(--card-bg-color);
                 border-radius: 10px;
-                border: 1px solid rgb(175, 175, 175);
+                border: 1px solid var(--border-color);
             }
         }
 
         .right-aside {
             width: 20%;
             height: auto;
-            border: 1px solid rgb(153, 153, 153);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 5px 5px 4px 10px;
-            background-color: rgb(246, 241, 241);
-            
+            background-color: var(--card-bg-color);
+            .heading{
+                color: var(--text-color);
+            }
             hr{
                 width: 100%;
             }
@@ -126,8 +154,8 @@
             }
 
             .ribbon {
-                background-color: #EBF2FE;
-                color: black;
+                background-color: var(--card-bg-color);
+                color: var(--text-color);
                 padding: 10px 15px;
                 border-radius: 5px;
                 margin-right: 10px;

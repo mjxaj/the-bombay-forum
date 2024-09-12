@@ -10,13 +10,6 @@ import Link from "next/link";
 import SkeletonCard from "./components/SkeletonCard";
 import { news } from "./utilfunctions/interfaces";
 import ExploreLayout from "./components/ExploreLayout";
-import axios from 'axios';
-
-function getRandomElement(array: news[]) {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  const randomElement = array[randomIndex];
-  return randomElement;
-}
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
@@ -26,9 +19,17 @@ export default function Home() {
   const [searchOptions, setSearchOptions] = useState([]);
   const [marketTickerData, setMarketTickerData] = useState(<></>);
   const [loading, setLoading] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-
- 
+  // Toggle between dark and light mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add("dark-mode");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+    }
+  };
 
   useEffect(() => {
     const fetchMainNewsArticle = async () => {
@@ -42,10 +43,6 @@ export default function Home() {
         const data = await response.json();
         if (response.ok) {
           setMainNewsContainer(data);
-          // Store category in localStorage
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -59,22 +56,9 @@ export default function Home() {
         const response = await fetch(
           `/api/searcharticles?num=20&randomize=false&sortBy=created_datetime&order=DESC`
         );
-        let data = await response.json();
+        const data = await response.json();
         if (response.ok) {
-          const randomElement = getRandomElement(data.slice(1) || data);
-          setMarketTickerData(
-            <>
-              <Link href={`/view/${randomElement.articleId}`}>
-                Breaking News: {randomElement.title}
-              </Link>
-            </>
-          );
-          data = data.slice(0, 10);
-          setTrendingNews(data);
-          // Store category in localStorage
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
+          setTrendingNews(data.slice(0, 10));
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -89,10 +73,6 @@ export default function Home() {
         const data = await response.json();
         if (response.ok) {
           setLatestNews(data);
-          // Store category in localStorage
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -104,51 +84,9 @@ export default function Home() {
     fetchLatestNewsArticle();
   }, []);
 
-  useEffect(() => {
-    const fetchSearchOptions = async () => {
-      try {
-        const response = await fetch(
-          `/api/searcharticles?query=${encodeURIComponent(searchValue)}`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setSearchOptions(data);
-        } else {
-          setSearchOptions([]);
-        }
-      } catch (error) {
-        setSearchOptions([]);
-        console.error("Failed to fetch article:", error);
-      }
-    };
-    fetchSearchOptions();
-  }, [searchValue]);
-
- 
-
-
-
-  // const fetchWeather = async (latitude:any, longitude: any) => {
-
-  //   try {
-  //     const apiKey = process.env.WEATHER_API
-  //     console.log(apiKey)
-  //     const response = await axios.get(
-  //       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
-  //     );
-  //     setWeather(response.data);
-  //     console.log("Weather data:", weather)
-  //   } catch (err) {
-  //     console.log('Failed to fetch weather data.');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const HomeLayout = () => {
     return (
       <div className="container">
-        
         <LeftAsideNews trendingNews={trendingNews} />
         <div
           className="home-main"
@@ -157,26 +95,24 @@ export default function Home() {
           {loading ? (
             <SkeletonCard />
           ) : (
-            <>
-              <div className="content-card">
-                <img
-                  src={mainNewsContainer[0]?.lphoto}
-                  alt="title"
-                  className="content-card__image"
-                />
-                <div className="content-card__content">
-                  <h3 className="content-card__title">
-                    {mainNewsContainer[0]?.title}
-                  </h3>
-                  <p className="content-card__description">
-                    {mainNewsContainer[0]?.description}
-                  </p>
-                  <a href={`/view/${mainNewsContainer[0]?.articleId || ""}`}>
-                    <p className="content-card__see-more">See More</p>
-                  </a>
-                </div>
+            <div className="content-card">
+              <img
+                src={mainNewsContainer[0]?.lphoto}
+                alt="title"
+                className="content-card__image"
+              />
+              <div className="content-card__content">
+                <h3 className="content-card__title">
+                  {mainNewsContainer[0]?.title}
+                </h3>
+                <p className="content-card__description">
+                  {mainNewsContainer[0]?.description}
+                </p>
+                <a href={`/view/${mainNewsContainer[0]?.articleId || ""}`}>
+                  <p className="content-card__see-more">See More</p>
+                </a>
               </div>
-            </>
+            </div>
           )}
           <div className="more-main-news">
             {loading
@@ -203,6 +139,14 @@ export default function Home() {
 
   return (
     <main>
+      <div className="header">
+        <h1>The Bombay Forum</h1>
+      </div>
+      <div>
+      <button className="toggle" onClick={toggleDarkMode}>
+          {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        </button>
+      </div>
       <div className="search-bar-wrapper">
         <SearchBar
           className="searchbar"
