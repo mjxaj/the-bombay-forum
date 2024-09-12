@@ -106,11 +106,8 @@ header {
 }
 
 @media screen and (max-width: 750px) {
-  header {
-    padding: 10px 0;
-  }
-
   .mobile-nav {
+    padding: 10px 0;
     display: block;
   }
 
