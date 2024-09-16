@@ -15,6 +15,14 @@ function logErrorToFile(error) {
   });
 }
 
+// Function to truncate the description if needed
+function truncateText(text, maxLength) {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  }
+  return text;
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('query');
@@ -24,6 +32,8 @@ export async function GET(request) {
   const sortBy = searchParams.get('sortBy') || 'created_datetime'; // Sort by date
   const order = searchParams.get('order') || 'DESC'; // Default to descending order
   const randomize = searchParams.get('randomize') === 'true';
+  const fullDescription = searchParams.get('fullDescription') === 'true'; // Flag for full or truncated description
+  const descriptionMaxLength = 200; // Default max length for truncated descriptions
 
   try {
     if (articleType === 'random') {
@@ -68,7 +78,9 @@ export async function GET(request) {
 
     const response = articles.map(article => ({
       title: article.Title,
-      description: article.Description,
+      description: fullDescription 
+        ? article.Description 
+        : truncateText(article.Description, descriptionMaxLength),
       sphoto: article.Sphoto,
       lphoto: article.Lphoto,
       articleId: article.ArticleId,
@@ -83,4 +95,3 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
   }
 }
-
