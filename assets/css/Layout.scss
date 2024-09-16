@@ -364,3 +364,32 @@ nav {
     }
   }
 }
+
+.search-bar-wrapper {
+
+  .searchbar {
+    background-color: var(--card-bg-color); 
+    .MuiInputBase-root {
+      background-color: var(--card-bg-color);
+      // border-radius: 4px; 
+    }
+
+    .MuiInputBase-input {
+      color: var(--text-color)
+    }
+
+    }
+
+    .MuiInputBase-input::-webkit-input-placeholder {
+      color: var(--text-color)
+    }
+
+    .MuiInputBase-input::-moz-placeholder {
+      color: var(--text-color)
+    }
+
+    .MuiInputBase-input:-ms-input-placeholder {
+      color: var(--text-color)
+    }
+  }
+

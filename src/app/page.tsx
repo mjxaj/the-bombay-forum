@@ -2,7 +2,6 @@
 import "../../assets/css/Home.scss";
 import LeftAsideNews from "./components/LeftAsideNews";
 import RightBsideNews from "./components/RightBsideNews";
-import SearchBar from "material-ui-search-bar";
 import React, { useEffect, useState } from "react";
 import NewsBlock, { SkeletonNewsBlock } from "./components/NewsBlock";
 import MarketTicker from "./components/MarketTicker";
@@ -19,17 +18,6 @@ export default function Home() {
   const [searchOptions, setSearchOptions] = useState([]);
   const [marketTickerData, setMarketTickerData] = useState(<></>);
   const [loading, setLoading] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Toggle between dark and light mode
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add("dark-mode");
-    } else {
-      document.documentElement.classList.remove("dark-mode");
-    }
-  };
 
   useEffect(() => {
     const fetchMainNewsArticle = async () => {
@@ -139,24 +127,6 @@ export default function Home() {
 
   return (
     <main>
-      <div className="header">
-        <h1>The Bombay Forum</h1>
-      </div>
-      <div>
-      <button className="toggle" onClick={toggleDarkMode}>
-          {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-        </button>
-      </div>
-      <div className="search-bar-wrapper">
-        <SearchBar
-          className="searchbar"
-          style={{ width: "90%", maxWidth: "500px" }}
-          value={searchValue}
-          onChange={(newValue) => setSearchValue(newValue)}
-          onCancelSearch={() => setSearchValue("")}
-          placeholder="Search News, markets, photos, videos...."
-        />
-      </div>
       <MarketTicker data={marketTickerData} />
       {searchValue ? (
         <ExploreLayout

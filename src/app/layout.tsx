@@ -7,8 +7,9 @@ import Image from "next/image";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
-import SendIcon from "@mui/icons-material/Send";
-import IconButton from "@mui/material/IconButton";
+import DarkButton from "./components/DarkButton";
+import SearchIcon from "@mui/icons-material/Search"; // Import search icon from Material-UI
+import SearchBarClient from "./components/SearchBarClient"; // Import the client component
 import NewsletterSubscription from "./components/NewsletterSubscription";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -34,15 +35,14 @@ export default async function RootLayout({
   const privacyPolicy = [
     { name: "Terms and conditions", link: "/terms/conditions" },
     { name: "Privacy policy", link: "/terms/privacy" },
-  ]
+  ];
 
   const currentDate = new Date();
-
-  const formattedDate = currentDate.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
   const session = await getServerSession(authOptions);
@@ -76,18 +76,22 @@ export default async function RootLayout({
                 </div>
                 <nav>
                   <ul>
+                  <div className="search-icon">
+                  <Link href="/search">
+                    <SearchBarClient />
+                  </Link>
+                </div>
                     {navList.map((navItem) => (
                       <div key={navItem.name}>
                         <Link href={navItem.link}>{navItem.name}</Link>
                       </div>
                     ))}
                   </ul>
+                  <DarkButton />
                 </nav>
               </div>
               <div className="desktop-nav">
-                
                 <nav>
-                  {/* show half categories */}
                   <ul>
                     {navList
                       .slice(0, Math.ceil(navList.length / 2))
@@ -97,7 +101,11 @@ export default async function RootLayout({
                         </li>
                       ))}
                   </ul>
-                  {/* show logo */}
+                  <div className="search-icon">
+                <Link href="/search">
+                  <SearchBarClient />
+                </Link>
+              </div>
                   <ul>
                     <div className="logo">
                       <Link href="/">
@@ -113,8 +121,6 @@ export default async function RootLayout({
                       </h1>
                     </div>
                   </ul>
-
-                  {/* show other half */}
                   <ul>
                     {navList
                       .slice(Math.ceil(navList.length / 2), navList.length)
@@ -123,10 +129,12 @@ export default async function RootLayout({
                           <Link href={navItem.link}>{navItem.name}</Link>
                         </li>
                       ))}
+                    <DarkButton />
                   </ul>
-            <p style={{color: "#fff"}}>{formattedDate}</p>
+                  <p style={{ color: "#fff" }}>{formattedDate}</p>
                 </nav>
               </div>
+              
             </header>
             {children}
             <section className="footer">
@@ -181,7 +189,7 @@ export default async function RootLayout({
                   <Link href="https://www.instagram.com/thebombayforum/">
                     <Image
                       src="/images/social/instagram_logo.png"
-                      alt="Facebook"
+                      alt="Instagram"
                       width={30}
                       height={30}
                     />
@@ -189,7 +197,7 @@ export default async function RootLayout({
                   <Link href="https://www.threads.net/@thebombayforum">
                     <Image
                       src="/images/social/threads_logo.png"
-                      alt="Facebook"
+                      alt="Threads"
                       width={30}
                       height={30}
                     />
