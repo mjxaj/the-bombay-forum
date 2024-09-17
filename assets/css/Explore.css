@@ -207,7 +207,7 @@
   position: absolute;
   bottom: 0px;
   font-weight: 600;
-  color: var(--text-color);
+  color: white;
   margin: 16px 10px;
   display: -webkit-box;
   -webkit-box-orient: vertical;

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import styles from "./AdminPage.module.css"; 
+import styles from "./AdminPage.module.css";
 
 interface FormData {
   ArticleId: string;
@@ -36,19 +36,18 @@ export default function AdminPage() {
     type: "",
     source: "",
     sourceLink: "",
-    link: ""
+    link: "",
   });
 
-  const [articles, setArticles] = useState<Article[]>([]); 
-
-
+  const [articles, setArticles] = useState<Article[]>([]);
 
   useEffect(() => {
     console.log("Articles: ", articles);
-  }, [articles]); 
+  }, [articles]);
 
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -78,11 +77,11 @@ export default function AdminPage() {
           type: "",
           source: "",
           sourceLink: "",
-          link: ""
+          link: "",
         });
         const newArticle = await res.json();
         console.log("New Article: ", newArticle);
-        setArticles((prevArticles) => [...prevArticles, newArticle]); // Update articles list with new article
+        setArticles((prevArticles) => [...prevArticles, newArticle]);
       } else {
         alert("Error adding news.");
       }
@@ -91,7 +90,6 @@ export default function AdminPage() {
     }
   };
 
-
   // Check if user is an admin
   if (!session || session.user?.role !== "admin") {
     router.push("/");
@@ -99,7 +97,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className={styles.container} style={{marginTop: "25px"}} >
+    <div className={styles.container} style={{ marginTop: "25px" }}>
       <h1 className={styles.heading}>Add News</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* Form fields */}
@@ -107,7 +105,7 @@ export default function AdminPage() {
           type="text"
           name="articleId"
           placeholder="Article ID"
-          value={formData.ArticleId}
+          // value={formData.ArticleId}
           onChange={handleChange}
           className={styles.input}
         />
@@ -115,14 +113,14 @@ export default function AdminPage() {
           type="text"
           name="title"
           placeholder="Title"
-          value={formData.Title}
+          // value={formData.Title}
           onChange={handleChange}
           className={styles.input}
         />
         <textarea
           name="description"
           placeholder="Description"
-          value={formData.Description}
+          // value={formData.Description}
           onChange={handleChange}
           className={styles.textarea}
         />
@@ -130,7 +128,7 @@ export default function AdminPage() {
           type="text"
           name="sphoto"
           placeholder="Small Photo URL"
-          value={formData.sphoto}
+          // value={formData.sphoto}
           onChange={handleChange}
           className={styles.input}
         />
@@ -138,7 +136,7 @@ export default function AdminPage() {
           type="text"
           name="lphoto"
           placeholder="Large Photo URL"
-          value={formData.lphoto}
+          // value={formData.lphoto}
           onChange={handleChange}
           className={styles.input}
         />
@@ -146,7 +144,7 @@ export default function AdminPage() {
           type="text"
           name="type"
           placeholder="Type"
-          value={formData.type}
+          // value={formData.type}
           onChange={handleChange}
           className={styles.input}
         />
@@ -154,7 +152,7 @@ export default function AdminPage() {
           type="text"
           name="source"
           placeholder="Source"
-          value={formData.source}
+          // value={formData.source}
           onChange={handleChange}
           className={styles.input}
         />
@@ -162,7 +160,7 @@ export default function AdminPage() {
           type="text"
           name="sourceLink"
           placeholder="Source Link"
-          value={formData.sourceLink}
+          // value={formData.sourceLink}
           onChange={handleChange}
           className={styles.input}
         />
@@ -170,14 +168,14 @@ export default function AdminPage() {
           type="text"
           name="link"
           placeholder="Link"
-          value={formData.link}
+          // value={formData.link}
           onChange={handleChange}
           className={styles.input}
         />
-        <button type="submit" className={styles.button}>Add News</button>
+        <button type="submit" className={styles.button}>
+          Add News
+        </button>
       </form>
-
-      
     </div>
   );
 }

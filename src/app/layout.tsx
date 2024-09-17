@@ -8,8 +8,8 @@ import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
 import DarkButton from "./components/DarkButton";
-import SearchIcon from "@mui/icons-material/Search"; // Import search icon from Material-UI
-import SearchBarClient from "./components/SearchBarClient"; // Import the client component
+import SearchIcon from "@mui/icons-material/Search"; 
+import SearchBarClient from "./components/SearchBarClient";
 import NewsletterSubscription from "./components/NewsletterSubscription";
 
 const inter = Inter({ subsets: ["latin"] });
