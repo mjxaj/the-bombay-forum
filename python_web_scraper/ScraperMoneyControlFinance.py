@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 import hashlib
 from datetime import datetime
 from dotenv import load_dotenv
+import unicodedata
+import re
 
 # Load environment variables from .env file
 load_dotenv()
@@ -36,9 +38,14 @@ class ScraperMoneyControlFinance:
         title_slug = ''.join(c if c.isalnum() else '-' for c in title.lower())
         if len(title_slug) > 240:
             title_slug = title_slug[:240]
-        print(len(title_slug))
         suffix = hashlib.md5(title.encode()).hexdigest()[:7]
         return f"{title_slug}-{suffix}"
+
+    def contains_hindi_text(self, text: str) -> bool:
+        """Check if the given text contains Hindi (Devanagari script) characters."""
+        # Regular expression to match Devanagari characters (Hindi script)
+        devanagari_pattern = re.compile(r'[\u0900-\u097F]')
+        return bool(devanagari_pattern.search(text))
 
     def fetch_data(self, url):
         try:
@@ -64,9 +71,9 @@ class ScraperMoneyControlFinance:
             article_id = self.generate_article_id(article.get('headline', ''))
             description = BeautifulSoup(article.get('body', ''), 'html.parser').get_text()
 
-            # Skip articles with empty bodies
-            if not description.strip():
-                print(f"Skipped article with empty body: {article.get('headline', '')}")
+            # Skip articles with empty bodies or those containing Hindi text
+            if not description.strip() or self.contains_hindi_text(description):
+                print(f"Skipped article due to empty body or Hindi text: {article.get('headline', '')}")
                 return
 
             cursor.execute(insert_query, (

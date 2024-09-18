@@ -102,7 +102,7 @@ class ScraperNDTVTechnology:
 
                     if exists == 0:
                         insert_query = """
-                            INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type,  Source, SourceLink, Link)
+                            INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type, Source, SourceLink, Link)
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                         """
                         values = (article_id, headings, Desc_list, smallimg, bigimg, 'Technology', "NDTV", "https://www.ndtvprofit.com/technology", articleURL)
@@ -124,8 +124,8 @@ class ScraperNDTVTechnology:
         articles = self.fetch_data()
         
         for article in articles:
-            self.insert_data(article['headline'],article['article_text'],article['image_url'],article['image_url'],article['article_url'])
-            
+            self.insert_data(article['headline'], article['article_text'], article['image_url'], article['image_url'], article['article_url'])
+
 
 if __name__ == "__main__":
     scraper = ScraperNDTVTechnology()
