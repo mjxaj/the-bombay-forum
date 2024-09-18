@@ -35,7 +35,7 @@ main {
       font-size: 20px;
       max-width: 1200px;
       margin: 0 auto;
-      margin-top: 50px;
+      margin-top: 50px; 
     }
   
     .header {
@@ -144,6 +144,7 @@ main {
         grid-template-rows: auto auto auto 1fr 50px 50px 50px;
         grid-template-columns: 1fr;
         grid-template-areas: "main" "right-aside" "left-aside" "footer";
+        margin-top: 0px;
       }
   
       .left-aside {

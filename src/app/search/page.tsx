@@ -33,7 +33,7 @@ export default function SearchPage() {
   }, [searchValue]);
 
   return (
-    <div className="search-page" style={{marginTop: "100px"}} >
+    <div className="search-page"  >
       <div className="search-bar-wrapper">
         <SearchBar
           className="searchbar"

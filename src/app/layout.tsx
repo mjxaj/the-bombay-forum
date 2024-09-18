@@ -59,7 +59,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ClientLayout session={session}>
           <div>
-            <header>
+            <header >
               <div className="mobile-nav">
                 <div className="logo">
                   <Link href="/">

@@ -6,7 +6,6 @@ import { useState } from "react";
 const DarkButton = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  console.log(isDarkMode)
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);

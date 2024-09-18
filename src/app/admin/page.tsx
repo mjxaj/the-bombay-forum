@@ -2,12 +2,28 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { initializeApp } from "firebase/app";
 import styles from "./AdminPage.module.css";
 
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_APIKEY,
+  authDomain: "the-bombay-forum.firebaseapp.com",
+  projectId: "the-bombay-forum",
+  storageBucket: "the-bombay-forum.appspot.com",
+  messagingSenderId: "3452039032",
+  appId: "1:3452039032:web:d9d74dadd9718340eee28d",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
 interface FormData {
-  ArticleId: string;
-  Title: string;
-  Description: string;
+  articleId: string;
+  title: string;
+  description: string;
   sphoto: string;
   lphoto: string;
   type: string;
@@ -18,9 +34,9 @@ interface FormData {
 
 interface Article {
   id: number;
-  ArticleId: string;
-  Title: string;
-  Description: string;
+  articleId: string;
+  title: string;
+  description: string;
 }
 
 export default function AdminPage() {
@@ -28,9 +44,9 @@ export default function AdminPage() {
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
-    ArticleId: "",
-    Title: "",
-    Description: "",
+    articleId: "",
+    title: "",
+    description: "",
     sphoto: "",
     lphoto: "",
     type: "",
@@ -39,6 +55,8 @@ export default function AdminPage() {
     link: "",
   });
 
+  const [sPhotoFile, setSPhotoFile] = useState<File | null>(null);
+  const [lPhotoFile, setLPhotoFile] = useState<File | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
 
   useEffect(() => {
@@ -54,24 +72,64 @@ export default function AdminPage() {
     });
   };
 
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    photoType: "sphoto" | "lphoto"
+  ) => {
+    const file = e.target.files?.[0] || null;
+    if (photoType === "sphoto") setSPhotoFile(file);
+    else setLPhotoFile(file);
+  };
+
+  const uploadImage = async (file: File, filePath: string): Promise<string> => {
+    const fileRef = ref(storage, filePath);
+    await uploadBytes(fileRef, file);
+    return await getDownloadURL(fileRef);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
+      let sPhotoURL = formData.sphoto;
+      let lPhotoURL = formData.lphoto;
+
+      if (sPhotoFile) {
+        sPhotoURL = await uploadImage(
+          sPhotoFile,
+          `images/sphoto_${Date.now()}`
+        );
+      }
+
+      if (lPhotoFile) {
+        lPhotoURL = await uploadImage(
+          lPhotoFile,
+          `images/lphoto_${Date.now()}`
+        );
+      }
+
+      const newFormData = {
+        ...formData,
+        sphoto: sPhotoURL,
+        lphoto: lPhotoURL,
+      };
+
       const res = await fetch("/api/admin/news", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(newFormData),
       });
+
+      console.log("form Data: ", newFormData);
 
       if (res.ok) {
         alert("News added successfully!");
         setFormData({
-          ArticleId: "",
-          Title: "",
-          Description: "",
+          articleId: "",
+          title: "",
+          description: "",
           sphoto: "",
           lphoto: "",
           type: "",
@@ -79,8 +137,9 @@ export default function AdminPage() {
           sourceLink: "",
           link: "",
         });
+        setSPhotoFile(null);
+        setLPhotoFile(null);
         const newArticle = await res.json();
-        console.log("New Article: ", newArticle);
         setArticles((prevArticles) => [...prevArticles, newArticle]);
       } else {
         alert("Error adding news.");
@@ -97,62 +156,60 @@ export default function AdminPage() {
   }
 
   return (
-    <div className={styles.container} style={{ marginTop: "25px" }}>
+    <>
+      <div className={styles.container} style={{ marginTop: "90px" }}>
       <h1 className={styles.heading}>Add News</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* Form fields */}
         <input
           type="text"
-          name="articleId"
-          placeholder="Article ID"
-          // value={formData.ArticleId}
-          onChange={handleChange}
-          className={styles.input}
-        />
-        <input
-          type="text"
           name="title"
           placeholder="Title"
-          // value={formData.Title}
           onChange={handleChange}
           className={styles.input}
         />
         <textarea
           name="description"
           placeholder="Description"
-          // value={formData.Description}
           onChange={handleChange}
           className={styles.textarea}
         />
+
+        {/* Small Photo Upload */}
         <input
-          type="text"
+          type="file"
           name="sphoto"
-          placeholder="Small Photo URL"
-          // value={formData.sphoto}
-          onChange={handleChange}
+          onChange={(e) => handleFileChange(e, "sphoto")}
           className={styles.input}
         />
+
+        {/* Large Photo Upload */}
         <input
-          type="text"
+          type="file"
           name="lphoto"
-          placeholder="Large Photo URL"
-          // value={formData.lphoto}
-          onChange={handleChange}
+          onChange={(e) => handleFileChange(e, "lphoto")}
           className={styles.input}
         />
-        <input
-          type="text"
+
+        {/* Dropdown for type */}
+        <select
           name="type"
-          placeholder="Type"
-          // value={formData.type}
-          onChange={handleChange}
+          value={formData.type}
+          onChange={(e) => setFormData({ ...formData, type: e.target.value })}
           className={styles.input}
-        />
+        >
+          <option value="">Select Type</option>
+          <option value="lifestyle">Lifestyle</option>
+          <option value="finance">Finance</option>
+          <option value="market">Market</option>
+          <option value="technology">Technology</option>
+          <option value="bombay">Bombay</option>
+        </select>
+
         <input
           type="text"
           name="source"
           placeholder="Source"
-          // value={formData.source}
           onChange={handleChange}
           className={styles.input}
         />
@@ -160,7 +217,6 @@ export default function AdminPage() {
           type="text"
           name="sourceLink"
           placeholder="Source Link"
-          // value={formData.sourceLink}
           onChange={handleChange}
           className={styles.input}
         />
@@ -168,14 +224,15 @@ export default function AdminPage() {
           type="text"
           name="link"
           placeholder="Link"
-          // value={formData.link}
           onChange={handleChange}
           className={styles.input}
         />
+
         <button type="submit" className={styles.button}>
           Add News
         </button>
       </form>
     </div>
+    </>
   );
 }
