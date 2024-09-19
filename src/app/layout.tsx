@@ -8,7 +8,7 @@ import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
 import DarkButton from "./components/DarkButton";
-import SearchIcon from "@mui/icons-material/Search"; 
+import SearchIcon from "@mui/icons-material/Search";
 import SearchBarClient from "./components/SearchBarClient";
 import NewsletterSubscription from "./components/NewsletterSubscription";
 
@@ -50,16 +50,18 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7601934185385486"
-          crossOrigin="anonymous"
-        ></script>
+        {process.env.NODE_ENV === "production" && (
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7601934185385486"
+            crossOrigin="anonymous"
+          ></script>
+        )}
       </head>
       <body className={inter.className}>
         <ClientLayout session={session}>
           <div>
-            <header >
+            <header>
               <div className="mobile-nav">
                 <div className="logo">
                   <Link href="/">
@@ -76,11 +78,11 @@ export default async function RootLayout({
                 </div>
                 <nav>
                   <ul>
-                  <div className="search-icon">
-                  <Link href="/search">
-                    <SearchBarClient />
-                  </Link>
-                </div>
+                    <div className="search-icon">
+                      <Link href="/search">
+                        <SearchBarClient />
+                      </Link>
+                    </div>
                     {navList.map((navItem) => (
                       <div key={navItem.name}>
                         <Link href={navItem.link}>{navItem.name}</Link>
@@ -102,10 +104,10 @@ export default async function RootLayout({
                       ))}
                   </ul>
                   <div className="search-icon">
-                <Link href="/search">
-                  <SearchBarClient />
-                </Link>
-              </div>
+                    <Link href="/search">
+                      <SearchBarClient />
+                    </Link>
+                  </div>
                   <ul>
                     <div className="logo">
                       <Link href="/">
@@ -134,7 +136,6 @@ export default async function RootLayout({
                   <p style={{ color: "#fff" }}>{formattedDate}</p>
                 </nav>
               </div>
-              
             </header>
             {children}
             <section className="footer">
