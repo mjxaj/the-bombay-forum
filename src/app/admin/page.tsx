@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent, use } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -54,6 +54,8 @@ export default function AdminPage() {
   const [largePhotoFile, setLargePhotoFile] = useState<File | null>(null);
   const [generateIdAutomatically, setGenerateIdAutomatically] = useState(true);
   const [loading, setLoading] = useState(false); // Loading state
+  const [formErrors, setFormErrors] = useState<string>("");
+  const [formValid, setFormValid] = useState<boolean>(false);
 
   // Generate Article ID from title
   const generateArticleId = (title: string) => {
@@ -62,7 +64,11 @@ export default function AdminPage() {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)+/g, "")
       .slice(0, 240);
-    const suffix = crypto.createHash("md5").update(title).digest("hex").slice(0, 7);
+    const suffix = crypto
+      .createHash("md5")
+      .update(title)
+      .digest("hex")
+      .slice(0, 7);
     return `${titleSlug}-${suffix}`;
   };
 
@@ -85,7 +91,7 @@ export default function AdminPage() {
 
   // Handle rich text editor changes
   const handleEditorChange = (content: string) => {
-    setEditorContent(content);
+    setEditorContent(content); // HTML content from editor
   };
 
   // Handle file changes
@@ -103,22 +109,54 @@ export default function AdminPage() {
     return downloadURL;
   };
 
+  // Validate form data
+  const validateForm = () => {
+    if (
+      !formData.title.trim() ||
+      !formData.articleId.trim() ||
+      !editorContent.trim() ||
+      !smallPhotoFile ||
+      !largePhotoFile ||
+      !formData.type.trim()
+    ) {
+      setFormErrors("All fields must be filled out.");
+      return false;
+    }
+    setFormErrors("");
+    return true;
+  };
+
+  useEffect(() => {
+    setFormValid(validateForm());
+  }, [formData, editorContent, smallPhotoFile, largePhotoFile]);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true); // Set loading state to true
 
+    if (!validateForm()) {
+      setLoading(false); // Set loading state to false if validation fails
+      return;
+    }
+
     try {
-      const markdownContent = md.render(editorContent);
+      // We are sending the HTML from the editor directly as 'description'
       const sphotoURL = smallPhotoFile
-        ? await uploadImage(smallPhotoFile, `images/${formData.articleId}-small.jpg`)
+        ? await uploadImage(
+            smallPhotoFile,
+            `images/${formData.articleId}-small.jpg`
+          )
         : "";
       const lphotoURL = largePhotoFile
-        ? await uploadImage(largePhotoFile, `images/${formData.articleId}-large.jpg`)
+        ? await uploadImage(
+            largePhotoFile,
+            `images/${formData.articleId}-large.jpg`
+          )
         : "";
 
       const newFormData = {
         ...formData,
-        description: markdownContent,
+        description: editorContent, // HTML content from the editor
         sphoto: sphotoURL,
         lphoto: lphotoURL,
       };
@@ -164,6 +202,8 @@ export default function AdminPage() {
     <>
       <div className={styles.container} style={{ marginTop: "90px" }}>
         <h1 className={styles.heading}>Add News</h1>
+        {formErrors && <div className={styles.error}>{formErrors}</div>}{" "}
+        {/* Error message */}
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
@@ -178,7 +218,9 @@ export default function AdminPage() {
               <input
                 type="checkbox"
                 checked={generateIdAutomatically}
-                onChange={() => setGenerateIdAutomatically(!generateIdAutomatically)}
+                onChange={() =>
+                  setGenerateIdAutomatically(!generateIdAutomatically)
+                }
               />
               Generate Article ID Automatically
             </label>
@@ -220,15 +262,23 @@ export default function AdminPage() {
             <option value="">Select Type</option>
             <option value="lifestyle">Lifestyle</option>
             <option value="finance">Finance</option>
-            <option value="market">Market</option>
+            <option value="markets">Markets</option>
             <option value="technology">Technology</option>
             <option value="bombay">Bombay</option>
           </select>
-          <button type="submit" className={styles.button} disabled={loading}>
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={loading || !formValid}
+          >
             {loading ? "Adding..." : "Add News"}
           </button>
-          {loading && <div className={styles.loading}>Loading...</div>} {/* Loading screen */}
+          {loading && <div className={styles.loading}>Loading...</div>}{" "}
+          {/* Loading screen */}
         </form>
+        {/* Optional: Preview of the HTML content */}
+        {/* <h2>Preview:</h2>
+        <div dangerouslySetInnerHTML={{ __html: editorContent }} className={styles.preview}></div> */}
       </div>
     </>
   );
