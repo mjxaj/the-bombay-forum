@@ -12,7 +12,6 @@ import { news } from "@/app/utilfunctions/interfaces";
 import RightBsideNews from "@/app/components/RightBsideNews";
 import { Tooltip } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
-import DOMPurify from "dompurify"; // Import DOMPurify for sanitization
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
