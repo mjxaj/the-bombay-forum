@@ -51,6 +51,24 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         {process.env.NODE_ENV === "production" && (
+          <>
+            {/* Add the Google Analytics script */}
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=G-SXGQN0NSTW`}></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-SXGQN0NSTW', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
+        {process.env.NODE_ENV === "production" && (
           <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7601934185385486"
