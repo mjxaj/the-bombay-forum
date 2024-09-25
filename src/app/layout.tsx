@@ -8,9 +8,10 @@ import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
 import DarkButton from "./components/DarkButton";
-import SearchIcon from "@mui/icons-material/Search"; 
+import SearchIcon from "@mui/icons-material/Search";
 import SearchBarClient from "./components/SearchBarClient";
 import NewsletterSubscription from "./components/NewsletterSubscription";
+import Weather from "./components/Weather";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,14 +38,6 @@ export default async function RootLayout({
     { name: "Privacy policy", link: "/terms/privacy" },
   ];
 
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-
   const session = await getServerSession(authOptions);
 
   return (
@@ -59,7 +52,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ClientLayout session={session}>
           <div>
-            <header >
+            <header>
               <div className="mobile-nav">
                 <div className="logo">
                   <Link href="/">
@@ -76,11 +69,11 @@ export default async function RootLayout({
                 </div>
                 <nav>
                   <ul>
-                  <div className="search-icon">
-                  <Link href="/search">
-                    <SearchBarClient />
-                  </Link>
-                </div>
+                    <div className="search-icon">
+                      <Link href="/search">
+                        <SearchBarClient />
+                      </Link>
+                    </div>
                     {navList.map((navItem) => (
                       <div key={navItem.name}>
                         <Link href={navItem.link}>{navItem.name}</Link>
@@ -89,6 +82,9 @@ export default async function RootLayout({
                   </ul>
                   <DarkButton />
                 </nav>
+                <div className="weather">
+                  <Weather />
+                </div>
               </div>
               <div className="desktop-nav">
                 <nav>
@@ -101,13 +97,13 @@ export default async function RootLayout({
                         </li>
                       ))}
                   </ul>
-                  <div className="search-icon">
-                <Link href="/search">
-                  <SearchBarClient />
-                </Link>
-              </div>
                   <ul>
                     <div className="logo">
+                      <div className="search-icon">
+                        <Link href="/search">
+                          <SearchBarClient />
+                        </Link>
+                      </div>
                       <Link href="/">
                         <Image
                           src="/images/logo.png"
@@ -131,10 +127,11 @@ export default async function RootLayout({
                       ))}
                     <DarkButton />
                   </ul>
-                  <p style={{ color: "#fff" }}>{formattedDate}</p>
                 </nav>
+                <div className="weather">
+                  <Weather />
+                </div>
               </div>
-              
             </header>
             {children}
             <section className="footer">

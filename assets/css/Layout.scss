@@ -42,6 +42,19 @@ header {
   width: 100%;
   background-color: #011E29;
 
+  .weather{
+    margin-top: -15px;
+    margin-bottom: -18px;
+     div{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 12px;
+      font-weight: 300;
+     }
+  }
   .logo {
     display: flex;
     align-items: center;
@@ -65,9 +78,24 @@ header {
   justify-content: center;
   padding: 10px 20px;
   position: fixed;
+  flex-direction: column;
   top: 0px;
   background-color: #011E29;
   z-index: 98765;
+  .weather{
+    margin-left: -348px;
+    margin-top: -20px;
+    margin-bottom: -18px;
+     div{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 12px;
+      font-weight: 300;
+     }
+  }
   nav {
     width: 100%;
     display: flex;
