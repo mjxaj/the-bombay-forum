@@ -93,9 +93,12 @@ export default function Home() {
                 <h3 className="content-card__title">
                   {mainNewsContainer[0]?.title}
                 </h3>
-                <p className="content-card__description">
-                  {mainNewsContainer[0]?.description}
-                </p>
+                <p
+                  className="content-card__description"
+                  dangerouslySetInnerHTML={{
+                    __html: mainNewsContainer[0]?.description,
+                  }}
+                ></p>
                 <a href={`/view/${mainNewsContainer[0]?.articleId || ""}`}>
                   <p className="content-card__see-more">See More</p>
                 </a>

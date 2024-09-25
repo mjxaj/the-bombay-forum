@@ -52,6 +52,15 @@
   transition: background-color 0.3s;
 }
 
+.button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background-color: #a0a0a0;
+} 
+
 .button:hover {
   background-color: #005bb5;
 }

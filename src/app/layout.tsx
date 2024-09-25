@@ -43,11 +43,31 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7601934185385486"
-          crossOrigin="anonymous"
-        ></script>
+        {process.env.NODE_ENV === "production" && (
+          <>
+            {/* Add the Google Analytics script */}
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=G-SXGQN0NSTW`}></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-SXGQN0NSTW', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
+        {process.env.NODE_ENV === "production" && (
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7601934185385486"
+            crossOrigin="anonymous"
+          ></script>
+        )}
       </head>
       <body className={inter.className}>
         <ClientLayout session={session}>
@@ -97,6 +117,14 @@ export default async function RootLayout({
                         </li>
                       ))}
                   </ul>
+<<<<<<< HEAD
+=======
+                  <div className="search-icon">
+                    <Link href="/search">
+                      <SearchBarClient />
+                    </Link>
+                  </div>
+>>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
                   <ul>
                     <div className="logo">
                       <div className="search-icon">

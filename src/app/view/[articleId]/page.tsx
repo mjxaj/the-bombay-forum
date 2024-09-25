@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Head from "next/head"; // Import Head from next/head
+import Head from "next/head";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Image from "next/image"; // Import Next.js Image component
 import "../../../../assets/css/SpecificArticleDesign1.scss";
@@ -18,8 +18,7 @@ import ShareWhite from "../../../../assets/img/shareWhite.png"; // Adjust your i
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
-  const randomElement = array[randomIndex];
-  return randomElement;
+  return array[randomIndex];
 }
 
 const ArticlePage = ({ params }: { params: { articleId: string } }) => {
@@ -34,21 +33,23 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchTrendingNewsArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`
-        );
+        const response = await fetch(`/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`);
         let data = await response.json();
         if (response.ok) {
           const randomElement = getRandomElement(data.slice(1) || data);
           setMarketTickerData(
-            <>
-              <Link href={`/view/${randomElement.articleId}`}>
-                Breaking News: {randomElement.title}
-              </Link>
-            </>
+            <Link href={`/view/${randomElement.articleId}`}>
+              Breaking News: {randomElement.title}
+            </Link>
           );
           data = data.slice(0, 10);
           setTrendingNews(data);
+<<<<<<< HEAD
+=======
+          if (data.type) {
+            localStorage.setItem("articleType", data.type);
+          }
+>>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -57,12 +58,16 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
 
     const fetchLatestNewsArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/searcharticles?articleType=random&num=8&order=DESC`
-        );
+        const response = await fetch(`/api/searcharticles?articleType=random&num=8&order=DESC`);
         const data = await response.json();
         if (response.ok) {
           setLatestNews(data);
+<<<<<<< HEAD
+=======
+          if (data.type) {
+            localStorage.setItem("articleType", data.type);
+          }
+>>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -76,14 +81,16 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/searcharticles?articleId=${encodeURIComponent(
-            params.articleId
-          )}&fullDescription=true`
-        );
+        const response = await fetch(`/api/searcharticles?articleId=${encodeURIComponent(params.articleId)}&fullDescription=true`);
         const data = await response.json();
         if (response.ok) {
           setArticle(data[0]);
+<<<<<<< HEAD
+=======
+          if (data.type) {
+            localStorage.setItem("articleType", data.type);
+          }
+>>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -145,9 +152,12 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
           <div className="image">
             <img src={article.lphoto} alt="Article Image" />
           </div>
-          <div className="des">
-            <p style={{ textAlign: "justify" }}>{article.description}</p>
-          </div>
+          <div
+            className="des"
+            dangerouslySetInnerHTML={{
+              __html: article.description, // Sanitize and set inner HTML
+            }}
+          />
 
           {/* Share Button */}
           <div className="share-button">
