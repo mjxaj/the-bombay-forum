@@ -146,6 +146,11 @@ header {
   white-space: nowrap;
 }
 
+.search-page{
+  margin-top: 100px;
+  min-height: 60vh;
+}
+
 @media screen and (min-width: 900px) {
   .desktop-nav nav ul {
     gap: 20px;
@@ -160,6 +165,10 @@ header {
 
   .desktop-nav {
     display: none;
+  }
+  
+  .search-page{
+    margin-top: 0px;
   }
 }
 
