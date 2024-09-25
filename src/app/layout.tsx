@@ -117,14 +117,11 @@ export default async function RootLayout({
                         </li>
                       ))}
                   </ul>
-<<<<<<< HEAD
-=======
                   <div className="search-icon">
                     <Link href="/search">
                       <SearchBarClient />
                     </Link>
                   </div>
->>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
                   <ul>
                     <div className="logo">
                       <div className="search-icon">

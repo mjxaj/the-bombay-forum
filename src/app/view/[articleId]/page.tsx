@@ -44,12 +44,9 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
           );
           data = data.slice(0, 10);
           setTrendingNews(data);
-<<<<<<< HEAD
-=======
           if (data.type) {
             localStorage.setItem("articleType", data.type);
           }
->>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -62,12 +59,9 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
         const data = await response.json();
         if (response.ok) {
           setLatestNews(data);
-<<<<<<< HEAD
-=======
           if (data.type) {
             localStorage.setItem("articleType", data.type);
           }
->>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -85,12 +79,9 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
         const data = await response.json();
         if (response.ok) {
           setArticle(data[0]);
-<<<<<<< HEAD
-=======
           if (data.type) {
             localStorage.setItem("articleType", data.type);
           }
->>>>>>> bf2e2d04d0fabc6950b4d07980be723e40787085
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
