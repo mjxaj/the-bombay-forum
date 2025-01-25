@@ -5,12 +5,7 @@ import { useRouter } from "next/navigation";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import styles from "./AdminPage.module.css";
-import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css"; // Import the styles for React-Quill
 import crypto from "crypto"; // For article ID generation
-
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-const MarkdownIt = require("markdown-it");
 
 // Firebase configuration
 const firebaseConfig = {
@@ -38,7 +33,6 @@ interface FormData {
 export default function AdminPage() {
   const { data: session } = useSession();
   const router = useRouter();
-  const md = new MarkdownIt();
 
   const [formData, setFormData] = useState<FormData>({
     articleId: "",
@@ -234,12 +228,11 @@ export default function AdminPage() {
             value={formData.articleId}
             disabled={generateIdAutomatically}
           />
-          <ReactQuill
+          <textarea
             value={editorContent}
-            onChange={handleEditorChange}
+            onChange={(e) => setEditorContent(e.target.value)}
             placeholder="Write the description..."
             className={styles.textarea}
-            theme="snow"
           />
           <input
             type="file"
