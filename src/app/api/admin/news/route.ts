@@ -1,20 +1,8 @@
 import { NextResponse } from "next/server";
-import db from "../../../../../db"; 
+import db from "../../../../../db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { v4 as uuidv4 } from "uuid";
-
-interface NewsData {
-  articleId: string;
-  title: string;
-  description: string;
-  sphoto: string;
-  lphoto: string;
-  type: string;
-  source: string;
-  sourceLink: string;
-  link: string;
-}
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -24,32 +12,24 @@ export async function POST(request: Request) {
   }
 
   try {
-    const data: NewsData = await request.json();
-    let { articleId, title, description, sphoto, lphoto, type, source, sourceLink, link } = data;
+    const data = await request.json();
+    const { title, description, sphoto, lphoto, type, source, sourceLink, link } = data;
 
     // Generate articleId if not provided
-    if (!articleId) {
-      articleId = uuidv4(); // You can use a library to generate a unique ID
-    }
+    const articleId = data.articleId || uuidv4();
 
-    // Insert the news article into the database
-    await db("news").insert({
-      ArticleId: articleId,
-      Title: title,
-      Description: description,
-      Sphoto: sphoto,
-      Lphoto: lphoto,
-      Type: type,
-      Source: source,
-      SourceLink: sourceLink,
-      Link: link,
-    });
+    // Insert into database
+    const [result] = await db.execute(
+      `INSERT INTO news (ArticleId, Title, Description, Sphoto, Lphoto, Type, Source, SourceLink, Link) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [articleId, title, description, sphoto, lphoto, type, source, sourceLink, link]
+    );
 
-    console.log("articleId: ", articleId, "title:", title, "description:", description, "sphoto:", sphoto, "lphoto:", lphoto, "type:", type, "source:", source, "sourceLink:", sourceLink, "link:",link)
+    console.log("Inserted article ID:", result.insertId);
 
     return NextResponse.json({ message: "News added successfully" });
   } catch (error) {
     console.error("Error adding news:", error);
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json({ error: "Failed to add news" }, { status: 500 });
   }
 }

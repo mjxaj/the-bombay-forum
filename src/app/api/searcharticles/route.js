@@ -36,8 +36,25 @@ export async function GET(request) {
   const descriptionMaxLength = 200; // Default max length for truncated descriptions
 
   try {
+    let sql = 'SELECT * FROM news';
+    const params = [];
+
+    // Handle `query` filtering
+    if (query) {
+      sql += ' WHERE (Title LIKE ? OR Description LIKE ?)';
+      params.push(`%${query}%`, `%${query}%`);
+    }
+
+    // Handle `articleId` filtering
+    if (articleId) {
+      sql += query ? ' AND' : ' WHERE';
+      sql += ' ArticleId = ?';
+      params.push(articleId);
+    }
+
+    // Handle `articleType` filtering
     if (articleType === 'random') {
-      const types = await db.select('Type').from('news').distinct();
+      const [types] = await db.query('SELECT DISTINCT Type FROM news');
       if (types.length > 0) {
         const randomType = types[Math.floor(Math.random() * types.length)];
         articleType = randomType.Type;
@@ -46,46 +63,39 @@ export async function GET(request) {
       }
     }
 
-    let knexQuery = db('news');
-
-    if (query) {
-      knexQuery = knexQuery.where(function() {
-        this.where('Title', 'like', `%${query}%`)
-            .orWhere('Description', 'like', `%${query}%`);
-      });
+    if (articleType) {
+      sql += (query || articleId) ? ' AND' : ' WHERE';
+      sql += ' Type = ?';
+      params.push(articleType);
     }
 
-    if (articleId) {
-      knexQuery = knexQuery.where('ArticleId', articleId);
-    } else if (articleType) {
-      knexQuery = knexQuery.where('Type', articleType);
-    }
-
-    // Apply sorting and ordering by date
+    // Apply sorting and randomization
     if (randomize) {
-      knexQuery = knexQuery.orderByRaw('RAND()');
+      sql += ' ORDER BY RAND()';
     } else {
-      knexQuery = knexQuery.orderBy(sortBy, order);
+      sql += ` ORDER BY ${sortBy} ${order}`;
     }
 
-    knexQuery = knexQuery.limit(num);
+    // Apply limit
+    sql += ' LIMIT ?';
+    params.push(num);
 
-    const articles = await knexQuery;
+    const [articles] = await db.query(sql, params);
 
     if (articles.length === 0) {
       return NextResponse.json({ error: 'No articles found' }, { status: 404 });
     }
 
-    const response = articles.map(article => ({
+    const response = articles.map((article) => ({
       title: article.Title,
-      description: fullDescription 
-        ? article.Description 
+      description: fullDescription
+        ? article.Description
         : truncateText(article.Description, descriptionMaxLength),
       sphoto: article.Sphoto,
       lphoto: article.Lphoto,
       articleId: article.ArticleId,
       type: article.Type,
-      date: article.created_datetime
+      date: article.created_datetime,
     }));
 
     return NextResponse.json(response);
