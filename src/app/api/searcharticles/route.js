@@ -36,25 +36,24 @@ export async function GET(request) {
   const descriptionMaxLength = 200; // Default max length for truncated descriptions
 
   try {
-    let sql = 'SELECT * FROM news';
+    let sql = 'SELECT * FROM news WHERE Deleted = false';
     const params = [];
 
     // Handle `query` filtering
     if (query) {
-      sql += ' WHERE (Title LIKE ? OR Description LIKE ?)';
+      sql += ' AND (Title LIKE ? OR Description LIKE ?)';
       params.push(`%${query}%`, `%${query}%`);
     }
 
     // Handle `articleId` filtering
     if (articleId) {
-      sql += query ? ' AND' : ' WHERE';
-      sql += ' ArticleId = ?';
+      sql += ' AND ArticleId = ?';
       params.push(articleId);
     }
 
     // Handle `articleType` filtering
     if (articleType === 'random') {
-      const [types] = await db.query('SELECT DISTINCT Type FROM news');
+      const [types] = await db.query('SELECT DISTINCT Type FROM news WHERE Deleted = false');
       if (types.length > 0) {
         const randomType = types[Math.floor(Math.random() * types.length)];
         articleType = randomType.Type;
@@ -64,8 +63,7 @@ export async function GET(request) {
     }
 
     if (articleType) {
-      sql += (query || articleId) ? ' AND' : ' WHERE';
-      sql += ' Type = ?';
+      sql += ' AND Type = ?';
       params.push(articleType);
     }
 
