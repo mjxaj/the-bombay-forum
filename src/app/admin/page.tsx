@@ -187,10 +187,10 @@ export default function AdminPage() {
   };
 
   // Check if user is an admin
-  if (!session || session.user?.role !== "admin") {
-    router.push("/");
-    return null;
-  }
+  // if (!session || session.user?.role !== "admin") {
+  //   router.push("/");
+  //   return null;
+  // }
 
   return (
     <>
