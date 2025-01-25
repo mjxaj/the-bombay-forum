@@ -11,8 +11,8 @@ import LeftAsideNews from "@/app/components/LeftAsideNews";
 import Link from "next/link";
 import { news } from "@/app/utilfunctions/interfaces";
 import RightBsideNews from "@/app/components/RightBsideNews";
-import { Tooltip } from "@mui/material";
-import ShareIcon from "@mui/icons-material/Share";
+// import { Tooltip } from "@mui/material";
+// import ShareIcon from "@mui/icons-material/Share";
 
 import ShareWhite from "../../../../assets/img/shareWhite.png"; // Adjust your image import path
 
@@ -152,7 +152,7 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
 
           {/* Share Button */}
           <div className="share-button">
-            <Tooltip title={isCopied ? "Link Copied!" : "Share this article"}>
+            {/* <Tooltip title={isCopied ? "Link Copied!" : "Share this article"}> */}
               <button
                 onClick={handleShare}
                 className="share-article-btn"
@@ -179,7 +179,7 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
                 />
                 Share
               </button>
-            </Tooltip>
+            {/* </Tooltip> */}
           </div>
         </div>
         <aside className="right-aside">
