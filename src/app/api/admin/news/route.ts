@@ -13,7 +13,13 @@ export async function POST(request: Request) {
 
   try {
     const data = await request.json();
-    const { title, description, sphoto, lphoto, type, source, sourceLink, link } = data;
+    console.log({ data });
+    
+    const { title, description, sphoto, lphoto, type, source = "self", sourceLink = "", link = "" } = data;
+
+    if (!title || !description || !sphoto || !lphoto || !type) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
 
     // Generate articleId if not provided
     const articleId = data.articleId || uuidv4();
