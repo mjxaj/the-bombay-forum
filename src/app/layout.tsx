@@ -8,7 +8,6 @@ import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
 import DarkButton from "./components/DarkButton";
-import SearchIcon from "@mui/icons-material/Search";
 import SearchBarClient from "./components/SearchBarClient";
 import NewsletterSubscription from "./components/NewsletterSubscription";
 import Weather from "./components/Weather";

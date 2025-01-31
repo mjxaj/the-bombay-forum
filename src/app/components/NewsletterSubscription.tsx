@@ -1,8 +1,7 @@
 // components/NewsletterSubscription.tsx
 "use client";
 
-import IconButton from "@mui/material/IconButton";
-import SendIcon from "@mui/icons-material/Send";
+import { SendHorizontal } from "lucide-react";
 import { useState } from "react";
 
 export default function NewsletterSubscription() {
@@ -24,9 +23,7 @@ export default function NewsletterSubscription() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <IconButton aria-label="subscribe" onClick={handleSubscription}>
-            <SendIcon />
-          </IconButton>
+          <SendHorizontal onClick={handleSubscription} />
         </div>
       </div>
     </div>

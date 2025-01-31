@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Image from "next/image"; // Import Next.js Image component
 import "../../../../assets/css/SpecificArticleDesign1.scss";
 import { formatDate } from "@/app/utilfunctions/dateFormatter";
@@ -11,10 +10,9 @@ import LeftAsideNews from "@/app/components/LeftAsideNews";
 import Link from "next/link";
 import { news } from "@/app/utilfunctions/interfaces";
 import RightBsideNews from "@/app/components/RightBsideNews";
-// import { Tooltip } from "@mui/material";
-// import ShareIcon from "@mui/icons-material/Share";
 
 import ShareWhite from "../../../../assets/img/shareWhite.png"; // Adjust your image import path
+import { ChevronLeft } from "lucide-react";
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
@@ -33,7 +31,9 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchTrendingNewsArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`);
+        const response = await fetch(
+          `/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`
+        );
         let data = await response.json();
         if (response.ok) {
           const randomElement = getRandomElement(data.slice(1) || data);
@@ -55,7 +55,9 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
 
     const fetchLatestNewsArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?articleType=random&num=8&order=DESC`);
+        const response = await fetch(
+          `/api/searcharticles?articleType=random&num=8&order=DESC`
+        );
         const data = await response.json();
         if (response.ok) {
           setLatestNews(data);
@@ -75,7 +77,11 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?articleId=${encodeURIComponent(params.articleId)}&fullDescription=true`);
+        const response = await fetch(
+          `/api/searcharticles?articleId=${encodeURIComponent(
+            params.articleId
+          )}&fullDescription=true`
+        );
         const data = await response.json();
         if (response.ok) {
           setArticle(data[0]);
@@ -120,13 +126,13 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   if (!article) return <p>Article not found.</p>;
 
   return (
-    <div className="specific-article-design1" style={{marginTop: "90px"}}>
+    <div className="specific-article-design1" style={{ marginTop: "90px" }}>
       <Head>
         <title>{article?.title || "Article Page"}</title>
       </Head>
       <div className="header">
         <div className="go-back" onClick={() => router.back()}>
-          <ArrowBackIosNewIcon style={{ fontSize: "10px" }} />
+          <ChevronLeft style={{ fontSize: "10px" }} />
         </div>
         <div className="date-title">
           <div className="date">
@@ -153,32 +159,32 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
           {/* Share Button */}
           <div className="share-button">
             {/* <Tooltip title={isCopied ? "Link Copied!" : "Share this article"}> */}
-              <button
-                onClick={handleShare}
-                className="share-article-btn"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  backgroundColor: "#007bff",
-                  color: "#fff",
-                  padding: "8px 12px",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  position: "fixed",
-                  right: "50px",
-                  top: "120px",
-                }}
-              >
-                <Image
-                  src={ShareWhite}
-                  width={20}
-                  height={20}
-                  alt="share icon"
-                  style={{ marginRight: "5px" }}
-                />
-                Share
-              </button>
+            <button
+              onClick={handleShare}
+              className="share-article-btn"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                padding: "8px 12px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                position: "fixed",
+                right: "50px",
+                top: "120px",
+              }}
+            >
+              <Image
+                src={ShareWhite}
+                width={20}
+                height={20}
+                alt="share icon"
+                style={{ marginRight: "5px" }}
+              />
+              Share
+            </button>
             {/* </Tooltip> */}
           </div>
         </div>

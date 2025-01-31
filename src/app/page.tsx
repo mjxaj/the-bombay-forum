@@ -94,7 +94,7 @@ export default function Home() {
                   {mainNewsContainer[0]?.title}
                 </h3>
                 <p
-                  className="content-card__description"
+                  className="content-card__description text-6xl font-bold underline text-blue-600 " 
                   dangerouslySetInnerHTML={{
                     __html: mainNewsContainer[0]?.description,
                   }}

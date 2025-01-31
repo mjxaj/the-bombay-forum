@@ -2,12 +2,12 @@
 "use client";
 
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import { Search } from "lucide-react";
 
 const SearchBarClient: React.FC = () => {
   return (
     <div className="header-search-bar">
-      <SearchIcon style={{ fontSize: 30, color: "white", cursor: "pointer" }} className="sr" />
+      <Search />
     </div>
   );
 };

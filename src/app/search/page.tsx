@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SearchBar from "material-ui-search-bar";
+// import SearchBar from "material-ui-search-bar";
 import { news } from "../utilfunctions/interfaces"; // Adjust the path as necessary
 // import NewsBlock from '../components/NewsBlock';
 import ExploreLayout from "../components/ExploreLayout";
@@ -39,14 +39,14 @@ export default function SearchPage() {
   return (
     <div className="search-page">
       <div className="search-bar-wrapper">
-        <SearchBar
+        {/* <SearchBar
           className="searchbar"
           style={{ width: "90%", maxWidth: "500px" }}
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
           onCancelSearch={() => setSearchValue("")}
           placeholder="Search News, markets, photos, videos...."
-        />
+        /> */}
       </div>
       {loading ? (
         <p>Loading...</p>
