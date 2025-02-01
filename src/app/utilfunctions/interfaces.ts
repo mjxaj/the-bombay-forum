@@ -5,4 +5,5 @@ export interface news {
   sphoto: string;
   title: string;
   type: string;
+  created_datetime?: string;
 }

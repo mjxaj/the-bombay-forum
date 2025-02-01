@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Markdown } from "@/components/ui/markdown";
 
 export function SkeletonNewsBlock() {
   return (
@@ -47,10 +48,18 @@ export default function NewsBlock({ news, showImage = true }) {
               />
             </div>
           )}
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-medium leading-snug line-clamp-3 group-hover:text-primary transition-colors">
+          <div className="flex-1 min-w-0 space-y-2">
+            <h3 className="text-sm font-medium leading-snug line-clamp-2 group-hover:text-primary transition-colors">
               {news.title}
             </h3>
+            {news.description && (
+              <div className="line-clamp-2">
+                <Markdown 
+                  content={news.description}
+                  className="text-xs text-muted-foreground"
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-3 flex items-center space-x-2">
