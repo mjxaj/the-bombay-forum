@@ -1,11 +1,11 @@
 "use client";
 
-import "./DarkButton.css";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const DarkButton = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -17,14 +17,18 @@ const DarkButton = () => {
   };
 
   return (
-    <div className="dark-toggle-container">
-      <button
-      className= {`toggle-btn ${isDarkMode ? "toggled" : ""}`}
+    <Button
+      variant="ghost"
+      size="icon"
       onClick={toggleDarkMode}
-      >
-        <div className="ball" ></div>
-      </button>
-    </div>
+      className="text-white hover:text-gray-300"
+    >
+      {isDarkMode ? (
+        <Moon className="h-5 w-5" />
+      ) : (
+        <Sun className="h-5 w-5" />
+      )}
+    </Button>
   );
 };
 

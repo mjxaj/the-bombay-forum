@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Cloud, CloudRain, Sun } from "lucide-react";
 
 type WeatherData = {
   name: string;
@@ -10,6 +11,7 @@ type WeatherData = {
   weather: [
     {
       description: string;
+      main: string;
     }
   ];
 };
@@ -61,26 +63,39 @@ const Weather: React.FC = () => {
       year: "numeric",
     });
     setCurrentDate(formattedDate);
-
   }, []);
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="text-red-500 text-sm">{error}</div>;
   }
 
-  console.log(weatherData?.main)
+  const getWeatherIcon = (weatherMain: string) => {
+    switch (weatherMain?.toLowerCase()) {
+      case 'rain':
+      case 'drizzle':
+      case 'thunderstorm':
+        return <CloudRain className="h-4 w-4" />;
+      case 'clouds':
+        return <Cloud className="h-4 w-4" />;
+      default:
+        return <Sun className="h-4 w-4" />;
+    }
+  };
 
   return (
-    <div className="weather">
+    <div className="flex justify-center items-center text-white text-sm">
       {weatherData ? (
-        <div>
-          <span>{currentDate}</span>
-          <span>
-            {weatherData.name} {Math.round(weatherData.main.temp)}°C
-          </span>
+        <div className="flex items-center space-x-4">
+          <span className="text-gray-300">{currentDate}</span>
+          <div className="flex items-center space-x-2">
+            {getWeatherIcon(weatherData.weather[0].main)}
+            <span>
+              {weatherData.name} {Math.round(weatherData.main.temp)}°C
+            </span>
+          </div>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div className="text-gray-300">Loading weather...</div>
       )}
     </div>
   );

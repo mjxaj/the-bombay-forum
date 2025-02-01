@@ -10,9 +10,12 @@ import LeftAsideNews from "@/app/components/LeftAsideNews";
 import Link from "next/link";
 import { news } from "@/app/utilfunctions/interfaces";
 import RightBsideNews from "@/app/components/RightBsideNews";
-
 import ShareWhite from "../../../../assets/img/shareWhite.png"; // Adjust your image import path
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Share2, Clock } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
@@ -122,17 +125,80 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!article) return <p>Article not found.</p>;
+  if (loading) {
+    return (
+      <div className="specific-article-design1">
+        <div className="header">
+          <div className="go-back">
+            <Skeleton className="h-5 w-5" />
+          </div>
+          <div className="date-title">
+            <div className="date">
+              <Skeleton className="h-4 w-24" />
+            </div>
+            <div className="title">
+              <Skeleton className="h-8 w-96" />
+            </div>
+          </div>
+        </div>
+
+        <div className="body">
+          <div className="leftaside">
+            <div className="heading">Trending News</div>
+            <div className="body">
+              <Skeleton className="h-[600px] w-full" />
+            </div>
+          </div>
+
+          <div className="article-dis">
+            <div className="image">
+              <Skeleton className="h-[400px] w-full rounded-lg" />
+            </div>
+            <div className="space-y-4 mt-6">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+          </div>
+
+          <div className="right-aside">
+            <div className="heading">Latest News</div>
+            <div className="body">
+              <Skeleton className="h-[600px] w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="specific-article-design1">
+        <div className="body">
+          <div className="article-dis">
+            <div className="text-center p-6">
+              <h2 className="text-2xl font-bold text-destructive">Article not found</h2>
+              <p className="text-muted-foreground mt-2">The article you're looking for doesn't exist or has been removed.</p>
+              <Button className="mt-4" onClick={() => router.push('/')}>
+                Return Home
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="specific-article-design1" style={{ marginTop: "90px" }}>
+    <div className="specific-article-design1">
       <Head>
         <title>{article?.title || "Article Page"}</title>
       </Head>
+
       <div className="header">
         <div className="go-back" onClick={() => router.back()}>
-          <ChevronLeft style={{ fontSize: "10px" }} />
+          <ChevronLeft className="h-5 w-5" />
         </div>
         <div className="date-title">
           <div className="date">
@@ -140,57 +206,46 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
           </div>
           <div className="title">{article.title}</div>
         </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleShare}
+          className="ml-auto"
+        >
+          <Share2 className="h-4 w-4" />
+          <span className="sr-only">{isCopied ? "Copied!" : "Share"}</span>
+        </Button>
       </div>
+
       <div className="body">
         <div className="leftaside">
-          <LeftAsideNews trendingNews={trendingNews} />
+          <div className="heading">Trending News</div>
+          <div className="body">
+            <LeftAsideNews trendingNews={trendingNews} />
+          </div>
         </div>
+
         <div className="article-dis">
           <div className="image">
-            <img src={article.lphoto} alt="Article Image" />
+            <img 
+              src={article.lphoto} 
+              alt="Article Featured Image"
+            />
           </div>
           <div
             className="des"
             dangerouslySetInnerHTML={{
-              __html: article.description, // Sanitize and set inner HTML
+              __html: article.description,
             }}
           />
+        </div>
 
-          {/* Share Button */}
-          <div className="share-button">
-            {/* <Tooltip title={isCopied ? "Link Copied!" : "Share this article"}> */}
-            <button
-              onClick={handleShare}
-              className="share-article-btn"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: "#007bff",
-                color: "#fff",
-                padding: "8px 12px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                position: "fixed",
-                right: "50px",
-                top: "120px",
-              }}
-            >
-              <Image
-                src={ShareWhite}
-                width={20}
-                height={20}
-                alt="share icon"
-                style={{ marginRight: "5px" }}
-              />
-              Share
-            </button>
-            {/* </Tooltip> */}
+        <div className="right-aside">
+          <div className="heading">Latest News</div>
+          <div className="body">
+            <RightBsideNews latestNews={latestNews} />
           </div>
         </div>
-        <aside className="right-aside">
-          <RightBsideNews latestNews={latestNews} />
-        </aside>
       </div>
     </div>
   );

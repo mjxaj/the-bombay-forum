@@ -16,11 +16,9 @@ function logErrorToFile(error) {
 }
 
 // Function to truncate the description if needed
-function truncateText(text, maxLength) {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + '...';
-  }
-  return text;
+function truncateText(text, maxLength = 100) {
+  if (!text) return '';
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
 }
 
 export async function GET(request) {
