@@ -21,10 +21,9 @@ export function Navbar() {
   });
 
   return (
-    <header className="border-b border-border">
-      {/* Top Bar */}
+    <header className="border-b border-border bg-card">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-2 border-b border-border">
+        <div className="flex items-center justify-between py-4 border-b border-border">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden">
@@ -32,12 +31,12 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-80">
-              <nav className="space-y-4 mt-8">
+              <nav className="space-y-6 mt-8">
                 {sections.map((section) => (
                   <Link
                     key={section.name}
                     href={section.href}
-                    className="block px-2 py-1 hover:text-primary transition-colors"
+                    className="block px-2 py-1.5 text-lg font-serif hover:text-primary transition-colors"
                   >
                     {section.name}
                   </Link>
@@ -48,7 +47,7 @@ export function Navbar() {
 
           <div className="flex items-center space-x-4">
             <Link href="/search">
-              <Button variant="ghost" size="sm" className="hidden lg:flex">
+              <Button variant="ghost" size="sm" className="hidden lg:flex hover:bg-background/50">
                 <Search className="h-4 w-4 mr-2" />
                 Search
               </Button>
@@ -57,28 +56,27 @@ export function Navbar() {
 
           <div className="text-center flex-1">
             <Link href="/" className="inline-block">
-              <h1 className="text-2xl font-serif font-bold">The Bombay Forum</h1>
-              <p className="text-xs text-muted-foreground">{today}</p>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tighter">The Bombay Forum</h1>
+              <p className="text-xs font-serif text-muted-foreground mt-1.5 tracking-wide uppercase">{today}</p>
             </Link>
           </div>
 
           <div className="flex items-center space-x-4">
             <Link href="/search">
-              <Button variant="ghost" size="sm" className="lg:hidden">
+              <Button variant="ghost" size="sm" className="lg:hidden hover:bg-background/50">
                 <Search className="h-4 w-4" />
               </Button>
             </Link>
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="hidden lg:block py-2">
-          <ul className="flex items-center justify-center space-x-8">
+        <nav className="hidden lg:block py-3">
+          <ul className="flex items-center justify-center space-x-12">
             {sections.map((section) => (
               <li key={section.name}>
                 <Link
                   href={section.href}
-                  className="text-sm font-serif hover:text-primary transition-colors"
+                  className="text-sm font-serif hover:text-primary transition-colors tracking-wide uppercase"
                 >
                   {section.name}
                 </Link>

@@ -33,24 +33,22 @@ const sections = [
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
-        {/* Logo and Tagline */}
-        <div className="text-center mb-12">
+    <footer className="bg-card border-t border-border mt-16">
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center mb-16">
           <Link href="/" className="inline-block">
-            <h2 className="text-3xl font-serif font-bold">The Bombay Forum</h2>
-            <p className="text-sm text-muted-foreground mt-2">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tighter">The Bombay Forum</h2>
+            <p className="text-sm font-serif text-muted-foreground mt-3 tracking-wide">
               Delivering insightful news and analysis
             </p>
           </Link>
         </div>
 
-        {/* Navigation Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           {sections.map((section) => (
             <div key={section.title}>
-              <h3 className="font-serif font-bold mb-4">{section.title}</h3>
-              <ul className="space-y-2">
+              <h3 className="font-serif text-base font-semibold tracking-wide uppercase mb-6">{section.title}</h3>
+              <ul className="space-y-3">
                 {section.links.map((link) => (
                   <li key={link.name}>
                     <Link
@@ -66,13 +64,12 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-border pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
-            <div className="mb-4 md:mb-0">
+            <div className="mb-4 md:mb-0 font-serif">
               © {new Date().getFullYear()} The Bombay Forum. All Rights Reserved.
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-6">
               <Link href="/privacy" className="hover:text-primary transition-colors">
                 Privacy Policy
               </Link>
