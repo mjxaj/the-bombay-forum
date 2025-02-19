@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Weather from "./Weather";
 
 const sections = [
   { name: "Markets", href: "/category/markets" },
@@ -23,6 +24,12 @@ export function Navbar() {
   return (
     <header className="border-b border-border bg-card">
       <div className="container mx-auto px-4">
+        {/* Top Bar with Weather */}
+        <div className="py-2 border-b border-border">
+          <Weather />
+        </div>
+
+        {/* Main Header */}
         <div className="flex items-center justify-between py-4 border-b border-border">
           <Sheet>
             <SheetTrigger asChild>
@@ -70,6 +77,7 @@ export function Navbar() {
           </div>
         </div>
 
+        {/* Navigation */}
         <nav className="hidden lg:block py-3">
           <ul className="flex items-center justify-center space-x-12">
             {sections.map((section) => (

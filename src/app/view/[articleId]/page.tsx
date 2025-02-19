@@ -22,6 +22,9 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
   const [article, setArticle] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [trendingNews, setTrendingNews] = useState<news[]>([]);
+  const [relatedNews, setRelatedNews] = useState<news[]>([]);
+  const [categoryNews, setCategoryNews] = useState<news[]>([]);
+  const [latestUpdates, setLatestUpdates] = useState<news[]>([]);
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
@@ -53,22 +56,67 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
       }
     };
 
+    const fetchRelatedNews = async () => {
+      try {
+        const response = await fetch(
+          `/api/searcharticles?num=3&randomize=true`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setRelatedNews(data.filter((n: news) => n.articleId !== params.articleId));
+        }
+      } catch (error) {
+        console.error("Failed to fetch related articles:", error);
+      }
+    };
+
+    const fetchCategoryNews = async () => {
+      try {
+        const response = await fetch(
+          `/api/searcharticles?num=4&randomize=true`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setCategoryNews(data.filter((n: news) => n.articleId !== params.articleId));
+        }
+      } catch (error) {
+        console.error("Failed to fetch category articles:", error);
+      }
+    };
+
+    const fetchLatestUpdates = async () => {
+      try {
+        const response = await fetch(
+          `/api/searcharticles?num=6&randomize=true`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setLatestUpdates(data.filter((n: news) => n.articleId !== params.articleId));
+        }
+      } catch (error) {
+        console.error("Failed to fetch latest updates:", error);
+      }
+    };
+
     fetchArticle();
     fetchTrendingNewsArticle();
+    fetchRelatedNews();
+    fetchCategoryNews();
+    fetchLatestUpdates();
   }, [params.articleId]);
 
   const handleShare = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy URL:", err);
     }
   };
 
   if (loading) {
-    return (
+  return (
       <div className="container mx-auto px-4 py-8 animate-pulse">
         <div className="max-w-3xl mx-auto">
           <div className="h-8 bg-muted rounded w-1/3 mb-4" />
@@ -91,7 +139,7 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
           <h1 className="text-2xl font-bold mb-4">Article not found</h1>
           <Button onClick={() => router.back()}>Go Back</Button>
         </div>
-      </div>
+          </div>
     );
   }
 
@@ -165,13 +213,81 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                     className="prose-headings:font-serif prose-headings:font-bold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-primary/50 prose-blockquote:bg-muted/50 prose-blockquote:py-1 prose-blockquote:px-4"
                   />
                 </div>
+
+                {/* Additional Content Section */}
+                <div className="mt-12 pt-8 border-t border-border">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Key Takeaways */}
+                    <div className="bg-muted/30 rounded-lg p-6">
+                      <h3 className="font-serif text-xl font-bold mb-4">Key Takeaways</h3>
+                      <ul className="space-y-3 text-base">
+                        {article.description?.split('.').slice(0, 3).map((point: string, index: number) => (
+                          point.trim() && (
+                            <li key={index} className="flex items-start">
+                              <span className="text-primary mr-2">•</span>
+                              <span className="text-muted-foreground">{point.trim()}.</span>
+                            </li>
+                          )
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Related Topics */}
+                    <div className="bg-muted/30 rounded-lg p-6">
+                      <h3 className="font-serif text-xl font-bold mb-4">Related Topics</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {['Markets', 'Finance', 'Technology', 'Business', article.type].map((topic: string, index: number) => (
+                          <Link 
+                            key={index}
+                            href={`/category/${topic.toLowerCase()}`}
+                            className="inline-flex items-center px-3 py-1 rounded-full bg-background hover:bg-accent/50 transition-colors text-sm font-medium"
+                          >
+                            {topic}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Share and Engagement Section */}
+                <div className="mt-8 pt-8 border-t border-border">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-muted/30 rounded-lg p-6">
+                    <div className="text-center md:text-left">
+                      <h3 className="font-serif text-xl font-bold mb-2">Share this article</h3>
+                      <p className="text-muted-foreground text-sm">Help others stay informed about {article.type}</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleShare}
+                        className="text-muted-foreground hover:text-primary"
+                      >
+                        <Share2 className="h-4 w-4 mr-2" />
+                        {isCopied ? "Copied!" : "Share Link"}
+                      </Button>
+                      <Link href={`/category/${article.type.toLowerCase()}`}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          More in {article.type}
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Article Footer */}
               <footer className="border-t border-border pt-6 mt-8">
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <div>
-                    Published in <span className="font-medium text-foreground">{article.type}</span>
+                  <div className="flex items-center gap-4">
+                    <span>Published in <Link href={`/category/${article.type.toLowerCase()}`} className="font-medium text-foreground hover:text-primary">{article.type}</Link></span>
+                    <span>•</span>
+                    <span>{formatDate(new Date(article.created_datetime || Date.now()))}</span>
                   </div>
                   <Button
                     variant="ghost"
@@ -182,6 +298,116 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                     <Share2 className="h-4 w-4 mr-2" />
                     {isCopied ? "Copied!" : "Share"}
                   </Button>
+                </div>
+
+                {/* You May Also Like Section */}
+                <div className="mt-12 pt-8 border-t border-border">
+                  <h3 className="font-serif text-2xl font-bold mb-6">You May Also Like</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {relatedNews.map((relatedArticle) => (
+                      <Link
+                        key={relatedArticle.articleId}
+                        href={`/view/${relatedArticle.articleId}`}
+                        className="group"
+                      >
+                        <Card className="overflow-hidden hover:bg-accent/5 transition-colors">
+                          <div className="aspect-[16/9]">
+                            <img
+                              src={relatedArticle.sphoto}
+                              alt={relatedArticle.title}
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <Badge variant="outline" className="mb-2 font-serif text-xs">
+                              {relatedArticle.type}
+                            </Badge>
+                            <h4 className="font-serif text-base font-medium leading-snug mb-2 group-hover:text-primary/80 transition-colors line-clamp-2">
+                              {relatedArticle.title}
+                            </h4>
+                            <div className="text-xs text-muted-foreground">
+                              <Clock className="h-3 w-3 inline mr-1" />
+                              {formatDate(new Date(relatedArticle.created_datetime || Date.now()))}
+                            </div>
+                          </div>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Popular in Category */}
+                <div className="mt-16 pt-8 border-t border-border">
+                  <h3 className="font-serif text-2xl font-bold mb-6">Popular in {article.type}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {categoryNews.map((categoryArticle) => (
+                      <Link
+                        key={categoryArticle.articleId}
+                        href={`/view/${categoryArticle.articleId}`}
+                        className="group"
+                      >
+                        <Card className="flex overflow-hidden hover:bg-accent/5 transition-colors">
+                          <div className="w-32 h-32 flex-shrink-0">
+                            <img
+                              src={categoryArticle.sphoto}
+                              alt={categoryArticle.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 p-4">
+                            <Badge variant="outline" className="mb-2 font-serif text-xs">
+                              {categoryArticle.type}
+                            </Badge>
+                            <h4 className="font-serif text-base font-medium leading-snug mb-2 group-hover:text-primary/80 transition-colors line-clamp-2">
+                              {categoryArticle.title}
+                            </h4>
+                            <div className="text-xs text-muted-foreground">
+                              <Clock className="h-3 w-3 inline mr-1" />
+                              {formatDate(new Date(categoryArticle.created_datetime || Date.now()))}
+                            </div>
+                          </div>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Latest Updates */}
+                <div className="mt-16 pt-8 border-t border-border">
+                  <h3 className="font-serif text-2xl font-bold mb-6">Latest Updates</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {latestUpdates.map((update) => (
+                      <Link
+                        key={update.articleId}
+                        href={`/view/${update.articleId}`}
+                        className="group"
+                      >
+                        <Card className="p-4 hover:bg-accent/5 transition-colors">
+                          <div className="flex items-start gap-3">
+                            <div className="w-16 h-16 flex-shrink-0 overflow-hidden rounded">
+                              <img
+                                src={update.sphoto}
+                                alt={update.title}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <Badge variant="outline" className="mb-1.5 font-serif text-[10px]">
+                                {update.type}
+                              </Badge>
+                              <h4 className="font-serif text-sm font-medium leading-snug group-hover:text-primary/80 transition-colors line-clamp-2">
+                                {update.title}
+                              </h4>
+                              <div className="text-xs text-muted-foreground mt-1">
+                                <Clock className="h-3 w-3 inline mr-1" />
+                                {formatDate(new Date(update.created_datetime || Date.now()))}
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </footer>
             </div>
@@ -241,8 +467,8 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             <Clock className="h-3 w-3 inline mr-1" />
                             {formatDate(new Date(article.created_datetime || Date.now()))}
                           </div>
-                        </div>
-                      </div>
+          </div>
+        </div>
                       {i < trendingNews.length - 1 && (
                         <div className="my-4 border-t border-border" />
                       )}
@@ -251,8 +477,8 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                 </div>
               </Card>
             </div>
-          </aside>
-        </div>
+        </aside>
+      </div>
       </main>
     </div>
   );

@@ -66,7 +66,7 @@ const Weather: React.FC = () => {
   }, []);
 
   if (error) {
-    return <div className="text-red-500 text-sm">{error}</div>;
+    return <div className="text-sm text-muted-foreground text-center">{error}</div>;
   }
 
   const getWeatherIcon = (weatherMain: string) => {
@@ -74,28 +74,28 @@ const Weather: React.FC = () => {
       case 'rain':
       case 'drizzle':
       case 'thunderstorm':
-        return <CloudRain className="h-4 w-4" />;
+        return <CloudRain className="h-4 w-4 text-primary" />;
       case 'clouds':
-        return <Cloud className="h-4 w-4" />;
+        return <Cloud className="h-4 w-4 text-primary" />;
       default:
-        return <Sun className="h-4 w-4" />;
+        return <Sun className="h-4 w-4 text-primary" />;
     }
   };
 
   return (
-    <div className="flex justify-center items-center text-white text-sm">
+    <div className="flex justify-center items-center text-sm">
       {weatherData ? (
-        <div className="flex items-center space-x-4">
-          <span className="text-gray-300">{currentDate}</span>
+        <div className="flex items-center space-x-6 text-muted-foreground">
+          <span className="font-serif">{currentDate}</span>
           <div className="flex items-center space-x-2">
             {getWeatherIcon(weatherData.weather[0].main)}
-            <span>
-              {weatherData.name} {Math.round(weatherData.main.temp)}°C
+            <span className="font-medium">
+              {weatherData.name}, {Math.round(weatherData.main.temp)}°C
             </span>
           </div>
         </div>
       ) : (
-        <div className="text-gray-300">Loading weather...</div>
+        <div className="text-muted-foreground">Loading weather...</div>
       )}
     </div>
   );
