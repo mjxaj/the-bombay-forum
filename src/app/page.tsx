@@ -89,8 +89,8 @@ export default function Home() {
                   <div className="h-4 bg-muted rounded w-3/4 mb-2" />
                   <div className="h-4 bg-muted rounded w-1/2" />
                 </div>
-              </div>
-            ))}
+                  </div>
+                ))}
           </div>
         </div>
       </div>
@@ -100,38 +100,38 @@ export default function Home() {
   return (
     <>
       <MarketTicker data={undefined} />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-6 md:py-8">
         {/* Featured Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 mb-12 md:mb-16">
           {/* Main Featured Article */}
           <div className="lg:col-span-8">
             {mainNewsContainer[0] && (
               <Link href={`/view/${mainNewsContainer[0].articleId}`} className="group">
                 <Card className="overflow-hidden border-none shadow-none hover:bg-accent/5 transition-all duration-300">
-                  <div className="relative h-[500px] mb-6">
+                  <div className="relative aspect-[3/2] md:aspect-[16/9] mb-4 md:mb-6">
                     <img
                       src={mainNewsContainer[0].lphoto}
                       alt={mainNewsContainer[0].title}
                       className="w-full h-full object-cover rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl" />
-                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                      <Badge variant="outline" className="font-serif mb-4 bg-black/20 backdrop-blur-sm border-white/20">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 text-white">
+                      <Badge variant="outline" className="font-serif mb-2 md:mb-4 bg-black/20 backdrop-blur-sm border-white/20">
                         {mainNewsContainer[0].type}
                       </Badge>
-                      <h1 className="text-4xl md:text-5xl font-serif font-bold leading-tight mb-4 group-hover:text-primary/90 transition-colors">
+                      <h1 className="text-2xl md:text-4xl lg:text-5xl font-serif font-bold leading-tight mb-2 md:mb-4 group-hover:text-primary/90 transition-colors">
                         {mainNewsContainer[0].title}
                       </h1>
                       {mainNewsContainer[0].description && (
-                        <div className="text-lg text-white/90 leading-relaxed mb-4">
+                        <div className="text-base md:text-lg text-white/90 leading-relaxed mb-2 md:mb-4 hidden md:block">
                           <Markdown 
                             content={mainNewsContainer[0].description}
                             className="line-clamp-2"
                           />
                         </div>
                       )}
-                      <div className="flex items-center text-sm text-white/80">
-                        <Clock className="h-4 w-4 mr-2" />
+                      <div className="flex items-center text-xs md:text-sm text-white/80">
+                        <Clock className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                         {formatDate(new Date(mainNewsContainer[0].created_datetime || Date.now()))}
                       </div>
                     </div>
@@ -141,26 +141,26 @@ export default function Home() {
             )}
 
             {/* Secondary Featured Articles */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
               {mainNewsContainer.slice(1, 3).map((article) => (
                 <Link key={article.articleId} href={`/view/${article.articleId}`} className="group">
-                  <Card className="overflow-hidden border shadow-sm hover:shadow-md p-4 hover:bg-accent/5 transition-all duration-300">
-                    <div className="aspect-video mb-4 overflow-hidden rounded-lg">
+                  <Card className="overflow-hidden border shadow-sm hover:shadow-md p-3 md:p-4 hover:bg-accent/5 transition-all duration-300">
+                    <div className="aspect-[3/2] md:aspect-video mb-3 md:mb-4 overflow-hidden rounded-lg">
                       <img
                         src={article.sphoto}
                         alt={article.title}
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <div className="space-y-3 p-2">
+                    <div className="space-y-2 md:space-y-3 p-1 md:p-2">
                       <Badge variant="outline" className="font-serif">
                         {article.type}
                       </Badge>
-                      <h2 className="text-xl font-serif font-semibold leading-snug group-hover:text-primary/80 transition-colors">
+                      <h2 className="text-base md:text-xl font-serif font-semibold leading-snug group-hover:text-primary/80 transition-colors line-clamp-2">
                         {article.title}
                       </h2>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4 mr-2" />
+                      <div className="flex items-center text-xs md:text-sm text-muted-foreground">
+                        <Clock className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                         {formatDate(new Date(article.created_datetime || Date.now()))}
                       </div>
                     </div>
@@ -171,41 +171,41 @@ export default function Home() {
           </div>
 
           {/* Trending News Sidebar */}
-          <div className="lg:col-span-4">
-            <Card className="p-6 bg-card border shadow-sm">
-              <div className="flex items-center justify-between pb-4 mb-6 border-b border-border">
+          <div className="lg:col-span-4 mt-8 lg:mt-0">
+            <Card className="p-4 md:p-6 bg-card border shadow-sm">
+              <div className="flex items-center justify-between pb-4 mb-4 md:mb-6 border-b border-border">
                 <div className="flex items-center space-x-2">
-                  <TrendingUp className="h-5 w-5 text-primary" />
-                  <h2 className="font-serif text-lg font-bold">Trending Now</h2>
+                  <TrendingUp className="h-4 w-4 text-primary" />
+                  <h2 className="font-serif text-lg md:text-xl font-bold">Trending Now</h2>
                 </div>
-                <Link href="/trending" className="text-sm text-primary hover:text-primary/80 transition-colors">
+                <Link href="/trending" className="text-xs md:text-sm text-primary hover:text-primary/80 transition-colors">
                   View All
                 </Link>
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {trendingNews.map((article, i) => (
                   <Link 
                     key={article.articleId}
                     href={`/view/${article.articleId}`}
                     className="block group"
                   >
-                    <div className="flex gap-4 p-3 rounded-lg hover:bg-accent/5 transition-all duration-300">
-                      <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
+                    <div className="flex gap-3 md:gap-4 p-2 md:p-3 rounded-lg hover:bg-accent/5 transition-all duration-300">
+                      <div className="w-20 md:w-24 aspect-square flex-shrink-0 overflow-hidden rounded-lg">
                         <img
                           src={article.sphoto}
                           alt={article.title}
                           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <div>
-                        <h3 className="font-serif text-base font-medium leading-snug mb-2 group-hover:text-primary/80 transition-colors line-clamp-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-serif text-sm md:text-base font-medium leading-snug mb-2 group-hover:text-primary/80 transition-colors line-clamp-2">
                           {article.title}
                         </h3>
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                          <Badge variant="outline" className="font-serif text-[10px]">
+                        <div className="flex items-center gap-2 md:gap-3 text-xs">
+                          <Badge variant="outline" className="font-serif text-[10px] md:text-xs">
                             {article.type}
                           </Badge>
-                          <div className="flex items-center">
+                          <div className="flex items-center text-muted-foreground">
                             <Clock className="h-3 w-3 mr-1" />
                             {formatDate(new Date(article.created_datetime || Date.now()))}
                           </div>
@@ -223,15 +223,15 @@ export default function Home() {
         </div>
 
         {/* Latest News Grid */}
-        <div className="border-t border-border pt-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="font-serif text-2xl font-bold">Latest Coverage</h2>
-            <Link href="/latest" className="group flex items-center text-sm text-primary hover:text-primary/80 transition-colors">
+        <div className="border-t border-border pt-8 md:pt-12">
+          <div className="flex items-center justify-between mb-6 md:mb-8">
+            <h2 className="font-serif text-xl md:text-2xl font-bold">Latest Coverage</h2>
+            <Link href="/latest" className="group flex items-center text-xs md:text-sm text-primary hover:text-primary/80 transition-colors">
               View All Stories
-              <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="h-3 w-3 md:h-4 md:w-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {latestNews.map((article) => (
               <Link 
                 key={article.articleId}
@@ -239,22 +239,22 @@ export default function Home() {
                 className="group"
               >
                 <Card className="overflow-hidden hover:bg-accent/5 transition-all duration-300 border shadow-sm hover:shadow-md">
-                  <div className="aspect-[4/3] overflow-hidden">
+                  <div className="aspect-[3/2] md:aspect-[4/3] overflow-hidden">
                     <img
                       src={article.sphoto}
                       alt={article.title}
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="p-6">
-                    <Badge variant="outline" className="mb-3 font-serif">
+                  <div className="p-4 md:p-6">
+                    <Badge variant="outline" className="mb-2 md:mb-3 font-serif">
                       {article.type}
                     </Badge>
-                    <h3 className="font-serif text-lg font-medium leading-snug mb-3 group-hover:text-primary/80 transition-colors">
+                    <h3 className="font-serif text-base md:text-lg font-medium leading-snug mb-2 md:mb-3 group-hover:text-primary/80 transition-colors line-clamp-2">
                       {article.title}
                     </h3>
                     {article.description && (
-                      <div className="text-sm text-muted-foreground mb-4">
+                      <div className="text-sm text-muted-foreground mb-3 md:mb-4 hidden md:block">
                         <Markdown 
                           content={article.description}
                           className="line-clamp-2"

@@ -269,7 +269,7 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                       <div className="flex items-center gap-4">
                         <Button
                           variant="outline"
-                          onClick={handleShare}
+              onClick={handleShare}
                           className="text-muted-foreground hover:text-primary"
                         >
                           <Share2 className="h-4 w-4 mr-2" />
@@ -466,8 +466,8 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             <Clock className="h-3 w-3 inline mr-1" />
                             {formatDate(new Date(article.created_datetime || Date.now()))}
                           </div>
-                        </div>
-                      </div>
+          </div>
+        </div>
                       {i < trendingNews.length - 1 && (
                         <div className="my-4 border-t border-border" />
                       )}
