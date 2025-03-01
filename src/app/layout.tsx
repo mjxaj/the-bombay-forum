@@ -1,28 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Source_Serif_4 } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import { TopNavbar } from "./components/TopNavbar";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: '--font-inter',
-});
-
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
-  variable: '--font-playfair',
-});
-
-const sourceSerif = Source_Serif_4({
-  subsets: ["latin"],
-  variable: '--font-source-serif',
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "The Bombay Forum",
-  description: "Your source for insightful news and analysis",
+  description: "Your trusted source for news and analysis",
 };
 
 export default function RootLayout({
@@ -31,22 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfair.variable} ${sourceSerif.variable} font-sans`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <div className="flex-1">
-              {children}
-            </div>
-            <Footer />
-          </div>
-        </ThemeProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <div className="min-h-screen flex flex-col">
+          <TopNavbar />
+          <Navbar />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

@@ -415,6 +415,19 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
           {/* Sidebar */}
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-8 space-y-8">
+              {/* Categories All See Link */}
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-gray-900">Categories</h3>
+                  <Link 
+                    href="/categories" 
+                    className="text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors"
+                  >
+                    ALL SEE
+                  </Link>
+                </div>
+              </div>
+
               {/* Article Info Card */}
               <Card className="p-6 bg-card border shadow-sm">
                 <div className="flex items-center space-x-2 pb-4 mb-4 border-b border-border">

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, Bell, X, ChevronRight, Home, Newspaper, BookOpen, Bookmark, Settings } from "lucide-react";
+import { Search, Menu, Bell, X, ChevronRight, Home, Newspaper, BookOpen, Bookmark, Settings, User } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import Weather from "./Weather";
 import { useState } from "react";
@@ -25,6 +25,7 @@ const quickLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
