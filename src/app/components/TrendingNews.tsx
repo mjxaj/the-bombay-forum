@@ -8,6 +8,41 @@ import { formatDate } from '../utilfunctions/dateFormatter';
 import { NewsGrid } from './NewsGrid';
 import { MostView } from './MostView';
 import { SocialStats } from './SocialStats';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut"
+    }
+  }
+};
+
+const buttonVariants = {
+  hover: {
+    scale: 1.1,
+    backgroundColor: "#3B82F6",
+    borderColor: "#3B82F6",
+    color: "#FFFFFF",
+  },
+  tap: {
+    scale: 0.95
+  }
+};
 
 export function TrendingNews() {
   const [news, setNews] = useState<news[]>([]);
@@ -44,87 +79,112 @@ export function TrendingNews() {
   const currentNews = news.slice(currentPage * 2, (currentPage + 1) * 2);
 
   return (
-    <div className="container mx-auto px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Main Trending News */}
-        <div className="lg:col-span-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <h2 className="text-xl font-bold text-gray-900">Trending News</h2>
-              <div className="flex space-x-1">
-                <button 
-                  onClick={prevPage}
-                  className="w-6 h-6 flex items-center justify-center rounded border border-gray-200 hover:bg-gray-100 transition-colors"
-                >
-                  <ChevronLeft className="h-3 w-3" />
-                </button>
-                <button 
-                  onClick={nextPage}
-                  className="w-6 h-6 flex items-center justify-center rounded border border-gray-200 hover:bg-gray-100 transition-colors"
-                >
-                  <ChevronRight className="h-3 w-3" />
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link href="/follow-us" className="text-lg font-bold">Follow Us</Link>
-            </div>
-          </div>
+    <motion.div 
+      className="container mx-auto"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div 
+        className="flex items-center justify-between mb-6"
+        variants={itemVariants}
+      >
+        <motion.h2 
+          className="text-xl font-bold text-gray-900"
+          whileHover={{ x: 5 }}
+          transition={{ duration: 0.2 }}
+        >
+          Trending News
+        </motion.h2>
+        <div className="flex space-x-2">
+          <motion.button 
+            onClick={prevPage}
+            className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200"
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </motion.button>
+          <motion.button 
+            onClick={nextPage}
+            className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200"
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </motion.button>
+        </div>
+      </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {currentNews.map((item) => (
-              <Link href={`/view/${item.articleId}`} key={item.articleId} className="group">
-                <div className="flex gap-4">
-                  <div className="w-[200px] aspect-[4/3] flex-shrink-0 overflow-hidden rounded">
+      <AnimatePresence mode="wait">
+        <motion.div 
+          key={currentPage}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          {currentNews.map((item, index) => (
+            <motion.div
+              key={item.articleId}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: index * 0.1 }}
+            >
+              <Link href={`/view/${item.articleId}`} className="block group">
+                <motion.div 
+                  className="flex gap-4"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.div 
+                    className="w-[200px] aspect-[4/3] overflow-hidden rounded-lg"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <img
                       src={item.lphoto}
                       alt={item.title}
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover"
                     />
-                  </div>
-                  <div className="flex-1">
+                  </motion.div>
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs text-blue-500 font-medium">
+                      <motion.span 
+                        className="text-xs text-blue-500 font-medium"
+                        whileHover={{ scale: 1.05 }}
+                      >
                         {item.type}
-                      </span>
+                      </motion.span>
                       <span className="text-xs text-gray-500">
                         {formatDate(new Date(item.created_datetime || Date.now()))}
                       </span>
                     </div>
-                    <h3 className="text-base font-medium mb-2 line-clamp-2 group-hover:text-blue-500 transition-colors">
+                    <motion.h3 
+                      className="text-lg font-medium mb-2 group-hover:text-blue-500 transition-colors line-clamp-2"
+                      whileHover={{ x: 2 }}
+                    >
                       {item.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 line-clamp-2">
+                    </motion.h3>
+                    <motion.p 
+                      className="text-sm text-gray-600 line-clamp-2"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
                       {item.description}
-                    </p>
+                    </motion.p>
                   </div>
-                </div>
+                </motion.div>
               </Link>
-            ))}
-          </div>
-
-          {/* News Grid */}
-          <div className="bg-gray-50/50 p-6 rounded-lg">
-            <NewsGrid />
-          </div>
-          <div className="bg-gray-50/50 p-6 rounded-lg">
-            <NewsGrid />
-          </div>
-        </div>
-
-        {/* Right Sidebar */}
-        <div className="lg:col-span-4 space-y-8">
-          {/* Social Stats Section */}
-          <div className="bg-white rounded-lg shadow-sm">
-            <SocialStats />
-          </div>
-
-          {/* Most View Section */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <MostView />
-          </div>
-        </div>
-      </div>
-    </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
   );
 } 

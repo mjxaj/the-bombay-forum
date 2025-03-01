@@ -1,91 +1,142 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { news } from '../utilfunctions/interfaces';
 import { formatDate } from '../utilfunctions/dateFormatter';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut"
+    }
+  }
+};
 
 export function BottomCarousel() {
   const [news, setNews] = useState<news[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          `/api/searcharticles?num=4&randomize=true&sortBy=created_datetime&order=DESC`
+          `/api/searcharticles?num=4&randomize=true`
         );
         const data = await response.json();
         if (response.ok) {
           setNews(data);
         }
       } catch (error) {
-        console.error('Failed to fetch carousel news:', error);
+        console.error('Failed to fetch news:', error);
       }
     };
 
     fetchNews();
-  }, []);
 
-  const nextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % news.length);
-  };
+    // Auto-scroll effect
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % news.length);
+    }, 5000);
 
-  const prevPage = () => {
-    setCurrentPage((prev) => 
-      prev === 0 ? news.length - 1 : prev - 1
-    );
-  };
-
-  if (!news.length) return null;
-
-  const currentArticle = news[currentPage];
+    return () => clearInterval(interval);
+  }, [news.length]);
 
   return (
-    <div className="relative w-1/2">
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-        <button 
-          onClick={prevPage}
-          className="w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white shadow-md transition-colors"
+    <motion.div 
+      className="flex-1"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div 
+        className="bg-white rounded-lg shadow-sm p-6"
+        whileHover={{ y: -5 }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.h2 
+          className="text-lg font-bold text-gray-900 mb-6"
+          whileHover={{ x: 5 }}
+          transition={{ duration: 0.2 }}
         >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-      </div>
-      
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
-        <button 
-          onClick={nextPage}
-          className="w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white shadow-md transition-colors"
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
-      </div>
+          Latest Updates
+        </motion.h2>
 
-      <Link href={`/view/${currentArticle.articleId}`} className="block group">
-        <div className="relative aspect-[21/9] overflow-hidden">
-          <img
-            src={currentArticle.lphoto}
-            alt={currentArticle.title}
-            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-sm font-medium bg-blue-500 px-2 py-1 rounded">
-                {currentArticle.type}
-              </span>
-              <span className="text-sm opacity-90">
-                {formatDate(new Date(currentArticle.created_datetime || Date.now()))}
-              </span>
-            </div>
-            <h2 className="text-2xl font-bold mb-2 line-clamp-2">
-              {currentArticle.title}
-            </h2>
-            <p className="text-base opacity-90 line-clamp-2">
-              {currentArticle.description}
-            </p>
-          </div>
-        </div>
-      </Link>
-    </div>
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={currentIndex}
+            className="space-y-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {news.map((item, index) => (
+              <motion.div
+                key={item.articleId}
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link href={`/view/${item.articleId}`} className="block group">
+                  <motion.div 
+                    className="flex gap-4"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <motion.div 
+                      className="w-20 h-20 flex-shrink-0 overflow-hidden rounded"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <img
+                        src={item.sphoto}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <motion.span 
+                          className="text-[11px] text-blue-500 font-medium"
+                          whileHover={{ scale: 1.05 }}
+                        >
+                          {item.type}
+                        </motion.span>
+                        <span className="text-[11px] text-gray-500">
+                          {formatDate(new Date(item.created_datetime || Date.now()))}
+                        </span>
+                      </div>
+                      <motion.h3 
+                        className="text-sm font-medium line-clamp-2 group-hover:text-blue-500 transition-colors"
+                        whileHover={{ x: 2 }}
+                      >
+                        {item.title}
+                      </motion.h3>
+                    </div>
+                  </motion.div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 } 

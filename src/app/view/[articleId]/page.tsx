@@ -11,11 +11,33 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Markdown } from "@/components/ui/markdown";
+import { motion } from "framer-motion";
 
 function getRandomElement(array: news[]) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
+
+// Add these animation variants
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 }
+};
+
+const staggerChildren = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const slideIn = {
+  initial: { opacity: 0, x: -20 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -20 }
+};
 
 export default function ArticlePage({ params }: { params: { articleId: string } }) {
   const router = useRouter();
@@ -145,10 +167,18 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Main Article Content */}
-          <article className="lg:col-span-8">
+      <main className="container mx-auto px-4 py-8 md:py-12">
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={staggerChildren}
+        >
+          <motion.article 
+            className="lg:col-span-8"
+            variants={fadeInUp}
+          >
             <div className="flex items-center justify-between mb-6">
               <Button
                 variant="ghost"
@@ -172,7 +202,10 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
 
             <div className="space-y-8">
               {/* Article Header */}
-              <header className="border-b border-border/60 pb-6">
+              <motion.header 
+                className="border-b border-border/60 pb-8 mb-8"
+                variants={fadeInUp}
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <Badge variant="outline" className="font-serif">
                     {article.type}
@@ -221,7 +254,7 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                     </Button>
                   </div>
                 </div>
-              </header>
+              </motion.header>
 
               {/* Lead Text */}
               <div className="text-lg text-muted-foreground leading-relaxed my-6">
@@ -238,7 +271,12 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
               </div>
 
               {/* Featured Image */}
-              <figure className="my-8">
+              <motion.figure 
+                className="my-8"
+                variants={fadeInUp}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="aspect-video rounded-lg overflow-hidden">
                   <img
                     src={article.lphoto}
@@ -249,10 +287,13 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                 <figcaption className="text-sm text-muted-foreground mt-2 text-center">
                   {article.title}
                 </figcaption>
-              </figure>
+              </motion.figure>
 
               {/* Main Content */}
-              <div className="space-y-6">
+              <motion.div 
+                className="space-y-6"
+                variants={fadeInUp}
+              >
                 {/* Quote Section - Only if quote exists in content */}
                 {article.description?.includes('"') && (
                   <div className="my-8">
@@ -318,17 +359,31 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                       ))}
                   </div>
                 )}
-              </div>
+              </motion.div>
 
               {/* Random Article Section */}
-              <div className="mt-16 pt-16 border-t-2 border-border">
-                <h2 className="text-3xl font-serif font-bold mb-8">You Might Be Interested In</h2>
+              <motion.div 
+                className="mt-16 pt-16 border-t-2 border-border"
+                variants={fadeInUp}
+              >
+                <motion.h2 
+                  className="text-3xl font-serif font-bold mb-8"
+                  variants={slideIn}
+                >
+                  You Might Be Interested In
+                </motion.h2>
                 {(() => {
                   const randomArticle = getRandomElement(relatedNews);
                   return randomArticle && (
-                    <article className="space-y-8">
+                    <motion.article 
+                      className="space-y-8"
+                      variants={fadeInUp}
+                    >
                       {/* Random Article Header */}
-                      <header className="border-b border-border/60 pb-6">
+                      <motion.header 
+                        className="border-b border-border/60 pb-6"
+                        variants={slideIn}
+                      >
                         <div className="flex items-center gap-3 mb-4">
                           <Badge variant="outline" className="font-serif">
                             {randomArticle.type}
@@ -343,10 +398,15 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             {randomArticle.title}
                           </h1>
                         </Link>
-                      </header>
+                      </motion.header>
 
                       {/* Random Article Featured Image */}
-                      <figure className="my-8">
+                      <motion.figure 
+                        className="my-8"
+                        variants={fadeInUp}
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                      >
                         <div className="aspect-video rounded-lg overflow-hidden">
                           <img
                             src={randomArticle.lphoto}
@@ -354,10 +414,13 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             className="w-full h-full object-cover"
                           />
                         </div>
-                      </figure>
+                      </motion.figure>
 
                       {/* Random Article Description */}
-                      <div className="space-y-6">
+                      <motion.div 
+                        className="space-y-6"
+                        variants={fadeInUp}
+                      >
                         <div className="text-lg text-muted-foreground leading-relaxed">
                           {randomArticle.description?.split('.')[0] + '.'}
                         </div>
@@ -370,10 +433,15 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                               </p>
                           ))}
                         </div>
-                      </div>
+                      </motion.div>
 
                       {/* Continue Reading Button */}
-                      <div className="mt-8">
+                      <motion.div 
+                        className="mt-8"
+                        variants={fadeInUp}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.2 }}
+                      >
                         <Link href={`/view/${randomArticle.articleId}`}>
                           <Button
                             variant="default"
@@ -383,11 +451,11 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             <ChevronRight className="h-4 w-4 ml-2" />
                           </Button>
                         </Link>
-                      </div>
-                    </article>
+                      </motion.div>
+                    </motion.article>
                   );
                 })()}
-              </div>
+              </motion.div>
 
               {/* Key Points Section - Only show if there's a question heading */}
               {article.description?.split('\n').some((line: string) => 
@@ -724,69 +792,87 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                 </div>
               </div>
             </footer>
-          </article>
+          </motion.article>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-4">
-            <div className="lg:sticky lg:top-8 space-y-8">
+          <motion.aside 
+            className="lg:col-span-4"
+            variants={fadeInUp}
+          >
+            <motion.div 
+              className="lg:sticky lg:top-8 space-y-8"
+              variants={staggerChildren}
+            >
               {/* Article Info */}
-              <Card className="p-6">
-                <h3 className="font-serif text-xl font-bold mb-4">About This Article</h3>
-                <dl className="space-y-4">
-                  <div>
-                    <dt className="text-sm text-muted-foreground">Category</dt>
-                    <dd className="font-medium">{article.type}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-muted-foreground">Published</dt>
-                    <dd className="font-medium">
-                      {formatDate(new Date(article.created_datetime || Date.now()))}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-muted-foreground">Author</dt>
-                    <dd className="font-medium">{article.author?.name || 'Rafiqul Islam'}</dd>
-                  </div>
-                </dl>
-              </Card>
+              <motion.div 
+                variants={slideIn}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card className="p-6">
+                  <h3 className="font-serif text-xl font-bold mb-4">About This Article</h3>
+                  <dl className="space-y-4">
+                    <div>
+                      <dt className="text-sm text-muted-foreground">Category</dt>
+                      <dd className="font-medium">{article.type}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-muted-foreground">Published</dt>
+                      <dd className="font-medium">
+                        {formatDate(new Date(article.created_datetime || Date.now()))}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-muted-foreground">Author</dt>
+                      <dd className="font-medium">{article.author?.name || 'Rafiqul Islam'}</dd>
+                    </div>
+                  </dl>
+                </Card>
+              </motion.div>
 
               {/* Trending Articles */}
-              <Card className="p-6">
-                <h3 className="font-serif text-xl font-bold mb-6">Trending Now</h3>
-                <div className="space-y-6">
-                  {trendingNews.slice(0, 5).map((trendingArticle, index) => (
-                    <Link
-                      key={trendingArticle.articleId}
-                      href={`/view/${trendingArticle.articleId}`}
-                      className="group block"
-                    >
-                      <div className="flex gap-4">
-                        <div className="w-20 aspect-square flex-shrink-0 rounded-lg overflow-hidden">
-                          <img
-                            src={trendingArticle.sphoto}
-                            alt={trendingArticle.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
+              <motion.div 
+                variants={slideIn}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card className="p-6">
+                  <h3 className="font-serif text-xl font-bold mb-6">Trending Now</h3>
+                  <div className="space-y-6">
+                    {trendingNews.slice(0, 5).map((trendingArticle, index) => (
+                      <Link
+                        key={trendingArticle.articleId}
+                        href={`/view/${trendingArticle.articleId}`}
+                        className="group block"
+                      >
+                        <div className="flex gap-4">
+                          <div className="w-20 aspect-square flex-shrink-0 rounded-lg overflow-hidden">
+                            <img
+                              src={trendingArticle.sphoto}
+                              alt={trendingArticle.title}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <Badge variant="outline" className="mb-2 font-serif text-xs">
+                              {trendingArticle.type}
+                            </Badge>
+                            <h4 className="font-serif text-base font-medium line-clamp-2 group-hover:text-primary transition-colors">
+                              {trendingArticle.title}
+                            </h4>
+                          </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <Badge variant="outline" className="mb-2 font-serif text-xs">
-                            {trendingArticle.type}
-                          </Badge>
-                          <h4 className="font-serif text-base font-medium line-clamp-2 group-hover:text-primary transition-colors">
-                            {trendingArticle.title}
-                          </h4>
-                        </div>
-                      </div>
-                      {index < trendingNews.length - 1 && (
-                        <div className="my-6 border-t border-border" />
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              </Card>
-            </div>
-          </aside>
-        </div>
+                        {index < trendingNews.length - 1 && (
+                          <div className="my-6 border-t border-border" />
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                </Card>
+              </motion.div>
+            </motion.div>
+          </motion.aside>
+        </motion.div>
       </main>
     </div>
   );
