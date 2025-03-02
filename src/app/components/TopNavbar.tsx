@@ -11,7 +11,7 @@ const navVariants = {
     y: 0, 
     opacity: 1,
     transition: {
-      duration: 0.4,
+      duration: 0.5,
       ease: "easeOut"
     }
   }
@@ -23,9 +23,24 @@ const itemVariants = {
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.3
+      duration: 0.5
     }
   }
+};
+
+const marqueeVariants = {
+  initial: { x: "100%" },
+  animate: {
+    x: "-100%",
+    transition: {
+      x: {
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: 30,
+        ease: "linear",
+      },
+    },
+  },
 };
 
 export function TopNavbar() {
@@ -37,13 +52,16 @@ export function TopNavbar() {
     // Fetch trending articles
     const fetchTrendingArticles = async () => {
       try {
-        const response = await fetch('/api/searcharticles?num=5&sortBy=created_datetime&order=DESC');
-        const data = await response.json();
-        if (response.ok) {
-          setTrendingArticles(data);
+        const response = await fetch('/api/searcharticles?num=5&randomize=false&sortBy=created_datetime&order=DESC');
+        if (!response.ok) {
+          throw new Error('Failed to fetch trending articles');
         }
+        const data = await response.json();
+        setTrendingArticles(data);
       } catch (error) {
         console.error("Failed to fetch trending articles:", error);
+        // Set some default articles in case of error
+        setTrendingArticles([]);
       }
     };
 
@@ -77,7 +95,7 @@ export function TopNavbar() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [trendingArticles.length]);
+  }, []);
 
   return (
     <motion.div 
@@ -95,7 +113,7 @@ export function TopNavbar() {
           <div className="flex items-center justify-between h-8">
             {/* Trending Section */}
             <motion.div 
-              className="flex items-center flex-1 max-w-[60%]"
+              className="flex items-center flex-1 max-w-[60%] overflow-hidden"
               variants={itemVariants}
             >
               <motion.div 
@@ -106,26 +124,26 @@ export function TopNavbar() {
                 Trending
               </motion.div>
               <div className="overflow-hidden relative h-8 flex items-center px-3">
-                <AnimatePresence mode="wait">
-                  <motion.div 
-                    key={currentArticleIndex}
-                    className="whitespace-nowrap"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    {trendingArticles.map((article, index) => (
+                <motion.div 
+                  className="whitespace-nowrap flex items-center"
+                  variants={marqueeVariants}
+                  initial="initial"
+                  animate="animate"
+                >
+                  {trendingArticles.length > 0 ? (
+                    [...trendingArticles, ...trendingArticles].map((article, index) => (
                       <Link 
-                        key={article.articleId} 
+                        key={`${article.articleId}-${index}`}
                         href={`/view/${article.articleId}`}
-                        className="text-gray-600 mx-4 hover:text-primary transition-colors inline-block"
+                        className="text-gray-600 mx-6 hover:text-primary transition-colors inline-block"
                       >
                         {article.title}
                       </Link>
-                    ))}
-                  </motion.div>
-                </AnimatePresence>
+                    ))
+                  ) : (
+                    <span className="text-gray-400">Loading trending news...</span>
+                  )}
+                </motion.div>
               </div>
             </motion.div>
 

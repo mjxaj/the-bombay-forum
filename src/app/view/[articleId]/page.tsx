@@ -300,7 +300,7 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                     <blockquote className="text-lg italic text-muted-foreground border-l-4 border-primary/50 pl-4 py-1">
                       {article.description?.match(/"([^"]*)"/)?.[0]}
                     </blockquote>
-                  </div>
+                </div>
                 )}
 
                 {/* Rest of the Content */}
@@ -487,13 +487,13 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                 </div>
               )}
 
-              {/* Additional Content Section */}
-              <div className="mt-12 pt-8 border-t border-border">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Key Takeaways */}
-                  <div className="bg-muted/30 rounded-lg p-6">
-                    <h3 className="font-serif text-xl font-bold mb-4">Key Takeaways</h3>
-                    <ul className="space-y-3 text-base">
+                {/* Additional Content Section */}
+                <div className="mt-12 pt-8 border-t border-border">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Key Takeaways */}
+                    <div className="bg-muted/30 rounded-lg p-6">
+                      <h3 className="font-serif text-xl font-bold mb-4">Key Takeaways</h3>
+                      <ul className="space-y-3 text-base">
                       {article.description?.split('\n')
                         .filter((line: string) => 
                           line.trim() && 
@@ -510,13 +510,13 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             </li>
                           )
                         ))}
-                    </ul>
-                  </div>
+                      </ul>
+                    </div>
 
-                  {/* Related Topics */}
-                  <div className="bg-muted/30 rounded-lg p-6">
-                    <h3 className="font-serif text-xl font-bold mb-4">Related Topics</h3>
-                    <div className="flex flex-wrap gap-2">
+                    {/* Related Topics */}
+                    <div className="bg-muted/30 rounded-lg p-6">
+                      <h3 className="font-serif text-xl font-bold mb-4">Related Topics</h3>
+                      <div className="flex flex-wrap gap-2">
                       {Array.from(new Set([article.type, ...categoryNews.map(news => news.type)]))
                         .filter(Boolean)
                         .map((topic: string, index: number) => (
@@ -528,40 +528,40 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                             {topic}
                           </Link>
                         ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Share and Engagement Section */}
-              <div className="mt-12 pt-8 border-t border-border">
-                <div className="bg-card rounded-xl p-8 shadow-sm">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="text-center md:text-left">
-                      <h3 className="font-serif text-2xl font-bold mb-2">Share this article</h3>
-                      <p className="text-muted-foreground">Help others stay informed about {article.type}</p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <Button
-                        variant="outline"
-                        onClick={handleShare}
-                        className="text-muted-foreground hover:text-primary"
-                      >
-                        <Share2 className="h-4 w-4 mr-2" />
-                        {isCopied ? "Copied!" : "Share Link"}
-                      </Button>
-                      <Link href={`/category/${article.type.toLowerCase()}`}>
+                {/* Share and Engagement Section */}
+                <div className="mt-12 pt-8 border-t border-border">
+                  <div className="bg-card rounded-xl p-8 shadow-sm">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                      <div className="text-center md:text-left">
+                        <h3 className="font-serif text-2xl font-bold mb-2">Share this article</h3>
+                        <p className="text-muted-foreground">Help others stay informed about {article.type}</p>
+                      </div>
+                      <div className="flex items-center gap-4">
                         <Button
-                          variant="default"
-                          className="bg-primary/90 hover:bg-primary"
+                          variant="outline"
+              onClick={handleShare}
+                          className="text-muted-foreground hover:text-primary"
                         >
-                          More in {article.type}
+                          <Share2 className="h-4 w-4 mr-2" />
+                          {isCopied ? "Copied!" : "Share Link"}
                         </Button>
-                      </Link>
+                        <Link href={`/category/${article.type.toLowerCase()}`}>
+                          <Button
+                            variant="default"
+                            className="bg-primary/90 hover:bg-primary"
+                          >
+                            More in {article.type}
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
               {/* Random News Section */}
               <div className="mt-16 border-t border-border pt-12">
@@ -670,128 +670,128 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* Article Footer */}
-            <footer className="mt-12 pt-8 border-t border-border">
-              <div className="flex items-center justify-between text-sm text-muted-foreground mb-12">
-                <div className="flex items-center gap-4">
-                  <span>Published in <Link href={`/category/${article.type.toLowerCase()}`} className="font-medium text-foreground hover:text-primary">{article.type}</Link></span>
-                  <span>•</span>
-                  <span>{formatDate(new Date(article.created_datetime || Date.now()))}</span>
-                </div>
               </div>
 
-              {/* You May Also Like Section */}
-              <div className="mb-16">
-                <h3 className="font-serif text-2xl font-bold mb-8">You May Also Like</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {relatedNews.map((relatedArticle) => (
-                    <Link
-                      key={relatedArticle.articleId}
-                      href={`/view/${relatedArticle.articleId}`}
-                      className="group"
-                    >
-                      <Card className="overflow-hidden hover:bg-accent/5 transition-all duration-300 border-border/60">
-                        <div className="aspect-[16/9] overflow-hidden">
-                          <img
-                            src={relatedArticle.sphoto}
-                            alt={relatedArticle.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <div className="p-6">
-                          <Badge variant="outline" className="mb-3 font-serif">
-                            {relatedArticle.type}
-                          </Badge>
-                          <h4 className="font-serif text-lg font-medium leading-snug mb-3 group-hover:text-primary/80 transition-colors line-clamp-2">
-                            {relatedArticle.title}
-                          </h4>
-                          <div className="text-sm text-muted-foreground">
-                            <Clock className="h-4 w-4 inline mr-1" />
-                            {formatDate(new Date(relatedArticle.created_datetime || Date.now()))}
-                          </div>
-                        </div>
-                      </Card>
-                    </Link>
-                  ))}
+              {/* Article Footer */}
+              <footer className="mt-12 pt-8 border-t border-border">
+                <div className="flex items-center justify-between text-sm text-muted-foreground mb-12">
+                  <div className="flex items-center gap-4">
+                    <span>Published in <Link href={`/category/${article.type.toLowerCase()}`} className="font-medium text-foreground hover:text-primary">{article.type}</Link></span>
+                    <span>•</span>
+                    <span>{formatDate(new Date(article.created_datetime || Date.now()))}</span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Popular in Category */}
-              <div className="mb-16">
-                <h3 className="font-serif text-2xl font-bold mb-8">Popular in {article.type}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {categoryNews.map((categoryArticle) => (
-                    <Link
-                      key={categoryArticle.articleId}
-                      href={`/view/${categoryArticle.articleId}`}
-                      className="group"
-                    >
-                      <Card className="flex overflow-hidden hover:bg-accent/5 transition-all duration-300 border-border/60">
-                        <div className="w-40 aspect-[4/3] flex-shrink-0 overflow-hidden">
-                          <img
-                            src={categoryArticle.sphoto}
-                            alt={categoryArticle.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <div className="flex-1 p-6">
-                          <Badge variant="outline" className="mb-3 font-serif">
-                            {categoryArticle.type}
-                          </Badge>
-                          <h4 className="font-serif text-lg font-medium leading-snug mb-3 group-hover:text-primary/80 transition-colors line-clamp-2">
-                            {categoryArticle.title}
-                          </h4>
-                          <div className="text-sm text-muted-foreground">
-                            <Clock className="h-4 w-4 inline mr-1" />
-                            {formatDate(new Date(categoryArticle.created_datetime || Date.now()))}
-                          </div>
-                        </div>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Latest Updates */}
-              <div>
-                <h3 className="font-serif text-2xl font-bold mb-8">Latest Updates</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {latestUpdates.map((update) => (
-                    <Link
-                      key={update.articleId}
-                      href={`/view/${update.articleId}`}
-                      className="group"
-                    >
-                      <Card className="p-6 hover:bg-accent/5 transition-all duration-300 border-border/60">
-                        <div className="flex items-start gap-4">
-                          <div className="w-20 aspect-square flex-shrink-0 overflow-hidden rounded-lg">
+                {/* You May Also Like Section */}
+                <div className="mb-16">
+                  <h3 className="font-serif text-2xl font-bold mb-8">You May Also Like</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {relatedNews.map((relatedArticle) => (
+                      <Link
+                        key={relatedArticle.articleId}
+                        href={`/view/${relatedArticle.articleId}`}
+                        className="group"
+                      >
+                        <Card className="overflow-hidden hover:bg-accent/5 transition-all duration-300 border-border/60">
+                          <div className="aspect-[16/9] overflow-hidden">
                             <img
-                              src={update.sphoto}
-                              alt={update.title}
+                              src={relatedArticle.sphoto}
+                              alt={relatedArticle.title}
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <Badge variant="outline" className="mb-2 font-serif text-xs">
-                              {update.type}
+                          <div className="p-6">
+                            <Badge variant="outline" className="mb-3 font-serif">
+                              {relatedArticle.type}
                             </Badge>
-                            <h4 className="font-serif text-base font-medium leading-snug group-hover:text-primary/80 transition-colors line-clamp-2 mb-2">
-                              {update.title}
+                            <h4 className="font-serif text-lg font-medium leading-snug mb-3 group-hover:text-primary/80 transition-colors line-clamp-2">
+                              {relatedArticle.title}
                             </h4>
-                            <div className="text-xs text-muted-foreground">
-                              <Clock className="h-3 w-3 inline mr-1" />
-                              {formatDate(new Date(update.created_datetime || Date.now()))}
+                            <div className="text-sm text-muted-foreground">
+                              <Clock className="h-4 w-4 inline mr-1" />
+                              {formatDate(new Date(relatedArticle.created_datetime || Date.now()))}
                             </div>
                           </div>
-                        </div>
-                      </Card>
-                    </Link>
-                  ))}
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </footer>
+
+                {/* Popular in Category */}
+                <div className="mb-16">
+                  <h3 className="font-serif text-2xl font-bold mb-8">Popular in {article.type}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {categoryNews.map((categoryArticle) => (
+                      <Link
+                        key={categoryArticle.articleId}
+                        href={`/view/${categoryArticle.articleId}`}
+                        className="group"
+                      >
+                        <Card className="flex overflow-hidden hover:bg-accent/5 transition-all duration-300 border-border/60">
+                          <div className="w-40 aspect-[4/3] flex-shrink-0 overflow-hidden">
+                            <img
+                              src={categoryArticle.sphoto}
+                              alt={categoryArticle.title}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="flex-1 p-6">
+                            <Badge variant="outline" className="mb-3 font-serif">
+                              {categoryArticle.type}
+                            </Badge>
+                            <h4 className="font-serif text-lg font-medium leading-snug mb-3 group-hover:text-primary/80 transition-colors line-clamp-2">
+                              {categoryArticle.title}
+                            </h4>
+                            <div className="text-sm text-muted-foreground">
+                              <Clock className="h-4 w-4 inline mr-1" />
+                              {formatDate(new Date(categoryArticle.created_datetime || Date.now()))}
+                            </div>
+                          </div>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Latest Updates */}
+                <div>
+                  <h3 className="font-serif text-2xl font-bold mb-8">Latest Updates</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {latestUpdates.map((update) => (
+                      <Link
+                        key={update.articleId}
+                        href={`/view/${update.articleId}`}
+                        className="group"
+                      >
+                        <Card className="p-6 hover:bg-accent/5 transition-all duration-300 border-border/60">
+                          <div className="flex items-start gap-4">
+                            <div className="w-20 aspect-square flex-shrink-0 overflow-hidden rounded-lg">
+                              <img
+                                src={update.sphoto}
+                                alt={update.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <Badge variant="outline" className="mb-2 font-serif text-xs">
+                                {update.type}
+                              </Badge>
+                              <h4 className="font-serif text-base font-medium leading-snug group-hover:text-primary/80 transition-colors line-clamp-2 mb-2">
+                                {update.title}
+                              </h4>
+                              <div className="text-xs text-muted-foreground">
+                                <Clock className="h-3 w-3 inline mr-1" />
+                                {formatDate(new Date(update.created_datetime || Date.now()))}
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </footer>
           </motion.article>
 
           {/* Sidebar */}
@@ -811,23 +811,23 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
               >
                 <Card className="p-6">
                   <h3 className="font-serif text-xl font-bold mb-4">About This Article</h3>
-                  <dl className="space-y-4">
-                    <div>
-                      <dt className="text-sm text-muted-foreground">Category</dt>
-                      <dd className="font-medium">{article.type}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-sm text-muted-foreground">Published</dt>
-                      <dd className="font-medium">
-                        {formatDate(new Date(article.created_datetime || Date.now()))}
-                      </dd>
-                    </div>
+                <dl className="space-y-4">
+                  <div>
+                    <dt className="text-sm text-muted-foreground">Category</dt>
+                    <dd className="font-medium">{article.type}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-muted-foreground">Published</dt>
+                    <dd className="font-medium">
+                      {formatDate(new Date(article.created_datetime || Date.now()))}
+                    </dd>
+                  </div>
                     <div>
                       <dt className="text-sm text-muted-foreground">Author</dt>
                       <dd className="font-medium">{article.author?.name || 'Rafiqul Islam'}</dd>
                     </div>
-                  </dl>
-                </Card>
+                </dl>
+              </Card>
               </motion.div>
 
               {/* Trending Articles */}
@@ -838,9 +838,9 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
               >
                 <Card className="p-6">
                   <h3 className="font-serif text-xl font-bold mb-6">Trending Now</h3>
-                  <div className="space-y-6">
+                <div className="space-y-6">
                     {trendingNews.slice(0, 5).map((trendingArticle, index) => (
-                      <Link
+                    <Link
                         key={trendingArticle.articleId}
                         href={`/view/${trendingArticle.articleId}`}
                         className="group block"
@@ -851,24 +851,24 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                               src={trendingArticle.sphoto}
                               alt={trendingArticle.title}
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                          </div>
+                          />
+                        </div>
                           <div className="flex-1 min-w-0">
                             <Badge variant="outline" className="mb-2 font-serif text-xs">
                               {trendingArticle.type}
-                            </Badge>
+                          </Badge>
                             <h4 className="font-serif text-base font-medium line-clamp-2 group-hover:text-primary transition-colors">
                               {trendingArticle.title}
                             </h4>
                           </div>
-                        </div>
+          </div>
                         {index < trendingNews.length - 1 && (
                           <div className="my-6 border-t border-border" />
-                        )}
-                      </Link>
-                    ))}
-                  </div>
-                </Card>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </Card>
               </motion.div>
             </motion.div>
           </motion.aside>

@@ -114,13 +114,13 @@ export default function CategoryPage({ params }: { params: { articleType: string
                     <Badge variant="outline" className="mb-3 md:mb-5 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 transition-colors">
                       Featured
                     </Badge>
-                    <h2 className="text-2xl md:text-4xl font-serif font-bold text-white mb-3 md:mb-5 leading-tight">
+                    <h2 className="text-2xl md:text-4xl font-serif font-bold text-white mb-3 md:mb-5 leading-tight group-hover:text-blue-500 scale-105 transition-colors duration-300">
                       {featuredArticle.title}
                     </h2>
-                    <div className="text-white/90 hidden md:block backdrop-blur-sm bg-black/20 p-4 rounded-lg">
+                    <div className="text-white/90 hidden md:block backdrop-blur-sm bg-black/20 p-4 rounded-lg group-hover:bg-black/30 transition-all duration-300">
                       <Markdown 
                         content={featuredArticle.description}
-                        className="line-clamp-2"
+                        className="line-clamp-2 group-hover:text-white transition-colors duration-300"
                       />
                     </div>
                   </div>

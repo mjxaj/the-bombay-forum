@@ -15,6 +15,20 @@
   --border-color: #DFDFDF;
   --card-bg-color: #FFFFFF;
   --footer-bg-color: #4285f4;
+  
+  /* Section Background Colors */
+  --section-blue: rgba(59, 130, 246, 0.03);
+  --section-purple: rgba(139, 92, 246, 0.03);
+  --section-rose: rgba(244, 63, 94, 0.03);
+  --section-amber: rgba(251, 191, 36, 0.03);
+  --section-emerald: rgba(16, 185, 129, 0.03);
+  
+  /* Pattern Colors */
+  --pattern-primary: rgba(59, 130, 246, 0.1);
+  --pattern-secondary: rgba(139, 92, 246, 0.1);
+  --pattern-accent: rgba(244, 63, 94, 0.1);
+  --pattern-highlight: rgba(251, 191, 36, 0.1);
+  --pattern-success: rgba(16, 185, 129, 0.1);
 }
 
 .dark-mode {
@@ -26,8 +40,170 @@
   --border-color: #333333;
   --card-bg-color: #282828;
   --footer-bg-color: #1f1f1f;
+  
+  /* Section Background Colors - Dark Mode */
+  --section-blue: rgba(59, 130, 246, 0.1);
+  --section-purple: rgba(139, 92, 246, 0.1);
+  --section-rose: rgba(244, 63, 94, 0.1);
+  --section-amber: rgba(251, 191, 36, 0.1);
+  --section-emerald: rgba(16, 185, 129, 0.1);
+  
+  /* Pattern Colors - Dark Mode */
+  --pattern-primary: rgba(59, 130, 246, 0.15);
+  --pattern-secondary: rgba(139, 92, 246, 0.15);
+  --pattern-accent: rgba(244, 63, 94, 0.15);
+  --pattern-highlight: rgba(251, 191, 36, 0.15);
+  --pattern-success: rgba(16, 185, 129, 0.15);
 }
 
+/* Section Spacing and Background Effects */
+.section-spacing {
+  position: relative;
+  margin: 1rem 0;
+  background-color: white;
+  isolation: isolate;
+}
+
+.section-spacing::before {
+  content: '';
+  position: absolute;
+  inset: -1rem;
+  background-color: #1a1f2b;
+  z-index: -1;
+}
+
+/* Pattern Base Classes */
+.pattern-base {
+  position: relative;
+  padding: 3rem 0;
+  background-color: white;
+}
+
+/* Individual Pattern Classes */
+.section-pattern-grid {
+  composes: pattern-base;
+  background-image: linear-gradient(var(--pattern-primary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pattern-primary) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+.section-pattern-dots {
+  composes: pattern-base;
+  background-image: radial-gradient(var(--pattern-secondary) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.section-pattern-diagonal {
+  composes: pattern-base;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--pattern-accent) 0,
+    var(--pattern-accent) 1px,
+    transparent 0,
+    transparent 50%
+  );
+  background-size: 20px 20px;
+}
+
+.section-pattern-honeycomb {
+  composes: pattern-base;
+  background-image: radial-gradient(var(--pattern-highlight) 2px, transparent 2px),
+    radial-gradient(var(--pattern-highlight) 2px, transparent 2px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.section-pattern-circuit {
+  composes: pattern-base;
+  background-image: 
+    linear-gradient(var(--pattern-success) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pattern-success) 1px, transparent 1px),
+    linear-gradient(var(--pattern-success) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, var(--pattern-success) 0.5px, transparent 0.5px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+}
+
+/* Combined Classes */
+.section-divider-blue-purple {
+  composes: section-spacing;
+  background: linear-gradient(135deg, var(--section-blue) 0%, var(--section-purple) 100%);
+}
+
+.section-divider-rose-amber {
+  composes: section-spacing;
+  background: linear-gradient(135deg, var(--section-rose) 0%, var(--section-amber) 100%);
+}
+
+.section-divider-emerald-blue {
+  composes: section-spacing;
+  background: linear-gradient(135deg, var(--section-emerald) 0%, var(--section-blue) 100%);
+}
+
+/* Dark Mode Overrides */
+.dark .section-spacing::before {
+  background-color: #0f1219;
+}
+
+/* Utility Classes */
+.bg-pattern-grid {
+  background-color: var(--section-blue);
+  background-image: linear-gradient(var(--pattern-primary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pattern-primary) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+.bg-pattern-dots {
+  background-color: var(--section-purple);
+  background-image: radial-gradient(var(--pattern-secondary) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-pattern-diagonal {
+  background-color: var(--section-rose);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--pattern-accent) 0,
+    var(--pattern-accent) 1px,
+    transparent 0,
+    transparent 50%
+  );
+  background-size: 20px 20px;
+}
+
+.bg-pattern-honeycomb {
+  background-color: var(--section-amber);
+  background-image: radial-gradient(var(--pattern-highlight) 2px, transparent 2px),
+    radial-gradient(var(--pattern-highlight) 2px, transparent 2px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.bg-pattern-circuit {
+  background-color: var(--section-emerald);
+  background-image: 
+    linear-gradient(var(--pattern-success) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pattern-success) 1px, transparent 1px),
+    linear-gradient(var(--pattern-success) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, var(--pattern-success) 0.5px, transparent 0.5px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+}
+
+/* Remove the problematic @apply rules */
+.section-divider-gradient {
+  background: linear-gradient(135deg, var(--section-blue) 0%, var(--section-purple) 100%);
+}
+
+.section-divider-wave {
+  background: linear-gradient(135deg, var(--section-rose) 0%, var(--section-amber) 100%);
+}
+
+.section-divider-circuit {
+  background: linear-gradient(135deg, var(--section-emerald) 0%, var(--section-blue) 100%);
+}
 
 body {
   background-color: var(--bg-color);
@@ -198,4 +374,16 @@ code {
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+}
+
+/* Dark mode adjustments */
+.dark {
+  .section-divider-blue-purple::before,
+  .section-divider-rose-amber::before,
+  .section-divider-emerald-blue::before,
+  .section-pattern-circuit::before,
+  .section-pattern-honeycomb::before,
+  .section-pattern-diagonal::before {
+    background-color: #0f1219;
+  }
 }

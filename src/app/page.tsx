@@ -13,6 +13,9 @@ import { EntertainmentNews } from "./components/EntertainmentNews";
 import { SportsNews } from "./components/SportsNews";
 import Link from "next/link";
 import { formatDate } from "./utilfunctions/dateFormatter";
+import { LatestUpdatesCarousel } from './components/LatestUpdatesCarousel';
+import { CategoryNewsCarousel } from './components/CategoryNewsCarousel';
+import { FourGridCarousel } from './components/FourGridCarousel';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -62,8 +65,10 @@ export default function Home() {
           {/* News Carousel Skeleton */}
           <div className="container mx-auto px-4 py-4">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              
           <div className="lg:col-span-8">
                 <div className="aspect-video bg-gray-200 rounded-lg" />
+
               </div>
               <div className="lg:col-span-4">
                 <div className="bg-gray-100 rounded-lg h-[400px]" />
@@ -154,6 +159,11 @@ export default function Home() {
           <FeatureNews />
         </section>
 
+        {/* Four Grid Carousel Section */}
+        <section>
+          <FourGridCarousel />
+        </section>
+
         {/* Trending News and Social Stats Section */}
         <section className="border-t border-gray-100 pt-6">
           <div className="container mx-auto">
@@ -167,13 +177,25 @@ export default function Home() {
 
         {/* Bottom Carousels Section */}
         <section className="border-t border-gray-100">
-          <div className="container mx-auto px-4">
-            <div className="flex gap-8">
+          <div className="container mx-auto px-4 py-8">
+            {/* First row: Two BottomCarousels */}
+            <div className="flex flex-col lg:flex-row gap-4 mb-8">
+              <div className="lg:w-full lg:pr-2 flex gap-4">
               <BottomCarousel />
               <BottomCarousel />
             </div>
+            </div>
+
+            {/* Second row: Four LatestUpdatesCarousels in 2x2 grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <LatestUpdatesCarousel />
+              <LatestUpdatesCarousel />
+            
+            </div>
           </div>
         </section>
+
+       
 
         {/* Category News Sections */}
         <section className="border-t border-gray-100 pt-12 pb-16 bg-gray-50/50">
@@ -184,211 +206,32 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Markets News */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-serif font-bold text-gray-900">Markets</h2>
-                  <Link 
-                    href="/category/markets" 
-                    className="text-sm text-blue-500 hover:text-blue-600 font-medium flex items-center gap-1"
-                  >
-                    View All
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-              </Link>
-                </div>
-                <div className="space-y-6">
-                  {marketsNews.map((item, index) => (
-                    <Link href={`/view/${item.articleId}`} key={item.articleId} className="group">
-                      {index === 0 ? (
-                        // First item with larger image
-                        <div className="mb-6">
-                          <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4">
-                            <img
-                              src={item.lphoto}
-                              alt={item.title}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="px-2.5 py-0.5 bg-blue-50 text-blue-500 text-xs font-medium rounded-full">
-                              {item.type}
-                            </span>
-                            <span className="text-xs text-gray-500">
-                              {formatDate(new Date(item.created_datetime || Date.now()))}
-                            </span>
-                          </div>
-                          <h3 className="text-lg font-medium line-clamp-2 group-hover:text-blue-500 transition-colors">
-                            {item.title}
-                          </h3>
-                        </div>
-                      ) : (
-                        // Other items in list format
-                        <div className="flex gap-4 group-hover:bg-gray-50/80 p-3 rounded-lg transition-colors">
-                          <div className="w-24 h-20 flex-shrink-0 overflow-hidden rounded-lg">
-                            <img
-                              src={item.sphoto}
-                              alt={item.title}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-xs text-blue-500 font-medium">
-                                {item.type}
-                              </span>
-                              <span className="text-xs text-gray-500">
-                                {formatDate(new Date(item.created_datetime || Date.now()))}
-                              </span>
-                            </div>
-                            <h3 className="text-sm font-medium line-clamp-2 group-hover:text-blue-500 transition-colors">
-                              {item.title}
-                            </h3>
-                      </div>
-                    </div>
-                      )}
-                </Link>
-              ))}
+              <CategoryNewsCarousel
+                title="Markets"
+                articles={marketsNews}
+                categorySlug="markets"
+              />
+              <CategoryNewsCarousel
+                title="Finance"
+                articles={financeNews}
+                categorySlug="finance"
+              />
+              <CategoryNewsCarousel
+                title="Technology"
+                articles={techNews}
+                categorySlug="technology"
+              />
             </div>
           </div>
+        </section>
 
-              {/* Finance News */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-serif font-bold text-gray-900">Finance</h2>
-                  <Link 
-                    href="/category/finance" 
-                    className="text-sm text-blue-500 hover:text-blue-600 font-medium flex items-center gap-1"
-                  >
-                    View All
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-                <div className="space-y-6">
-                  {financeNews.map((item, index) => (
-                    <Link href={`/view/${item.articleId}`} key={item.articleId} className="group">
-                      {index === 0 ? (
-                        // First item with larger image
-                        <div className="mb-6">
-                          <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4">
-                            <img
-                              src={item.lphoto}
-                              alt={item.title}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="px-2.5 py-0.5 bg-blue-50 text-blue-500 text-xs font-medium rounded-full">
-                              {item.type}
-                            </span>
-                            <span className="text-xs text-gray-500">
-                              {formatDate(new Date(item.created_datetime || Date.now()))}
-                            </span>
-                          </div>
-                          <h3 className="text-lg font-medium line-clamp-2 group-hover:text-blue-500 transition-colors">
-                            {item.title}
-                          </h3>
-                        </div>
-                      ) : (
-                        // Other items in list format
-                        <div className="flex gap-4 group-hover:bg-gray-50/80 p-3 rounded-lg transition-colors">
-                          <div className="w-24 h-20 flex-shrink-0 overflow-hidden rounded-lg">
-                            <img
-                              src={item.sphoto}
-                              alt={item.title}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-xs text-blue-500 font-medium">
-                                {item.type}
-                              </span>
-                              <span className="text-xs text-gray-500">
-                                {formatDate(new Date(item.created_datetime || Date.now()))}
-                              </span>
-                            </div>
-                            <h3 className="text-sm font-medium line-clamp-2 group-hover:text-blue-500 transition-colors">
-                              {item.title}
-                            </h3>
-                          </div>
-                        </div>
-                      )}
-                </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Technology News */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-serif font-bold text-gray-900">Technology</h2>
-                  <Link 
-                    href="/category/technology" 
-                    className="text-sm text-blue-500 hover:text-blue-600 font-medium flex items-center gap-1"
-                  >
-                    View All
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-                <div className="space-y-6">
-                  {techNews.map((item, index) => (
-                    <Link href={`/view/${item.articleId}`} key={item.articleId} className="group">
-                      {index === 0 ? (
-                        // First item with larger image
-                        <div className="mb-6">
-                          <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4">
-                            <img
-                              src={item.lphoto}
-                              alt={item.title}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="px-2.5 py-0.5 bg-blue-50 text-blue-500 text-xs font-medium rounded-full">
-                              {item.type}
-                            </span>
-                            <span className="text-xs text-gray-500">
-                              {formatDate(new Date(item.created_datetime || Date.now()))}
-                            </span>
-                          </div>
-                          <h3 className="text-lg font-medium line-clamp-2 group-hover:text-blue-500 transition-colors">
-                            {item.title}
-                          </h3>
-                        </div>
-                      ) : (
-                        // Other items in list format
-                        <div className="flex gap-4 group-hover:bg-gray-50/80 p-3 rounded-lg transition-colors">
-                          <div className="w-24 h-20 flex-shrink-0 overflow-hidden rounded-lg">
-                            <img
-                              src={item.sphoto}
-                              alt={item.title}
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-xs text-blue-500 font-medium">
-                                {item.type}
-                              </span>
-                              <span className="text-xs text-gray-500">
-                                {formatDate(new Date(item.created_datetime || Date.now()))}
-                              </span>
-                            </div>
-                            <h3 className="text-sm font-medium line-clamp-2 group-hover:text-blue-500 transition-colors">
-                              {item.title}
-                        </h3>
-                          </div>
-                        </div>
-                      )}
-                    </Link>
-                  ))}
-                </div>
+        <section className="border-t border-gray-100">
+          <div className="container mx-auto px-4 py-8">
+            {/* First row: Two BottomCarousels */}
+            <div className="flex flex-col lg:flex-row gap-4 mb-8">
+              <div className="lg:w-full lg:pr-2 flex gap-4">
+                <BottomCarousel />
+                <BottomCarousel />
               </div>
             </div>
           </div>
