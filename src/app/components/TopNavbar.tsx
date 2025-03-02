@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Clock } from "lucide-react";
+import { Clock, Search, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { news } from "@/app/utilfunctions/interfaces";
 import { motion, AnimatePresence } from "framer-motion";
@@ -47,6 +47,7 @@ export function TopNavbar() {
   const [trendingArticles, setTrendingArticles] = useState<news[]>([]);
   const [location, setLocation] = useState({ city: "Loading...", temp: "--" });
   const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Fetch trending articles
@@ -111,9 +112,9 @@ export function TopNavbar() {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-8">
-            {/* Trending Section */}
+            {/* Trending Section - Hidden on Mobile */}
             <motion.div 
-              className="flex items-center flex-1 max-w-[60%] overflow-hidden"
+              className="hidden md:flex items-center flex-1 max-w-[60%] overflow-hidden"
               variants={itemVariants}
             >
               <motion.div 
@@ -147,9 +148,23 @@ export function TopNavbar() {
               </div>
             </motion.div>
 
-            {/* Date and Social Links */}
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="md:hidden p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 text-gray-600" />
+              ) : (
+                <Menu className="h-5 w-5 text-gray-600" />
+              )}
+            </motion.button>
+
+            {/* Date and Social Links - Hidden on Mobile */}
             <motion.div 
-              className="flex items-center gap-4"
+              className="hidden md:flex items-center gap-4"
               variants={itemVariants}
             >
               <motion.div 
@@ -209,6 +224,7 @@ export function TopNavbar() {
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
+            className="flex-shrink-0"
           >
             <Link href="/" className="flex items-center">
               <div className="flex items-center">
@@ -234,9 +250,17 @@ export function TopNavbar() {
             </Link>
           </motion.div>
 
-          {/* Weather Widget */}
+          {/* Search Button - Visible on both Mobile and Desktop */}
+          <Link 
+            href="/search" 
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <Search className="h-5 w-5 text-gray-600" />
+          </Link>
+
+          {/* Weather Widget - Hidden on Mobile */}
           <motion.div 
-            className="flex items-center gap-1.5 text-gray-500"
+            className="hidden md:flex items-center gap-1.5 text-gray-500"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
@@ -265,6 +289,56 @@ export function TopNavbar() {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden border-t border-gray-100"
+          >
+            <div className="container mx-auto px-4 py-4 space-y-4">
+              {/* Mobile Trending */}
+              <div className="space-y-2">
+                <h3 className="font-medium text-gray-900">Trending</h3>
+                <div className="space-y-2">
+                  {trendingArticles.slice(0, 3).map((article) => (
+                    <Link 
+                      key={article.articleId}
+                      href={`/view/${article.articleId}`}
+                      className="block text-sm text-gray-600 hover:text-primary"
+                    >
+                      {article.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Weather */}
+              <div className="flex items-center gap-2 text-gray-500">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+                <span className="text-sm">{location.temp}°C {location.city}</span>
+              </div>
+
+              {/* Mobile Social Links */}
+              <div className="flex gap-4">
+                {['facebook', 'twitter', 'youtube', 'instagram'].map((social) => (
+                  <Link key={social} href={`https://${social}.com`} className="text-gray-400 hover:text-primary">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      {/* ... existing social icons ... */}
+                    </svg>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 } 
