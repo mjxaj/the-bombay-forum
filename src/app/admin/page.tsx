@@ -258,7 +258,7 @@ export default function AdminPage() {
             <option value="markets">Markets</option>
             <option value="technology">Technology</option>
             <option value="bombay">Bombay</option>
-            <option value="bombay">General</option>
+            <option value="general">General</option>
           </select>
           <button
             type="submit"
