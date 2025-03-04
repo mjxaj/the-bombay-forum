@@ -75,7 +75,7 @@ export default function Home() {
   const HomeLayout = () => {
     return (
       <div className="container">
-        <LeftAsideNews trendingNews={latestNews} />
+        <LeftAsideNews trendingNews={trendingNews} />
         <div
           className="home-main"
           style={{ display: "flex", flexDirection: "column", gap: "15px" }}
@@ -119,7 +119,7 @@ export default function Home() {
           </div>
         </div>
         <aside className="right-aside">
-          <RightBsideNews latestNews={trendingNews} />
+          <RightBsideNews latestNews={latestNews} />
         </aside>
         <div className="footer" style={{ display: "none" }}>
           Footer
