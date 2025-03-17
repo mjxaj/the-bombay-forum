@@ -8,8 +8,8 @@ import { Footer } from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "The Bombay Forum",
-  description: "Your trusted source for news and analysis",
+  title: "City News Chandigarh",
+  description: "Your trusted source for Chandigarh news and updates",
 };
 
 export default function RootLayout({

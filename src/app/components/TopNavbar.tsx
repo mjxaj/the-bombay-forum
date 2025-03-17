@@ -219,7 +219,7 @@ export function TopNavbar() {
         className="container mx-auto px-4"
         variants={itemVariants}
       >
-        <div className="flex items-center justify-between py-3">
+        <div className="flex items-center justify-between py-1">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -228,24 +228,13 @@ export function TopNavbar() {
           >
             <Link href="/" className="flex items-center">
               <div className="flex items-center">
-                <motion.svg 
-                  className="h-7 w-7 text-gray-800"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15" />
-                </motion.svg>
-                <motion.span 
-                  className="ml-2 text-xl font-bold text-gray-800"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  The Bombay Forum
-                </motion.span>
+                <motion.img 
+                  src="/City News Chandigarh/navbar_logo.png"
+                  alt="City News Chandigarh Logo"
+                  className="h-32 w-44"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
               </div>
             </Link>
           </motion.div>
@@ -253,7 +242,7 @@ export function TopNavbar() {
           {/* Search Button - Visible on both Mobile and Desktop */}
           <Link 
             href="/search" 
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
           >
             <Search className="h-5 w-5 text-gray-600" />
           </Link>

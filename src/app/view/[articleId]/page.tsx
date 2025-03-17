@@ -668,8 +668,8 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                       </Card>
                     </Link>
                   ))}
+                  </div>
                 </div>
-              </div>
               </div>
 
               {/* Article Footer */}
@@ -825,7 +825,7 @@ export default function ArticlePage({ params }: { params: { articleId: string } 
                     <div>
                       <dt className="text-sm text-muted-foreground">Author</dt>
                       <dd className="font-medium">{article.author?.name || 'Rafiqul Islam'}</dd>
-                    </div>
+                  </div>
                 </dl>
               </Card>
               </motion.div>

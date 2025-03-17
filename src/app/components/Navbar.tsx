@@ -155,7 +155,7 @@ export function Navbar() {
             <div className="text-center flex-1">
               <Link href="/" className="inline-block group">
                 <h1 className="text-xl md:text-3xl lg:text-4xl font-serif font-bold tracking-tight group-hover:text-primary/90 transition-colors">
-                  The Bombay Forum
+                  City News Chandigarh
                 </h1>
                 <p className="text-[10px] md:text-xs font-serif text-muted-foreground mt-0.5 tracking-wide uppercase">
                   India's Premier Business & Finance Publication
