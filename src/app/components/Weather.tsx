@@ -19,10 +19,13 @@ const Weather: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>("");
 
-  const fetchWeatherByCoordinates = async (latitude: number, longitude: number) => {
+  const fetchWeatherByCoordinates = async (
+    latitude: number,
+    longitude: number
+  ) => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_API}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=Bombay,IN&appid=${process.env.NEXT_PUBLIC_WEATHER_API}&units=metric`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch weather data");
@@ -35,54 +38,33 @@ const Weather: React.FC = () => {
   };
 
   const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          fetchWeatherByCoordinates(latitude, longitude);
-        },
-        (error) => {
-          setError("Unable to retrieve location.");
-        }
-      );
-    } else {
-      setError("Geolocation is not supported by this browser.");
-    }
+    const latitude = 18.958233;
+    const longitude = 72.831865;
+    fetchWeatherByCoordinates(latitude, longitude);
   };
 
   useEffect(() => {
     getUserLocation();
-
-    const date = new Date();
-    const formattedDate = date.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-    setCurrentDate(formattedDate);
-
   }, []);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  console.log(weatherData?.main)
+  console.log(weatherData?.main);
 
   return (
-    <div className="weather">
+    <span className="weather">
       {weatherData ? (
         <div>
-          <span>{currentDate}</span>
           <span>
-            {weatherData.name} {Math.round(weatherData.main.temp)}°C
+            Bombay, {Math.round(weatherData.main.temp)}°C
           </span>
         </div>
       ) : (
         <div>Loading...</div>
       )}
-    </div>
+    </span>
   );
 };
 

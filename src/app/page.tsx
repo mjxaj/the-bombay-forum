@@ -130,7 +130,7 @@ export default function Home() {
 
   return (
     <main>
-      <MarketTicker data={marketTickerData} />
+      {/* <MarketTicker data={marketTickerData} /> */}
       {searchValue ? (
         <ExploreLayout
           articles={searchOptions}

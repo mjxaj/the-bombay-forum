@@ -1,19 +1,19 @@
 :root {
   /* Light theme variables */
-  --bg-color: #F3F3F3;
-  --text-color: #041B32;
-  --text-color1: #3B6978;
-  --heading-color: #1E2532;
-  --border-color: #DFDFDF;
-  --card-bg-color: #FFFFFF;
+  --bg-color: #f3f3f3;
+  --text-color: #041b32;
+  --text-color1: #3b6978;
+  --heading-color: #1e2532;
+  --border-color: #dfdfdf;
+  --card-bg-color: #ffffff;
   --footer-bg-color: #4285f4;
 }
 
 .dark-mode {
   /* Dark theme variables */
   --bg-color: #121212;
-  --text-color: #FFFFFF;
-  --text-color1: #9C9C9C;
+  --text-color: #ffffff;
+  --text-color1: #9c9c9c;
   --heading-color: #f4b400;
   --border-color: #333333;
   --card-bg-color: #282828;
@@ -40,7 +40,7 @@
   /* Styles for gradient overlay */
 }
 
-.no-articles-found{
+.no-articles-found {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -243,9 +243,13 @@
 }
 
 .weather {
+  position: absolute;
+  top: 60px;
+  left: 0;
   padding: 20px;
   display: flex;
   justify-content: space-between;
+  color: var(--text-color);
 }
 
 .weather-summary img,

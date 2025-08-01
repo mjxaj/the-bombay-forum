@@ -41,7 +41,7 @@ export default function SearchPage() {
       <div className="search-bar-wrapper">
         <SearchBar
           className="searchbar"
-          style={{ width: "90%", maxWidth: "500px" }}
+          style={{ width: "90%", maxWidth: "500px", borderRadius: "50px" }}
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
           onCancelSearch={() => setSearchValue("")}

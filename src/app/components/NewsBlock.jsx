@@ -2,22 +2,25 @@ import "./NewsBlock.scss";
 import Link from "next/link";
 import { formatDate, timeAgo } from "@/app/utilfunctions/dateFormatter";
 
-export default function NewsBlock({ news, showImage=true }) {
+export default function NewsBlock({ news, showImage = true }) {
+  console.log({ news });
+
   return (
     <>
       <span className="news-block-wrapper">
         <Link href={`/view/${news.articleId}`}>
           <div className="news-block">
-            <div className="date">{formatDate(new Date(news.date))}</div>
+            <div className="type">{news.type}</div>
+            {/* <div className="date">{formatDate(new Date(news.date))}</div> */}
             <div className="news">
               {showImage && news.lphoto && (
                 <img className="imageright" src={news.lphoto} alt="news1" />
               )}
-              <p>
-                {news.title}
-              </p>
+              <p>{news.title}</p>
             </div>
-            <div className="remark">Published on {timeAgo(new Date(news.date))}</div>
+            <div className="remark">
+              Published on {timeAgo(new Date(news.date))}
+            </div>
           </div>
         </Link>
       </span>

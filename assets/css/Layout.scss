@@ -82,24 +82,10 @@ header {
   top: 0px;
   background-color: #011E29;
   z-index: 98765;
-  .weather{
-    margin-left: -348px;
-    margin-top: -20px;
-    margin-bottom: -18px;
-     div{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      color: white;
-      font-size: 12px;
-      font-weight: 300;
-     }
-  }
   nav {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     max-width: 1000px;
     // background-color: red;
@@ -122,6 +108,27 @@ header {
       text-decoration: none;
       color: #ffffff;
     }
+  }
+}
+
+.header-bottom {
+  margin-top: 82px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  // background-color: #011E29;
+  padding: 10px 0;
+}
+
+.header-bottom > div {
+  margin: 0 15px;
+  color: #000;
+  font-size: 16px;
+
+  a {
+    text-decoration: none;
+    color: #000;
   }
 }
 

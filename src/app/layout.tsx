@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SearchBarClient from "./components/SearchBarClient";
 import NewsletterSubscription from "./components/NewsletterSubscription";
 import Weather from "./components/Weather";
-
+import HeaderBottom from "./components/HeaderBottom";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -46,7 +46,10 @@ export default async function RootLayout({
         {process.env.NODE_ENV === "production" && (
           <>
             {/* Add the Google Analytics script */}
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=G-SXGQN0NSTW`}></script>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=G-SXGQN0NSTW`}
+            ></script>
             <script
               dangerouslySetInnerHTML={{
                 __html: `
@@ -83,23 +86,18 @@ export default async function RootLayout({
                       height={40}
                     />
                   </Link>
-                  <h1 className="title">
+                  {/* <h1 className="title">
                     <Link href="/">The Bombay Forum</Link>
-                  </h1>
+                  </h1> */}
                 </div>
                 <nav>
-                  <ul>
+                  {/* <ul>
                     <div className="search-icon">
                       <Link href="/search">
                         <SearchBarClient />
                       </Link>
                     </div>
-                    {navList.map((navItem) => (
-                      <div key={navItem.name}>
-                        <Link href={navItem.link}>{navItem.name}</Link>
-                      </div>
-                    ))}
-                  </ul>
+                  </ul> */}
                   <DarkButton />
                 </nav>
                 <div className="weather">
@@ -117,11 +115,11 @@ export default async function RootLayout({
                         </li>
                       ))}
                   </ul>
-                  <div className="search-icon">
+                  {/* <div className="search-icon">
                     <Link href="/search">
                       <SearchBarClient />
                     </Link>
-                  </div>
+                  </div> */}
                   <ul>
                     <div className="logo">
                       <Link href="/">
@@ -132,9 +130,9 @@ export default async function RootLayout({
                           height={40}
                         />
                       </Link>
-                      <h1 className="title">
+                      {/* <h1 className="title">
                         <Link href="/">The Bombay Forum</Link>
-                      </h1>
+                      </h1> */}
                     </div>
                   </ul>
                   <ul>
@@ -148,11 +146,12 @@ export default async function RootLayout({
                     <DarkButton />
                   </ul>
                 </nav>
-                <div className="weather">
+                {/* <div className="weather">
                   <Weather />
-                </div>
+                </div> */}
               </div>
             </header>
+            <HeaderBottom />
             {children}
             <section className="footer">
               <div className="footer-row-1-parent">
