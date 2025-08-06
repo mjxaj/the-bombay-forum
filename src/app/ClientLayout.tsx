@@ -1,25 +1,16 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
+// import { Session } from "next-auth";
 import React, { useEffect, useState } from "react";
-
-type CustomSession = Session & {
-  customData?: {
-    name: string;
-    description: string;
-  };
-};
 
 type Props = {
   children: React.ReactNode;
-  session: CustomSession | null;
+  session: any;
 };
 
 export default function ClientLayout({ children, session }: Props) {
-  const [customSession, setCustomSession] = useState<CustomSession | null>(
-    session
-  );
+  const [customSession, setCustomSession] = useState<any>(session);
 
   useEffect(() => {
     async function fetchData() {
@@ -30,7 +21,7 @@ export default function ClientLayout({ children, session }: Props) {
       };
 
       // Add custom data to the session
-      setCustomSession((prevSession) => {
+      setCustomSession((prevSession: any) => {
         if (prevSession) {
           return { ...prevSession, userDetails: fetchedData };
         }
