@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       [articleId, title, description, sphoto, lphoto, type, source, sourceLink, link]
     );
 
-    console.log("Inserted article ID:", result.insertId);
+    // console.log("Inserted article ID:", result.insertId);
 
     return NextResponse.json({ message: "News added successfully" });
   } catch (error) {
