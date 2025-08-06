@@ -4,7 +4,7 @@ import "./globals.css";
 import "../../assets/css/Layout.scss";
 import Link from "next/link";
 import Image from "next/image";
-import { authOptions } from "../pages/api/auth/[...nextauth]";
+// import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ClientLayout from "./ClientLayout";
 import DarkButton from "./components/DarkButton";
@@ -38,7 +38,7 @@ export default async function RootLayout({
     { name: "Privacy policy", link: "/terms/privacy" },
   ];
 
-  const session = await getServerSession(authOptions);
+  const session = {};
 
   return (
     <html lang="en">
