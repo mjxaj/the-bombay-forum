@@ -1,0 +1,40 @@
+/* Avant Garde Font Family */
+@font-face {
+  font-family: 'Avant Garde';
+  src: url('/fonts/AVGARDN_2.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avant Garde';
+  src: url('/fonts/AVGARDD_2.TTF') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avant Garde';
+  src: url('/fonts/AVGARDDO_2.TTF') format('truetype');
+  font-weight: bold;
+  font-style: oblique;
+  font-display: swap;
+}
+
+/* Font utility classes */
+.font-avant-garde {
+  font-family: "Avant Garde", "Inter", sans-serif;
+}
+
+.font-avant-garde-bold {
+  font-family: "Avant Garde", "Inter", sans-serif;
+  font-weight: bold;
+}
+
+.font-avant-garde-oblique {
+  font-family: "Avant Garde", "Inter", sans-serif;
+  font-weight: bold;
+  font-style: oblique;
+}

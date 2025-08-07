@@ -13,6 +13,7 @@ import SearchBarClient from "./components/SearchBarClient";
 import NewsletterSubscription from "./components/NewsletterSubscription";
 import Weather from "./components/Weather";
 import HeaderBottom from "./components/HeaderBottom";
+import MobileNav from "./components/MobileNav";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -71,38 +72,35 @@ export default async function RootLayout({
             crossOrigin="anonymous"
           ></script>
         )}
+        {/* Preload Avant Garde fonts for better performance */}
+        <link
+          rel="preload"
+          href="/fonts/AVGARDN_2.TTF"
+          as="font"
+          type="font/truetype"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/AVGARDD_2.TTF"
+          as="font"
+          type="font/truetype"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/AVGARDDO_2.TTF"
+          as="font"
+          type="font/truetype"
+          crossOrigin="anonymous"
+        />
       </head>
-      <body className={inter.className}>
+      <body>
         <ClientLayout session={session}>
           <div>
             <header>
-              <div className="mobile-nav">
-                <div className="logo">
-                  <Link href="/">
-                    <Image
-                      src="/images/logo.png"
-                      alt="Logo"
-                      width={93}
-                      height={40}
-                    />
-                  </Link>
-                  {/* <h1 className="title">
-                    <Link href="/">The Bombay Forum</Link>
-                  </h1> */}
-                </div>
-                <nav>
-                  {/* <ul>
-                    <div className="search-icon">
-                      <Link href="/search">
-                        <SearchBarClient />
-                      </Link>
-                    </div>
-                  </ul> */}
-                  <DarkButton />
-                </nav>
-                <div className="weather">
-                  <Weather />
-                </div>
+              <div className="mobile-nav-container">
+                <MobileNav navList={navList} />
               </div>
               <div className="desktop-nav">
                 <nav>
