@@ -8,6 +8,7 @@ import MarketTicker from "./components/MarketTicker";
 import Link from "next/link";
 import SkeletonCard from "./components/SkeletonCard";
 import { news } from "./utilfunctions/interfaces";
+import { articleAPI } from "./utilfunctions/api";
 import ExploreLayout from "./components/ExploreLayout";
 
 export default function Home() {
@@ -23,15 +24,12 @@ export default function Home() {
     const fetchMainNewsArticle = async () => {
       try {
         const articleType = localStorage.getItem("articleType");
-        const response = await fetch(
-          `/api/searcharticles?articleType=${
-            articleType ? articleType : "random"
-          }&num=9&randomize=true`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setMainNewsContainer(data);
-        }
+        const data = await articleAPI.getArticles({
+          articleType: articleType || "random",
+          num: 9,
+          randomize: true
+        });
+        setMainNewsContainer(data);
       } catch (error) {
         console.error("Failed to fetch article:", error);
       } finally {
@@ -41,13 +39,13 @@ export default function Home() {
 
     const fetchTrendingNewsArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setTrendingNews(data.slice(0, 10));
-        }
+        const data = await articleAPI.getArticles({
+          num: 15,
+          randomize: false,
+          sortBy: "created_datetime",
+          order: "DESC"
+        });
+        setTrendingNews(data.slice(0, 10));
       } catch (error) {
         console.error("Failed to fetch article:", error);
       }
@@ -55,13 +53,12 @@ export default function Home() {
 
     const fetchLatestNewsArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/searcharticles?articleType=random&num=8&order=DESC`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setLatestNews(data);
-        }
+        const data = await articleAPI.getArticles({
+          articleType: "random",
+          num: 8,
+          order: "DESC"
+        });
+        setLatestNews(data);
       } catch (error) {
         console.error("Failed to fetch article:", error);
       }

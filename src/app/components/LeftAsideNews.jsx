@@ -11,8 +11,8 @@ export default function LeftAsideNews({ trendingNews }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="advertisement-custom">
-          <div className="title">Sponsered</div>
+        <div className="advertisement-custom hide-on-mobile">
+          <div className="title">Sponsored</div>
           <Image
             src="/mjx-ad.jpg"
             alt="Advertisement"

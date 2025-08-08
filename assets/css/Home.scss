@@ -59,7 +59,7 @@ main {
   .imageright {
     height: 80px;
     width: 80px;
-    border-radius: 8px;
+    // border-radius: 8px;
     object-fit: cover;
     margin-right: 10px;
     max-width: 130px;
@@ -73,7 +73,7 @@ main {
 
     .left-aside__news {
       padding: 20px;
-      background-color: var(--home-card-bg-color);
+      // background-color: var(--home-card-bg-color);
       border-radius: 12px;
 
       .new-list-block {
@@ -83,7 +83,7 @@ main {
         top: 70px;
 
         .heading {
-          font-family: "Epilogue", sans-serif;
+          font-family: "Avant Garde", "Epilogue", sans-serif;
           font-size: 20px;
           font-weight: 700;
           margin-bottom: 20px;
@@ -112,7 +112,7 @@ main {
   .home-main {
     // margin-top: 300px;
     grid-area: main;
-    background-color: var(--home-card-bg-color);
+    // background-color: var(--home-card-bg-color);
     // margin-top: 20px;
     border-radius: 10px;
     height: fit-content;
@@ -149,12 +149,13 @@ main {
     text-align: center;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 750px) {
     .container {
       grid-template-rows: auto auto auto 1fr 50px 50px 50px;
       grid-template-columns: 1fr;
       grid-template-areas: "main" "right-aside" "left-aside" "footer";
-      margin-top: 0px;
+      margin-top: 70px; /* Account for fixed mobile header */
+      padding-top: 10px;
     }
 
     .left-aside {
@@ -176,14 +177,14 @@ main {
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.3s ease;
-  background-color: var(--home-card-bg-color);
+  // background-color: var(--home-card-bg-color);
 
   &__image {
     width: calc(100% - 20px);
     height: 200px;
     object-fit: cover;
     margin: 10px;
-    border-radius: 10px;
+    // border-radius: 10px;
   }
 
   &__content {
@@ -322,4 +323,10 @@ main {
 .searchbar {
   margin-top: 0px;
 
+}
+
+.hide-on-mobile {
+  @media (max-width: 750px) {
+    display: none !important;
+  }
 }

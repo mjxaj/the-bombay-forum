@@ -242,7 +242,9 @@
   margin: 0;
 }
 
-.weather {
+/* Weather styles - only apply to explore page weather, not mobile sidebar */
+.main-content .weather,
+.explore-layout .weather {
   position: absolute;
   top: 60px;
   left: 0;

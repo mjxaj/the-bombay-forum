@@ -10,6 +10,7 @@ import { formatDate } from "@/app/utilfunctions/dateFormatter";
 import LeftAsideNews from "@/app/components/LeftAsideNews";
 import Link from "next/link";
 import { news } from "@/app/utilfunctions/interfaces";
+import { articleAPI } from "@/app/utilfunctions/api";
 import RightBsideNews from "@/app/components/RightBsideNews";
 // import { Tooltip } from "@mui/material";
 // import ShareIcon from "@mui/icons-material/Share";
@@ -33,20 +34,23 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchTrendingNewsArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?num=15&randomize=false&sortBy=created_datetime&order=DESC`);
-        let data = await response.json();
-        if (response.ok) {
-          const randomElement = getRandomElement(data.slice(1) || data);
-          setMarketTickerData(
-            <Link href={`/view/${randomElement.articleId}`}>
-              Breaking News: {randomElement.title}
-            </Link>
-          );
-          data = data.slice(0, 10);
-          setTrendingNews(data);
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
+        const data = await articleAPI.getArticles({
+          num: 15,
+          randomize: false,
+          sortBy: "created_datetime",
+          order: "DESC"
+        });
+        
+        const randomElement = getRandomElement(data.slice(1) || data);
+        setMarketTickerData(
+          <Link href={`/view/${randomElement.articleId}`}>
+            Breaking News: {randomElement.title}
+          </Link>
+        );
+        const trendingData = data.slice(0, 10);
+        setTrendingNews(trendingData);
+        if (trendingData[0]?.type) {
+          localStorage.setItem("articleType", trendingData[0].type);
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -55,13 +59,14 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
 
     const fetchLatestNewsArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?articleType=random&num=8&order=DESC`);
-        const data = await response.json();
-        if (response.ok) {
-          setLatestNews(data);
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
+        const data = await articleAPI.getArticles({
+          articleType: "random",
+          num: 8,
+          order: "DESC"
+        });
+        setLatestNews(data);
+        if (data[0]?.type) {
+          localStorage.setItem("articleType", data[0].type);
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -75,13 +80,13 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(`/api/searcharticles?articleId=${encodeURIComponent(params.articleId)}&fullDescription=true`);
-        const data = await response.json();
-        if (response.ok) {
-          setArticle(data[0]);
-          if (data.type) {
-            localStorage.setItem("articleType", data.type);
-          }
+        const data = await articleAPI.getArticles({
+          articleId: params.articleId,
+          fullDescription: true
+        });
+        setArticle(data[0]);
+        if (data[0]?.type) {
+          localStorage.setItem("articleType", data[0].type);
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
