@@ -20,13 +20,24 @@ interface Article {
   source?: string;
 }
 
+interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  limit: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
 export default function ManageNews() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [allTypes, setAllTypes] = useState<string[]>([]);
   const articlesPerPage = 10;
   const router = useRouter();
 
@@ -37,15 +48,28 @@ export default function ManageNews() {
       return;
     }
     fetchArticles();
-  }, [router]);
+  }, [router, currentPage, searchQuery, filterType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchArticles = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('adminToken');
-      const response = await adminAPI.getAllNews(token || '');
+      const response = await adminAPI.getAllNews(token || '', {
+        page: currentPage,
+        limit: articlesPerPage,
+        search: searchQuery,
+        type: filterType
+      });
+      
       if (response.success) {
-        setArticles(response.data);
+        setArticles(response.data.articles);
+        setPagination(response.data.pagination);
+        
+        // Extract unique types for filter dropdown (only on first load or when search is empty)
+        if (!searchQuery && !filterType) {
+          const types = Array.from(new Set(response.data.articles.map((article: Article) => article.type))) as string[];
+          setAllTypes(types);
+        }
       } else {
         setError(response.message || 'Failed to fetch articles');
       }
@@ -66,7 +90,8 @@ export default function ManageNews() {
       const token = localStorage.getItem('adminToken');
       const response = await adminAPI.deleteNews(token || '', id);
       if (response.success) {
-        setArticles(articles.filter(article => article.id !== id));
+        // Refetch articles to update pagination
+        fetchArticles();
       } else {
         setError(response.message || 'Failed to delete article');
       }
@@ -81,22 +106,19 @@ export default function ManageNews() {
     router.push('/admin/login');
   };
 
-  // Filter articles based on search query and type
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = !filterType || article.type === filterType;
-    return matchesSearch && matchesType;
-  });
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
-  // Get unique article types for filter
-  const articleTypes = Array.from(new Set(articles.map(article => article.type)));
+  const handleTypeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterType(e.target.value);
+    setCurrentPage(1); // Reset to first page when filtering
+  };
 
-  // Pagination
-  const indexOfLastArticle = currentPage * articlesPerPage;
-  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  const currentArticles = filteredArticles.slice(indexOfFirstArticle, indexOfLastArticle);
-  const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   if (loading) {
     return <div className={styles.loading}>Loading articles...</div>;
@@ -130,17 +152,17 @@ export default function ManageNews() {
             type="text"
             placeholder="Search articles..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearch}
             className={styles.searchInput}
           />
         </div>
         <select
           value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
+          onChange={handleTypeFilter}
           className={styles.filterSelect}
         >
           <option value="">All Types</option>
-          {articleTypes.map(type => (
+          {allTypes.map((type: string) => (
             <option key={type} value={type}>
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </option>
@@ -149,17 +171,17 @@ export default function ManageNews() {
       </div>
 
       <div className={styles.statsBar}>
-        <span>Total Articles: {filteredArticles.length}</span>
-        <span>Page {currentPage} of {totalPages}</span>
+        <span>Total Articles: {pagination?.totalCount || 0}</span>
+        <span>Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}</span>
       </div>
 
       <div className={styles.articlesList}>
-        {currentArticles.length === 0 ? (
+        {articles.length === 0 ? (
           <div className={styles.noArticles}>
             {searchQuery || filterType ? 'No articles match your filters' : 'No articles found'}
           </div>
         ) : (
-          currentArticles.map(article => (
+          articles.map((article: Article) => (
             <div key={article.id} className={styles.articleCard}>
               <div className={styles.articleImage}>
                 {article.sphoto ? (
@@ -205,21 +227,21 @@ export default function ManageNews() {
         )}
       </div>
 
-      {totalPages > 1 && (
+      {pagination && pagination.totalPages > 1 && (
         <div className={styles.pagination}>
           <button
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
+            onClick={() => handlePageChange(Math.max((pagination?.currentPage || 1) - 1, 1))}
+            disabled={!pagination?.hasPrevPage}
             className={styles.paginationButton}
           >
             Previous
           </button>
           <span className={styles.paginationInfo}>
-            Page {currentPage} of {totalPages}
+            Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
           </span>
           <button
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(Math.min((pagination?.currentPage || 1) + 1, pagination?.totalPages || 1))}
+            disabled={!pagination?.hasNextPage}
             className={styles.paginationButton}
           >
             Next

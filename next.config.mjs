@@ -26,10 +26,26 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'via.placeholder.com',
       },
-      // Add more domains as needed
+      // Allow localhost for development
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '3000',
+      },
+      // Allow all HTTPS domains
       {
         protocol: 'https',
-        hostname: '*',
+        hostname: '**',
+      },
+      // Allow all HTTP domains (for development)
+      {
+        protocol: 'http',
+        hostname: '**',
       },
     ],
   },

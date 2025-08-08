@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { adminAPI } from '../../../utilfunctions/api';
+import ImageUpload from '../../../components/ImageUpload';
 import styles from './edit.module.css';
 
 // Dynamically import ReactQuill to avoid SSR issues
@@ -59,22 +60,18 @@ export default function EditNews() {
       try {
         setLoading(true);
         const token = localStorage.getItem('adminToken');
-        const response = await adminAPI.getAllNews(token || '', {});
+        const response = await adminAPI.getNewsById(token || '', parseInt(articleId));
         
         if (response.success) {
-          const article = response.data.find((a: Article) => a.id === parseInt(articleId));
-          if (article) {
-            setNewsData({
-              articleId: article.articleId,
-              title: article.title,
-              description: article.description,
-              type: article.type,
-              sphoto: article.sphoto || '',
-              lphoto: article.lphoto || ''
-            });
-          } else {
-            setError('Article not found');
-          }
+          const article = response.data;
+          setNewsData({
+            articleId: article.articleId,
+            title: article.title,
+            description: article.description,
+            type: article.type,
+            sphoto: article.sphoto || '',
+            lphoto: article.lphoto || ''
+          });
         } else {
           setError(response.message || 'Failed to fetch article');
         }
@@ -255,31 +252,19 @@ export default function EditNews() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="sphoto" className={styles.label}>
-              Small Image URL
-            </label>
-            <input
-              type="url"
-              id="sphoto"
-              name="sphoto"
+            <ImageUpload
+              label="Small Image URL"
               value={newsData.sphoto}
-              onChange={handleInputChange}
-              className={styles.input}
+              onChange={(url) => setNewsData(prev => ({ ...prev, sphoto: url }))}
               placeholder="https://example.com/small-image.jpg"
             />
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="lphoto" className={styles.label}>
-              Large Image URL
-            </label>
-            <input
-              type="url"
-              id="lphoto"
-              name="lphoto"
+            <ImageUpload
+              label="Large Image URL"
               value={newsData.lphoto}
-              onChange={handleInputChange}
-              className={styles.input}
+              onChange={(url) => setNewsData(prev => ({ ...prev, lphoto: url }))}
               placeholder="https://example.com/large-image.jpg"
             />
           </div>

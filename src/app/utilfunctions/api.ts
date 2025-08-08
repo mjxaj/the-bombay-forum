@@ -5,12 +5,20 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
   
   const defaultOptions: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
     ...options,
   };
+
+  // Only set Content-Type for non-FormData requests
+  if (!(options.body instanceof FormData)) {
+    defaultOptions.headers = {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    };
+  } else {
+    defaultOptions.headers = {
+      ...options.headers,
+    };
+  }
 
   try {
     const response = await fetch(url, defaultOptions);
@@ -136,6 +144,15 @@ export const adminAPI = {
     });
   },
 
+  // Get single news by ID
+  getNewsById: (token: string, id: number) => {
+    return apiCall(`/api/admin/news/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
+
   // Update news
   updateNews: (token: string, id: number, updateData: any) => {
     return apiCall(`/api/admin/news/${id}`, {
@@ -154,6 +171,32 @@ export const adminAPI = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+  },
+
+  // Upload image
+  uploadImage: (token: string, file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    return apiCall('/api/admin/upload-image', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Don't set Content-Type, let browser set it for FormData
+      },
+      body: formData,
+    });
+  },
+
+  // Delete image
+  deleteImage: (token: string, imageUrl: string) => {
+    return apiCall('/api/admin/delete-image', {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ imageUrl }),
     });
   },
 };
