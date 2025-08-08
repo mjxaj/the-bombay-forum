@@ -15,7 +15,7 @@ const AdminLoginPage = () => {
     // Check if already logged in
     const token = localStorage.getItem('adminToken');
     if (token) {
-      router.push('/admin/dashboard');
+      router.push('/admin');
     }
   }, [router]);
 
