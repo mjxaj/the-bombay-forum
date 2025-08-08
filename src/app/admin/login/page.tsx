@@ -30,7 +30,7 @@ const AdminLoginPage = () => {
       if (response.success) {
         localStorage.setItem('adminToken', response.token);
         localStorage.setItem('adminUser', JSON.stringify(response.user));
-        router.push('/admin/dashboard');
+        router.push('/admin');
       } else {
         setError('Invalid credentials');
       }
