@@ -1,5 +1,6 @@
 "use client";
 import { news } from "@/app/utilfunctions/interfaces";
+import { articleAPI } from "@/app/utilfunctions/api";
 import { useEffect, useState } from "react";
 import Explore from "../../components/ExploreLayout";
 
@@ -12,26 +13,22 @@ export default function Search({
   useEffect(() => {
     const fetchMainNewsArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/searcharticles?articleType=${params.articleType}&num=20`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setNewsContainer(data);
-          // Store category in localStorage
-          if (data.type) {
-            localStorage.setItem("articleType", params.articleType);
-          }
+        const data = await articleAPI.getArticles({
+          articleType: params.articleType,
+          num: 20
+        });
+        setNewsContainer(data);
+        // Store category in localStorage
+        if (data.length > 0) {
+          localStorage.setItem("articleType", params.articleType);
         }
       } catch (error) {
         console.error("Failed to fetch article:", error);
-      } finally {
-        // setLoading(false);
       }
     };
 
     fetchMainNewsArticle();
-  }, []);
+  }, [params.articleType]);
 
   return (
     <>

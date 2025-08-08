@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import SearchBar from "material-ui-search-bar";
-import { news } from "../utilfunctions/interfaces"; // Adjust the path as necessary
-// import NewsBlock from '../components/NewsBlock';
+import { news } from "../utilfunctions/interfaces";
+import { articleAPI } from "../utilfunctions/api";
 import ExploreLayout from "../components/ExploreLayout";
 
 export default function SearchPage() {
@@ -15,19 +15,14 @@ export default function SearchPage() {
     const fetchSearchResults = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `/api/searcharticles?query=${searchValue}&num=20`
-        );
-        if (response.status === 404) {
-          setSearchResults([]); // Set empty results if 404
-        } else {
-          const data = await response.json();
-          if (response.ok) {
-            setSearchResults(data);
-          }
-        }
+        const data = await articleAPI.getArticles({
+          query: searchValue,
+          num: 20
+        });
+        setSearchResults(data);
       } catch (error) {
         console.error("Failed to fetch search results:", error);
+        setSearchResults([]);
       } finally {
         setLoading(false);
       }
