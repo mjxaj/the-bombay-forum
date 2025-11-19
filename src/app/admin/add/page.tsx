@@ -208,15 +208,10 @@ export default function AddNews() {
             >
               <option value="">Select article type</option>
               <option value="finance">Finance</option>
-              <option value="market">Market</option>
+              <option value="creators">Creators</option>
               <option value="lifestyle">Lifestyle</option>
               <option value="technology">Technology</option>
-              <option value="politics">Politics</option>
-              <option value="sports">Sports</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="business">Business</option>
-              <option value="health">Health</option>
-              <option value="education">Education</option>
+              <option value="bombay">Bombay</option>
             </select>
           </div>
 
