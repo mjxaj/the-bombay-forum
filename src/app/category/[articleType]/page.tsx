@@ -32,11 +32,6 @@ export default function Search({
 
   return (
     <>
-      <div className="market-ticker">
-        <div className="ticker-animation">
-          S&P 10132.89 S&P 10132.89 S&P 10132.89
-        </div>
-      </div>
       <Explore
         articles={newsContainer}
         zeroArticleMsg={`No Articles Found for ${params.articleType}`}
