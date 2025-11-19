@@ -7,7 +7,7 @@ import Weather from "./Weather";
 const navList = [
   { name: "Lifestyle", link: "/category/lifestyle" },
   { name: "Finance", link: "/category/finance" },
-  { name: "Markets", link: "/category/markets" },
+  { name: "Creators", link: "/category/creators" },
   { name: "Technology", link: "/category/technology" },
   { name: "Bombay", link: "/category/bombay" },
 ];
@@ -40,7 +40,7 @@ const HeaderBottom = () => {
           // value={searchValue}
           // onChange={(newValue) => setSearchValue(newValue)}
           // onCancelSearch={() => setSearchValue("")}
-          placeholder="Search News, markets, photos, videos...."
+          placeholder="Search News, creators, photos, videos...."
         />
       </div>
     </div>

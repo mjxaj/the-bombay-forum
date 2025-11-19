@@ -40,7 +40,7 @@ export default function SearchPage() {
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
           onCancelSearch={() => setSearchValue("")}
-          placeholder="Search News, markets, photos, videos...."
+          placeholder="Search News, creators, photos, videos...."
         />
       </div>
       {loading ? (
