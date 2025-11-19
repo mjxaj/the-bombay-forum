@@ -29,7 +29,7 @@ export default async function RootLayout({
   const navList = [
     { name: "Lifestyle", link: "/category/lifestyle" },
     { name: "Finance", link: "/category/finance" },
-    { name: "Markets", link: "/category/markets" },
+    { name: "Creators", link: "/category/creators" },
     { name: "Technology", link: "/category/technology" },
     { name: "Bombay", link: "/category/bombay" },
   ];
