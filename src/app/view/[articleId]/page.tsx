@@ -164,8 +164,8 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#007bff",
-                  color: "#fff",
+                  backgroundColor: "transparent",
+                  color: "#000",
                   padding: "8px 12px",
                   border: "none",
                   borderRadius: "5px",
@@ -180,9 +180,11 @@ const ArticlePage = ({ params }: { params: { articleId: string } }) => {
                   width={20}
                   height={20}
                   alt="share icon"
-                  style={{ marginRight: "5px" }}
+                  style={{ 
+                    marginRight: "5px",
+                    filter: "invert(1) brightness(0)"
+                  }}
                 />
-                Share
               </button>
             {/* </Tooltip> */}
           </div>
